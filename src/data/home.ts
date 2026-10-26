@@ -1,18 +1,18 @@
 export const categories = [
     {
-        name: "Computers",
+        name: "percetakan",
         image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?q=80&w=2000&auto=format&fit=crop",
-        path: "/category/computers",
+        path: "/category/percetakan",
     },
     {
-        name: "Phones",
+        name: "undangan",
         image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=2000&auto=format&fit=crop",
-        path: "/category/phones",
+        path: "/category/undangan",
     },
     {
-        name: "Audio",
+        name: "souvenir",
         image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=2000&auto=format&fit=crop",
-        path: "/category/audio",
+        path: "/category/souvenir",
     },
     {
         name: "Accessories",

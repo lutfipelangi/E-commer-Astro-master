@@ -17,11 +17,11 @@ export interface Product {
 export const products: Product[] = [
     {
         id: "1",
-        name: "MacBook Pro 16 M3 Max",
-        title: "MacBook Pro 16 M3 Max",
+        name: "Buku Kenangan",
+        title: "Buku Kenangan",
         price: 3499,
         description: "The most powerful MacBook Pro ever. With the lightning-fast M3 Max chip, advanced thermal architecture, and a stunning Liquid Retina XDR display, it's designed for those who demand the absolute best in performance and portability.",
-        category: "Computers",
+        category: "percetakan",
         subcategory: "notebooks",
         stock: 5,
         images: [
@@ -45,7 +45,7 @@ export const products: Product[] = [
         title: "Sony WH-1000XM5",
         price: 399,
         description: "Industry-leading noise cancellation, exceptional sound quality, and crystal-clear hands-free calling. The WH-1000XM5 headphones rewrite the rules for distraction-free listening and ultra-clear call quality.",
-        category: "Audio",
+        category: "souvenir",
         stock: 12,
         images: [
             "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=800&q=80",
@@ -68,7 +68,7 @@ export const products: Product[] = [
         title: "iPhone 15 Pro Max",
         price: 1199,
         description: "Forged in titanium. Featuring the groundbreaking A17 Pro chip, a customizable Action button, and the most powerful iPhone camera system ever. Experience the next level of mobile technology.",
-        category: "Phones",
+        category: "undangan",
         subcategory: "iphone",
         stock: 0,
         images: [
@@ -113,7 +113,7 @@ export const products: Product[] = [
         title: "iPad Pro M2",
         price: 799,
         description: "Astonishing performance. Incredibly advanced displays. Superfast wireless connectivity. Next-level Apple Pencil features. Powerful new features in iPadOS. The ultimate iPad experience.",
-        category: "Computers",
+        category: "percetakan",
         subcategory: "notebooks",
         stock: 15,
         images: [
@@ -136,7 +136,7 @@ export const products: Product[] = [
         title: "Dell XPS 15",
         price: 1899,
         description: "High-performance laptop with a stunning 4K OLED display and premium build quality.",
-        category: "Computers",
+        category: "percetakan",
         subcategory: "notebooks",
         stock: 10,
         images: [
@@ -155,7 +155,7 @@ export const products: Product[] = [
         title: "MacBook Air 15",
         price: 1299,
         description: "Impossibly thin and incredibly fast. The 15-inch MacBook Air gives you more room for what you love with a spacious Liquid Retina display.",
-        category: "Computers",
+        category: "percetakan",
         subcategory: "notebooks",
         stock: 25,
         images: [
@@ -176,7 +176,7 @@ export const products: Product[] = [
         title: "ASUS ROG Zephyrus G14",
         price: 1499,
         description: "Powerful gaming in a compact chassis. Features the latest Ryzen processors and RTX graphics for gaming on the go.",
-        category: "Computers",
+        category: "percetakan",
         subcategory: "notebooks",
         stock: 8,
         images: [
@@ -196,7 +196,7 @@ export const products: Product[] = [
         title: "Samsung Galaxy S24 Ultra",
         price: 1299,
         description: "Unleash your creativity, productivity, and possibilities. With a built-in S Pen and the most powerful processor yet.",
-        category: "Phones",
+        category: "undangan",
         subcategory: "android",
         stock: 20,
         images: [
@@ -216,7 +216,7 @@ export const products: Product[] = [
         title: "Google Pixel 8 Pro",
         price: 999,
         description: "The all-pro phone engineered by Google. It has a polished aluminum frame and matte back glass, and it comes in elegant colors.",
-        category: "Phones",
+        category: "undangan",
         subcategory: "android",
         stock: 15,
         images: [
@@ -237,7 +237,7 @@ export const products: Product[] = [
         title: "iPhone 14",
         price: 699,
         description: "A total powerhouse. Impressive battery life, durable build, and a camera system that takes stunning photos in any light.",
-        category: "Phones",
+        category: "undangan",
         subcategory: "iphone",
         stock: 30,
         images: [
@@ -255,14 +255,14 @@ export const products: Product[] = [
         name: "AirPods Max",
         title: "AirPods Max",
         price: 549,
-        description: "A perfect balance of exhilarating high-fidelity audio and the effortless magic of AirPods.",
-        category: "Audio",
+        description: "A perfect balance of exhilarating high-fidelity souvenir and the effortless magic of AirPods.",
+        category: "Souvenir",
         stock: 10,
         images: [
             "https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?auto=format&fit=crop&w=800&q=80"
         ],
         slug: "airpods-max",
-        badge: "Premium Audio",
+        badge: "Premium Souvenir",
         specs: [
             { label: "Driver", value: "Dynamic" },
             { label: "ANC", value: "Active" },
@@ -274,8 +274,8 @@ export const products: Product[] = [
         name: "Bose QuietComfort Ultra",
         title: "Bose QuietComfort Ultra",
         price: 429,
-        description: "World-class noise cancellation, quieter than ever before. Breakthrough spatial audio for more immersive listening.",
-        category: "Audio",
+        description: "World-class noise cancellation, quieter than ever before. Breakthrough spatial souvenir for more immersive listening.",
+        category: "Souvenir",
         stock: 18,
         images: [
             "https://m.media-amazon.com/images/I/51ZR4lyxBHL.jpg",
@@ -293,7 +293,7 @@ export const products: Product[] = [
         title: "Sonos Era 100",
         price: 249,
         description: "Next-gen acoustics and new levels of connectivity transform any room with the finely tuned stereo sound and rich bass.",
-        category: "Audio",
+        category: "Souvenir",
         stock: 22,
         images: [
             "https://culturageek.com.ar/wp-content/uploads/2024/12/566898-Era-100-Pro_Mount-Ceiling_Black-309023-original-1733603775_11zon.webp",
@@ -311,7 +311,7 @@ export const products: Product[] = [
         title: "Keychron Q1 Pro",
         price: 199,
         description: "A fully customizable mechanical keyboard with QMK/VIA support and a premium aluminum body.",
-        category: "Computers",
+        category: "percetakan",
         subcategory: "keyboards",
         stock: 30,
         images: [
@@ -368,7 +368,7 @@ export const products: Product[] = [
         title: "Dell UltraSharp 27",
         price: 499,
         description: "Experience captivating details and true-to-life color on this 27-inch QHD monitor with InfinityEdge.",
-        category: "Computers",
+        category: "percetakan",
         subcategory: "monitors",
         stock: 12,
         images: [
@@ -406,7 +406,7 @@ export const products: Product[] = [
         title: "LG C3 OLED 42",
         price: 899,
         description: "The advanced LG OLED evo C-Series is better than ever. The LG OLED evo C3 is powered by the next-gen a9 AI Processor Gen6.",
-        category: "Computers",
+        category: "percetakan",
         subcategory: "monitors",
         stock: 6,
         images: [
