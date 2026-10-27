@@ -1,2 +1,28 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* --- JURUS PAKSA DARK MODE --- */
+
+/* 1. Paksa semua latar belakang putih/gray menjadi gelap saat dark mode */
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .bg-gray-50,
+[data-theme="dark"] .bg-slate-50,
+[data-theme="dark"] .bg-slate-100,
+[data-theme="dark"] .bg-gray-100 {
+    background-color: var(--color-base-100) !important;
+}
+
+/* 2. Paksa semua teks hitam/abu gelap menjadi putih saat dark mode */
+[data-theme="dark"] .text-black,
+[data-theme="dark"] .text-gray-900,
+[data-theme="dark"] .text-slate-900,
+[data-theme="dark"] .text-slate-800,
+[data-theme="dark"] .text-gray-800 {
+    color: var(--color-base-content) !important;
+}
+
+/* 3. Paksa garis batas (border) yang tadinya terang jadi gelap */
+[data-theme="dark"] .border-gray-200,
+[data-theme="dark"] .border-slate-200 {
+    border-color: var(--color-base-300) !important;
+}

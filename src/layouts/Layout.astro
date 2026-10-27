@@ -11,6 +11,13 @@ import SEO from "../components/seo.astro";
 <!doctype html>
 <html lang="en" data-theme="light">
 	<head>
+		<script is:inline>
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+</script>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -29,6 +36,76 @@ import SEO from "../components/seo.astro";
 		<Footer />
 		<CartDrawer />
 		<ToasterComponent client:load />
+		<!-- Tombol Back to Top -->
+<button id="backToTop" class="fixed bottom-8 right-8 z-50 bg-sky-500 hover:bg-sky-600 text-white p-3 rounded-md shadow-lg transition-all duration-300 opacity-0 pointer-events-none">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m18 15-6-6-6 6"/>
+  </svg>
+</button>
+
+<script>
+  const backToTopBtn = document.getElementById("backToTop");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      backToTopBtn?.classList.remove("opacity-0", "pointer-events-none");
+      backToTopBtn?.classList.add("opacity-100", "pointer-events-auto");
+    } else {
+      backToTopBtn?.classList.add("opacity-0", "pointer-events-none");
+      backToTopBtn?.classList.remove("opacity-100", "pointer-events-auto");
+    }
+  });
+
+  backToTopBtn?.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+</script>
+
+<!-- Efek Garis Mengikuti Mouse -->
+<svg id="mouse-trail" class="fixed inset-0 w-full h-full pointer-events-none z-[9999] hidden md:block" xmlns="http://www.w3.org/2000/svg">
+  <path id="trail-path" fill="none" stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0" style="filter: drop-shadow(0 0 4px #6366f1);" />
+</svg>
+
+<script>
+  const path = document.getElementById('trail-path') as SVGPathElement;
+  let points: {x: number, y: number}[] = [];
+  const maxPoints = 20; // Semakin besar angkanya, semakin panjang ekor garisnya
+
+  if (path) {
+    document.addEventListener('mousemove', (e) => {
+      points.push({ x: e.clientX, y: e.clientY });
+      if (points.length > maxPoints) {
+        points.shift();
+      }
+      
+      // Tampilkan garis saat mouse bergerak
+      path.style.opacity = "0.6";
+    });
+
+    function drawTrail() {
+      if (points.length > 1) {
+        let d = `M ${points[0].x} ${points[0].y}`;
+        for (let i = 1; i < points.length; i++) {
+          d += ` L ${points[i].x} ${points[i].y}`;
+        }
+        path.setAttribute('d', d);
+      } else if (points.length === 1) {
+        // Jika mouse diam, gambar titik kecil
+        path.setAttribute('d', `M ${points[0].x} ${points[0].y} L ${points[0].x} ${points[0].y}`);
+      } else {
+        // Sembunyikan jika tidak ada gerakan
+        path.style.opacity = "0";
+      }
+      
+      requestAnimationFrame(drawTrail);
+    }
+    
+    drawTrail();
+  }
+</script>
 	</body>
 </html>
 

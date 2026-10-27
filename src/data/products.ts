@@ -91,7 +91,7 @@ export const products: Product[] = [
         title: "Logitech MX Master 3S",
         price: 99,
         description: "An icon, remastered. Meet MX Master 3S – an iconic mouse remastered for ultimate tactility, performance, and flow. Feel every moment of your workflow with even more precision, tactility, and performance.",
-        category: "Accessories",
+        category: "Digital",
         stock: 50,
         images: [
             "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=800&q=80",
@@ -332,7 +332,7 @@ export const products: Product[] = [
         title: "Apple Magic Trackpad",
         price: 129,
         description: "Wireless and rechargeable, it includes the full range of Multi-Touch gestures and Force Touch technology.",
-        category: "Accessories",
+        category: "Digital",
         stock: 40,
         images: [
             "https://images.unsplash.com/photo-1522204538344-922f76ecc041?auto=format&fit=crop&w=800&q=80"
@@ -350,7 +350,7 @@ export const products: Product[] = [
         title: "Samsung T7 Shield 2TB",
         price: 159,
         description: "Rugged durability. Fast speeds. The T7 Shield gives you superior performance on the go, even in challenging environmental conditions.",
-        category: "Accessories",
+        category: "Digital",
         stock: 100,
         images: [
             "https://http2.mlstatic.com/D_NQ_NP_646728-CBT96610611509_102025-O.webp",
@@ -387,7 +387,7 @@ export const products: Product[] = [
         title: "Fujifilm X100V",
         price: 1399,
         description: "The fifth iteration in Fujifilm's X100 series, blending classic dial-based design with the most advanced mobile technology.",
-        category: "Accessories",
+        category: "Digital",
         stock: 3,
         images: [
             "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80",

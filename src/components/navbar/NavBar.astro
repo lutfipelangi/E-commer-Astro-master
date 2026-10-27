@@ -23,7 +23,7 @@ import Links from "./Links.astro";
                     <span
                         class="text-xl font-bold tracking-tighter sm:text-2xl gradient-text"
                     >
-                        E-COMMER
+                        Kios Pelangi
                     </span>
                 </a>
             </div>
@@ -69,6 +69,15 @@ import Links from "./Links.astro";
                         >
                     </div>
                 </button>
+                <!-- TOMBOL DARK MODE KAPSUL (BARU) -->
+<button id="theme-toggle" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-base-300 bg-base-100 hover:bg-base-200 transition-all duration-300 text-sm font-medium text-base-content shadow-sm ml-2">
+    <!-- Ikon Bulan (Tampil saat Gelap) -->
+    <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+    <!-- Ikon Matahari (Tampil saat Terang) -->
+    <svg id="theme-toggle-light-icon" class="hidden w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+    <!-- Teks Light/Dark -->
+    <span id="theme-text" class="hidden sm:block">Light</span>
+</button>
             </div>
         </nav>
     </div>
@@ -136,6 +145,47 @@ import Links from "./Links.astro";
 
         lastScrollY = currentScrollY;
     });
+    // --- Logika Toggle Dark Mode (Versi Kapsul) ---
+const themeToggleBtn = document.getElementById('theme-toggle');
+const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+const themeText = document.getElementById('theme-text');
+
+if (themeToggleBtn) {
+    // Cek state awal
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || localStorage.getItem('color-theme') === 'dark';
+    
+    if (isDark) {
+        themeToggleLightIcon?.classList.remove('hidden');
+        themeToggleDarkIcon?.classList.add('hidden');
+        if (themeText) themeText.textContent = 'Dark';
+    } else {
+        themeToggleDarkIcon?.classList.remove('hidden');
+        themeToggleLightIcon?.classList.add('hidden');
+        if (themeText) themeText.textContent = 'Light';
+    }
+
+    // Aksi saat diklik
+    themeToggleBtn.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('color-theme', 'light');
+            
+            themeToggleLightIcon?.classList.add('hidden');
+            themeToggleDarkIcon?.classList.remove('hidden');
+            if (themeText) themeText.textContent = 'Light';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('color-theme', 'dark');
+            
+            themeToggleDarkIcon?.classList.add('hidden');
+            themeToggleLightIcon?.classList.remove('hidden');
+            if (themeText) themeText.textContent = 'Dark';
+        }
+    });
+}
 </script>
 
 <style>

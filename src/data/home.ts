@@ -15,9 +15,9 @@ export const categories = [
         path: "/category/souvenir",
     },
     {
-        name: "Accessories",
+        name: "Digital",
         image: "https://i.ytimg.com/vi/6nF-4i3RrG0/hq720.jpg?sqp=-oaymwEXCK4FEIIDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLA1Ir1cXQna8UT0zPxI62l1ZlvvEQ",
-        path: "/category/accessories",
+        path: "/category/digital",
     },
 ];
 

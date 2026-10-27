@@ -1,0 +1,75 @@
+---
+const clients = [
+  { name: "Pelindo", logo: "" },
+  { name: "Pertamina", logo: "" },
+  { name: "ITS Surabaya", logo: "" },
+  { name: "UNAIR", logo: "" },
+  { name: "Telkom Indonesia", logo: "" },
+  { name: "Bank Mandiri", logo: "" },
+  { name: "PLN", logo: "" },
+];
+---
+
+<section class="py-12 bg-base-100 overflow-hidden border-y border-base-200">
+    <div class="max-w-7xl mx-auto px-4 mb-8 text-center">
+        <p class="text-sm font-semibold uppercase tracking-widest text-base-content/60">
+            
+        </p>
+    </div>
+
+    <!-- Area Pita Berjalan -->
+    <div class="relative w-full overflow-hidden flex">
+        <!-- Tambahan class 'flex' dan 'w-max' agar dipaksa menyamping -->
+        <div class="animate-marquee flex w-max gap-12 sm:gap-20 py-4 items-center">
+            
+            <!-- Set Pertama -->
+            {clients.map((client) => (
+                <div class="flex items-center justify-center group cursor-pointer">
+                    {client.logo ? (
+                        <img 
+                            src={client.logo} 
+                            alt={`Logo ${client.name}`} 
+                            class="h-10 sm:h-14 w-auto object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" 
+                        />
+                    ) : (
+                        <span class="text-xl sm:text-2xl font-black uppercase tracking-widest text-base-content/40 group-hover:text-primary transition-colors duration-300 whitespace-nowrap">
+                            {client.name}
+                        </span>
+                    )}
+                </div>
+            ))}
+
+            <!-- Set Kedua (Duplikat) -->
+            {clients.map((client) => (
+                <div class="flex items-center justify-center group cursor-pointer">
+                    {client.logo ? (
+                        <img 
+                            src={client.logo} 
+                            alt={`Logo ${client.name}`} 
+                            class="h-10 sm:h-14 w-auto object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300" 
+                        />
+                    ) : (
+                        <span class="text-xl sm:text-2xl font-black uppercase tracking-widest text-base-content/40 group-hover:text-primary transition-colors duration-300 whitespace-nowrap">
+                            {client.name}
+                        </span>
+                    )}
+                </div>
+            ))}
+
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Animasi dipindah ke sini agar 100% terbaca oleh Astro */
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+        animation: marquee 25s linear infinite;
+    }
+    .animate-marquee:hover {
+        animation-play-state: paused;
+    }
+</style>
