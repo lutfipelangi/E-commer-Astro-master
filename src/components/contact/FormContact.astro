@@ -84,7 +84,40 @@
             type="submit"
             class="bg-primary text-primary-content hover:bg-primary/90 font-bold px-12 py-4 rounded-full cursor-pointer transition text-lg shadow-lg hover:shadow-xl hover:scale-105 transform duration-200"
         >
-            Send Message
+            Kirim via WhatsApp
         </button>
     </div>
 </form>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Mencari form berdasarkan tag <form> atau ID
+        const form = document.querySelector('form');
+        
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Mencegah halaman refresh
+                
+                // Ambil data dari form (pastikan atribut 'name' di input HTML sesuai)
+                const formData = new FormData(this);
+                const firstName = formData.get('firstName') || '';
+                const lastName = formData.get('lastName') || '';
+                const email = formData.get('email') || '';
+                const phone = formData.get('phone') || '';
+                const message = formData.get('message') || '';
+                
+                // Susun pesan WhatsApp
+                const waText = `Halo Kios Pelangi,%0A%0A` +
+                               `Nama: *${firstName} ${lastName}*%0A` +
+                               `Email: ${email}%0A` +
+                               `No. HP: ${phone}%0A%0A` +
+                               `Pesan:%0A${message}`;
+                
+                // Ganti 6281234567890 dengan nomor WA Bos
+                const waUrl = `https://wa.me/62816262734?text=${waText}`;
+                
+                // Buka WhatsApp
+                window.open(waUrl, '_blank');
+            });
+        }
+    });
+</script>

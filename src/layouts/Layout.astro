@@ -64,47 +64,56 @@ import SEO from "../components/seo.astro";
   });
 </script>
 
-<!-- Efek Garis Mengikuti Mouse -->
-<svg id="mouse-trail" class="fixed inset-0 w-full h-full pointer-events-none z-[9999] hidden md:block" xmlns="http://www.w3.org/2000/svg">
-  <path id="trail-path" fill="none" stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0" style="filter: drop-shadow(0 0 4px #6366f1);" />
-</svg>
+<!-- Custom Cursor (Lingkaran & Titik) -->
+<div id="cursor-ring" class="fixed top-0 left-0 w-12 h-12 border-2 border-primary/50 rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 opacity-0 hidden md:block"></div>
+<div id="cursor-dot" class="fixed top-0 left-0 w-2.5 h-2.5 bg-black dark:bg-white rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 opacity-0 hidden md:block"></div>
 
 <script>
-  const path = document.getElementById('trail-path') as SVGPathElement;
-  let points: {x: number, y: number}[] = [];
-  const maxPoints = 20; // Semakin besar angkanya, semakin panjang ekor garisnya
+  const ring = document.getElementById('cursor-ring');
+  const dot = document.getElementById('cursor-dot');
 
-  if (path) {
-    document.addEventListener('mousemove', (e) => {
-      points.push({ x: e.clientX, y: e.clientY });
-      if (points.length > maxPoints) {
-        points.shift();
-      }
-      
-      // Tampilkan garis saat mouse bergerak
-      path.style.opacity = "0.6";
-    });
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
 
-    function drawTrail() {
-      if (points.length > 1) {
-        let d = `M ${points[0].x} ${points[0].y}`;
-        for (let i = 1; i < points.length; i++) {
-          d += ` L ${points[i].x} ${points[i].y}`;
-        }
-        path.setAttribute('d', d);
-      } else if (points.length === 1) {
-        // Jika mouse diam, gambar titik kecil
-        path.setAttribute('d', `M ${points[0].x} ${points[0].y} L ${points[0].x} ${points[0].y}`);
-      } else {
-        // Sembunyikan jika tidak ada gerakan
-        path.style.opacity = "0";
-      }
-      
-      requestAnimationFrame(drawTrail);
-    }
+  // Pantau pergerakan mouse
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
     
-    drawTrail();
+    // Munculkan kursor saat mouse mulai bergerak
+    if (ring && dot) {
+      ring.style.opacity = '1';
+      dot.style.opacity = '1';
+    }
+
+    // Titik hitam menempel persis di mouse
+    if (dot) {
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    }
+  });
+
+  // Fungsi animasi agar lingkaran luar bergerak lebih halus (Lerp)
+  function animateRing() {
+    if (ring) {
+      // Angka 0.15 menentukan kecepatan lingkaran menyusul (semakin kecil semakin lambat/mulus)
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+      
+      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+    }
+    requestAnimationFrame(animateRing);
   }
+  
+  // Jalankan animasi
+  animateRing();
+
+  // Sembunyikan kursor jika mouse keluar dari jendela browser
+  document.addEventListener('mouseleave', () => {
+    if (ring && dot) {
+      ring.style.opacity = '0';
+      dot.style.opacity = '0';
+    }
+  });
 </script>
 	</body>
 </html>
