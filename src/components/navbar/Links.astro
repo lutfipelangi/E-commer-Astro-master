@@ -1,268 +1,219 @@
 ---
 import { Icon } from "astro-icon/components";
-
-const categories = [
-    { name: "Home", href: "/" },
-    { name: "Percetakan", href: "/category/percetakan" },
-    { name: "Undangan", href: "/category/undangan" },
-    { name: "Souvenir", href: "/category/souvenir" },
-    { name: "Digital", href: "/category/digital" },
-];
 ---
 
-<!-- Background adaptif: Putih di Light, Gelap di Dark -->
 <div class="bg-base-100 border-b border-base-200 relative z-40 transition-colors duration-300">
-    <div class="max-w-7xl mx-auto flex justify-between items-center text-xs sm:text-sm font-medium h-11">
-        
-        <!-- Mobile: Categories Button -->
-        <div class="flex sm:hidden w-full items-center justify-between h-full px-4">
-            <button
-                id="mobile-links-toggle"
-                class="flex items-center gap-2 h-full px-2 text-base-content hover:text-primary transition-colors cursor-pointer"
-            >
-                <span>Categories</span>
-                <Icon name="lucide:chevron-down" id="chevron-icon" class="w-4 h-4 transition-transform duration-300" />
+    
+    <!-- ========================================== -->
+    <!-- TAMPILAN MOBILE (HANYA MUNCUL DI HP)       -->
+    <!-- ========================================== -->
+    <div class="sm:hidden flex flex-col w-full">
+        <!-- Tombol Buka Menu di HP -->
+        <div class="flex items-center justify-between h-12 px-4 border-b border-base-200">
+            <button id="mobile-links-toggle" class="flex items-center gap-2 font-semibold text-base-content">
+                <Icon name="lucide:menu" class="w-5 h-5" /> Menu Kategori
             </button>
-            <div class="flex h-full items-center">
-                <a href="/contact" class="flex items-center h-full px-2 text-base-content hover:text-primary transition-colors">Contact</a>
-            </div>
+            <a href="/contact" class="text-sm font-semibold text-primary">Hubungi Kami</a>
         </div>
 
-        <!-- Desktop: Menu Utama -->
-        <div class="hidden sm:flex h-full items-center">
-            
-            <!-- 1. Menu Home -->
-            <a href="/" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer font-semibold">
-                Home
-            </a>
+        <!-- Isi Menu HP (Sembunyi, muncul saat diklik) -->
+        <div id="mobile-links-menu" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out bg-base-100 overflow-hidden">
+            <div class="min-h-0 flex flex-col">
+                <a href="/" class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 border-b border-base-200 transition-colors">Home</a>
+                
+                <!-- ACCORDION PERCETAKAN -->
+                <details class="group border-b border-base-200">
+                    <summary class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 cursor-pointer flex justify-between items-center list-none">
+                        Percetakan <Icon name="lucide:chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform" />
+                    </summary>
+                    <div class="bg-base-200/50 flex flex-col">
+                        <a href="/category/percetakan" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Semua Percetakan</a>
+                        <a href="/category/percetakan?sub=notebooks" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Buku Kenangan</a>
+                        <a href="/category/percetakan?sub=keyboards" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Kalender</a>
+                        <a href="/category/percetakan?sub=monitors" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Map</a>
+                    </div>
+                </details>
 
-            <!-- 2. MEGA MENU PERCETAKAN -->
+                <!-- ACCORDION UNDANGAN -->
+                <details class="group border-b border-base-200">
+                    <summary class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 cursor-pointer flex justify-between items-center list-none">
+                        Undangan <Icon name="lucide:chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform" />
+                    </summary>
+                    <div class="bg-base-200/50 flex flex-col">
+                        <a href="/category/undangan" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Semua Undangan</a>
+                        <a href="/category/undangan?sub=android" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Softcover</a>
+                        <a href="/category/undangan?sub=iphone" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Hardcover</a>
+                        <a href="/category/digital" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Custom</a>
+                    </div>
+                </details>
+
+                <!-- ACCORDION SOUVENIR -->
+                <details class="group border-b border-base-200">
+                    <summary class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 cursor-pointer flex justify-between items-center list-none">
+                        Souvenir <Icon name="lucide:chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform" />
+                    </summary>
+                    <div class="bg-base-200/50 flex flex-col">
+                        <a href="/category/souvenir" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Semua Souvenir</a>
+                        <a href="/category/souvenir?sub=tumbler" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Tumbler & Mug</a>
+                        <a href="/category/souvenir?sub=totebag" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Totebag</a>
+                        <a href="/category/souvenir" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Payung Custom</a>
+                        <a href="/category/souvenir" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Kaos & Polo</a>
+                    </div>
+                </details>
+
+                <!-- ACCORDION DIGITAL -->
+                <details class="group border-b border-base-200">
+                    <summary class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 cursor-pointer flex justify-between items-center list-none">
+                        Digital <Icon name="lucide:chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform" />
+                    </summary>
+                    <div class="bg-base-200/50 flex flex-col">
+                        <a href="/category/digital" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Semua Digital</a>
+                        <a href="/category/digital" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Undangan Web</a>
+                        <a href="/category/digital" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Video Animasi</a>
+                        <a href="/category/digital" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Desain Logo</a>
+                    </div>
+                </details>
+
+                <div class="bg-base-200 py-2 px-6 text-base-content/50 uppercase text-[10px] tracking-widest font-bold">Info Lainnya</div>
+                <a href="/about" class="py-3 px-6 text-sm text-base-content hover:bg-base-200 border-b border-base-200 transition-colors">About Us</a>
+                <a href="/blog" class="py-3 px-6 text-sm text-base-content hover:bg-base-200 border-b border-base-200 transition-colors">Blog</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAMPILAN DESKTOP (HANYA MUNCUL DI LAPTOP)  -->
+    <!-- ========================================== -->
+    <div class="hidden sm:flex max-w-7xl mx-auto justify-between items-center text-xs md:text-sm font-medium h-11 px-4">
+        
+        <!-- Menu Kiri Desktop -->
+        <div class="flex h-full items-center">
+            <a href="/" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer font-semibold">Home</a>
+
+            <!-- MEGA MENU PERCETAKAN -->
             <div class="dropdown dropdown-hover h-full static">
                 <div tabindex="0" role="button" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer gap-1 font-semibold">
                     Percetakan <Icon name="lucide:chevron-down" class="w-3 h-3 opacity-70" />
                 </div>
                 <div tabindex="0" class="dropdown-content absolute left-0 top-full w-full bg-base-100 rounded-b-box z-50 p-6 shadow-2xl border border-base-200">
-                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="max-w-7xl mx-auto grid grid-cols-3 gap-8">
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Produk Cetak</h3>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Produk Cetak</h3>
                             <ul class="space-y-4">
-                                <li>
-                                    <a href="/category/percetakan?sub=notebooks" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors"><Icon name="lucide:book" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Buku Kenangan</span><span class="text-xs text-base-content/60">Cetak album foto custom.</span></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/category/percetakan?sub=keyboards" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors"><Icon name="lucide:calendar" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Kalender Dinding</span><span class="text-xs text-base-content/60">Kalender meja & dinding.</span></div>
-                                    </a>
-                                </li>
+                                <li><a href="/category/percetakan?sub=notebooks" class="flex items-start gap-3 group"><div class="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors"><Icon name="lucide:book" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Buku Kenangan</span><span class="text-xs text-base-content/60">Cetak album foto custom.</span></div></a></li>
+                                <li><a href="/category/percetakan?sub=keyboards" class="flex items-start gap-3 group"><div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors"><Icon name="lucide:calendar" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Kalender</span><span class="text-xs text-base-content/60">Kalender meja & dinding.</span></div></a></li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Alat Tulis & Kantor</h3>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Alat Tulis Kantor</h3>
                             <ul class="space-y-4">
-                                <li>
-                                    <a href="/category/percetakan?sub=map" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-amber-50 text-amber-600 rounded-lg group-hover:bg-amber-600 group-hover:text-white transition-colors"><Icon name="lucide:map" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Map & Folder</span><span class="text-xs text-base-content/60">Map kertas, plastik, dan custom.</span></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/category/percetakan" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors"><Icon name="lucide:file-text" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Kop Surat & Nota</span><span class="text-xs text-base-content/60">Kebutuhan administrasi bisnis.</span></div>
-                                    </a>
-                                </li>
+                                <li><a href="/category/percetakan?sub=map" class="flex items-start gap-3 group"><div class="p-2 bg-amber-50 text-amber-600 rounded-lg group-hover:bg-amber-600 group-hover:text-white transition-colors"><Icon name="lucide:map" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Map & Folder</span><span class="text-xs text-base-content/60">Map kertas & plastik.</span></div></a></li>
+                                <li><a href="/category/percetakan" class="flex items-start gap-3 group"><div class="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors"><Icon name="lucide:file-text" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Kop Surat & Nota</span><span class="text-xs text-base-content/60">Administrasi bisnis.</span></div></a></li>
                             </ul>
                         </div>
                         <div class="bg-base-200 p-4 rounded-xl">
-                            <h3 class="text-sm font-bold text-base-content mb-2">Butuh Custom Massal?</h3>
-                            <p class="text-xs text-base-content/70 mb-4">Dapatkan harga khusus untuk pemesanan dalam jumlah banyak.</p>
-                            <a href="/contact" class="inline-block bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">Hubungi Sales</a>
+                            <h3 class="text-sm font-bold text-base-content mb-2">Custom Massal</h3>
+                            <p class="text-xs text-base-content/70 mb-4">Harga khusus untuk pesanan banyak.</p>
+                            <a href="/contact" class="inline-block bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary/90">Hubungi Sales</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. MEGA MENU UNDANGAN -->
+            <!-- MEGA MENU UNDANGAN -->
             <div class="dropdown dropdown-hover h-full static">
                 <div tabindex="0" role="button" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer gap-1 font-semibold">
                     Undangan <Icon name="lucide:chevron-down" class="w-3 h-3 opacity-70" />
                 </div>
                 <div tabindex="0" class="dropdown-content absolute left-0 top-full w-full bg-base-100 rounded-b-box z-50 p-6 shadow-2xl border border-base-200">
-                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="max-w-7xl mx-auto grid grid-cols-3 gap-8">
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Undangan Cetak</h3>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Undangan Cetak</h3>
                             <ul class="space-y-4">
-                                <li>
-                                    <a href="/category/undangan?sub=android" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-rose-50 text-rose-600 rounded-lg group-hover:bg-rose-600 group-hover:text-white transition-colors"><Icon name="lucide:layers" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Softcover</span><span class="text-xs text-base-content/60">Undangan tipis & ringan.</span></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/category/undangan?sub=iphone" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition-colors"><Icon name="lucide:book-open" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Hardcover</span><span class="text-xs text-base-content/60">Undangan tebal & mewah.</span></div>
-                                    </a>
-                                </li>
+                                <li><a href="/category/undangan?sub=android" class="flex items-start gap-3 group"><div class="p-2 bg-rose-50 text-rose-600 rounded-lg group-hover:bg-rose-600 group-hover:text-white"><Icon name="lucide:layers" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Softcover</span><span class="text-xs text-base-content/60">Undangan tipis.</span></div></a></li>
+                                <li><a href="/category/undangan?sub=iphone" class="flex items-start gap-3 group"><div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white"><Icon name="lucide:book-open" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Hardcover</span><span class="text-xs text-base-content/60">Undangan mewah.</span></div></a></li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Undangan Digital</h3>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Undangan Digital</h3>
                             <ul class="space-y-4">
-                                <li>
-                                    <a href="/category/digital" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-teal-50 text-teal-600 rounded-lg group-hover:bg-teal-600 group-hover:text-white transition-colors"><Icon name="lucide:smartphone" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Web / Link</span><span class="text-xs text-base-content/60">Undangan via link & musik.</span></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/category/digital" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-cyan-50 text-cyan-600 rounded-lg group-hover:bg-cyan-600 group-hover:text-white transition-colors"><Icon name="lucide:video" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Video Animasi</span><span class="text-xs text-base-content/60">Undangan bergerak.</span></div>
-                                    </a>
-                                </li>
+                                <li><a href="/category/digital" class="flex items-start gap-3 group"><div class="p-2 bg-teal-50 text-teal-600 rounded-lg group-hover:bg-teal-600 group-hover:text-white"><Icon name="lucide:smartphone" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Web / Link</span><span class="text-xs text-base-content/60">Link interaktif.</span></div></a></li>
                             </ul>
                         </div>
-                        <div class="bg-gradient-to-br from-rose-50 to-rose-100 p-5 rounded-xl border border-rose-200">
+                        <div class="bg-rose-50 p-4 rounded-xl border border-rose-200">
                             <h3 class="text-sm font-bold text-rose-800 mb-2">Konsultasi Desain</h3>
-                            <p class="text-xs text-rose-700/80 mb-4">Bingung pilih model undangan? Tim kami siap membantu.</p>
-                            <a href="https://wa.me/62816262734?text=Halo%20Kios%20Pelangi,%20saya%20mau%20tanya%20undangan." target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-[#20bd5a] transition-colors w-full justify-center">
-                                <Icon name="lucide:message-circle" class="w-4 h-4" /> Tanya via WA
-                            </a>
+                            <p class="text-xs text-rose-700/80 mb-4">Bingung pilih model? Tanya kami.</p>
+                            <a href="https://wa.me/62816262734" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white text-xs font-bold px-4 py-2.5 rounded-lg w-full justify-center"><Icon name="lucide:message-circle" class="w-4 h-4" /> Tanya via WA</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 4. MEGA MENU SOUVENIR -->
+            <!-- MEGA MENU SOUVENIR -->
             <div class="dropdown dropdown-hover h-full static">
                 <div tabindex="0" role="button" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer gap-1 font-semibold">
                     Souvenir <Icon name="lucide:chevron-down" class="w-3 h-3 opacity-70" />
                 </div>
                 <div tabindex="0" class="dropdown-content absolute left-0 top-full w-full bg-base-100 rounded-b-box z-50 p-6 shadow-2xl border border-base-200">
-                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="max-w-7xl mx-auto grid grid-cols-3 gap-8">
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Souvenir Pernikahan</h3>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Souvenir Pernikahan</h3>
                             <ul class="space-y-4">
-                                <li>
-                                    <a href="/category/souvenir?sub=tumbler" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-pink-50 text-pink-600 rounded-lg group-hover:bg-pink-600 group-hover:text-white transition-colors"><Icon name="lucide:coffee" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Tumbler & Mug</span><span class="text-xs text-base-content/60">Cetak nama & tanggal.</span></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/category/souvenir?sub=totebag" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-amber-50 text-amber-600 rounded-lg group-hover:bg-amber-600 group-hover:text-white transition-colors"><Icon name="lucide:shopping-bag" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Totebag & Pouch</span><span class="text-xs text-base-content/60">Bahan kanvas & blacu.</span></div>
-                                    </a>
-                                </li>
+                                <li><a href="/category/souvenir?sub=tumbler" class="flex items-start gap-3 group"><div class="p-2 bg-pink-50 text-pink-600 rounded-lg group-hover:bg-pink-600 group-hover:text-white"><Icon name="lucide:coffee" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Tumbler & Mug</span><span class="text-xs text-base-content/60">Cetak nama.</span></div></a></li>
+                                <li><a href="/category/souvenir?sub=totebag" class="flex items-start gap-3 group"><div class="p-2 bg-amber-50 text-amber-600 rounded-lg group-hover:bg-amber-600 group-hover:text-white"><Icon name="lucide:shopping-bag" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Totebag</span><span class="text-xs text-base-content/60">Bahan kanvas.</span></div></a></li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Event & Merchandise</h3>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Event & Merchandise</h3>
                             <ul class="space-y-4">
-                                <li>
-                                    <a href="/category/souvenir" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors"><Icon name="lucide:umbrella" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Payung Custom</span><span class="text-xs text-base-content/60">Payung lipat & standar.</span></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/category/souvenir" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors"><Icon name="lucide:shirt" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Kaos & Polo</span><span class="text-xs text-base-content/60">Sablon DTF & Bordir.</span></div>
-                                    </a>
-                                </li>
+                                <li><a href="/category/souvenir" class="flex items-start gap-3 group"><div class="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white"><Icon name="lucide:umbrella" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Payung</span><span class="text-xs text-base-content/60">Payung custom.</span></div></a></li>
+                                <li><a href="/category/souvenir" class="flex items-start gap-3 group"><div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white"><Icon name="lucide:shirt" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Kaos & Polo</span><span class="text-xs text-base-content/60">Sablon & Bordir.</span></div></a></li>
                             </ul>
                         </div>
-                        <div class="bg-gradient-to-br from-primary/10 to-primary/5 p-5 rounded-xl border border-primary/20">
+                        <div class="bg-primary/10 p-4 rounded-xl border border-primary/20">
                             <h3 class="text-sm font-bold text-primary mb-2">Custom Bebas Desain</h3>
-                            <p class="text-xs text-base-content/70 mb-4">Punya desain sendiri? Atau butuh saran desain souvenir unik?</p>
-                            <a href="https://wa.me/62816262734?text=Halo%20Kios%20Pelangi,%20saya%20mau%20konsultasi%20souvenir." target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-[#20bd5a] transition-colors w-full justify-center">
-                                <Icon name="lucide:message-circle" class="w-4 h-4" /> Konsultasi Gratis
-                            </a>
+                            <p class="text-xs text-base-content/70 mb-4">Punya desain sendiri? Kami bantu.</p>
+                            <a href="https://wa.me/62816262734" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white text-xs font-bold px-4 py-2.5 rounded-lg w-full justify-center"><Icon name="lucide:message-circle" class="w-4 h-4" /> Konsultasi</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 5. MEGA MENU DIGITAL -->
+            <!-- MEGA MENU DIGITAL -->
             <div class="dropdown dropdown-hover h-full static">
                 <div tabindex="0" role="button" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer gap-1 font-semibold">
                     Digital <Icon name="lucide:chevron-down" class="w-3 h-3 opacity-70" />
                 </div>
                 <div tabindex="0" class="dropdown-content absolute left-0 top-full w-full bg-base-100 rounded-b-box z-50 p-6 shadow-2xl border border-base-200">
-                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="max-w-7xl mx-auto grid grid-cols-3 gap-8">
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Layanan Digital</h3>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Layanan Digital</h3>
                             <ul class="space-y-4">
-                                <li>
-                                    <a href="/category/digital" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-teal-50 text-teal-600 rounded-lg group-hover:bg-teal-600 group-hover:text-white transition-colors"><Icon name="lucide:monitor" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Undangan Web</span><span class="text-xs text-base-content/60">Link undangan interaktif.</span></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/category/digital" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-rose-50 text-rose-600 rounded-lg group-hover:bg-rose-600 group-hover:text-white transition-colors"><Icon name="lucide:video" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Video Animasi</span><span class="text-xs text-base-content/60">Video pernikahan & event.</span></div>
-                                    </a>
-                                </li>
+                                <li><a href="/category/digital" class="flex items-start gap-3 group"><div class="p-2 bg-teal-50 text-teal-600 rounded-lg group-hover:bg-teal-600 group-hover:text-white"><Icon name="lucide:monitor" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Undangan Web</span><span class="text-xs text-base-content/60">Link interaktif.</span></div></a></li>
+                                <li><a href="/category/digital" class="flex items-start gap-3 group"><div class="p-2 bg-rose-50 text-rose-600 rounded-lg group-hover:bg-rose-600 group-hover:text-white"><Icon name="lucide:video" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Video Animasi</span><span class="text-xs text-base-content/60">Video event.</span></div></a></li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Desain Grafis</h3>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Desain Grafis</h3>
                             <ul class="space-y-4">
-                                <li>
-                                    <a href="/category/digital" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors"><Icon name="lucide:pen-tool" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Desain Logo & Brand</span><span class="text-xs text-base-content/60">Identitas visual bisnis.</span></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/category/digital" class="flex items-start gap-3 group">
-                                        <div class="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors"><Icon name="lucide:image" class="w-5 h-5" /></div>
-                                        <div><span class="block font-semibold text-base-content group-hover:text-primary transition-colors">Desain Feed Sosmed</span><span class="text-xs text-base-content/60">Konten visual media sosial.</span></div>
-                                    </a>
-                                </li>
+                                <li><a href="/category/digital" class="flex items-start gap-3 group"><div class="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white"><Icon name="lucide:pen-tool" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Desain Logo</span><span class="text-xs text-base-content/60">Identitas bisnis.</span></div></a></li>
                             </ul>
                         </div>
-                        <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 p-5 rounded-xl border border-indigo-200">
-                            <h3 class="text-sm font-bold text-indigo-800 mb-2">Butuh Jasa Digital?</h3>
-                            <p class="text-xs text-indigo-700/80 mb-4">Konsultasikan kebutuhan digitalisasi bisnismu sekarang.</p>
-                            <a href="/contact" class="inline-block bg-indigo-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-indigo-700 transition-colors w-full text-center">Hubungi Tim</a>
+                        <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200">
+                            <h3 class="text-sm font-bold text-indigo-800 mb-2">Jasa Digital</h3>
+                            <p class="text-xs text-indigo-700/80 mb-4">Konsultasi kebutuhan digitalmu.</p>
+                            <a href="/contact" class="inline-block bg-indigo-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg w-full text-center">Hubungi Tim</a>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- Desktop: Right Side -->
-        <div class="hidden sm:flex h-full items-center">
+        <!-- Menu Kanan Desktop -->
+        <div class="flex h-full items-center">
             <a href="/about" class="flex items-center h-full px-4 text-base-content/70 hover:text-primary hover:bg-base-200 transition-all cursor-pointer">About</a>
             <a href="/blog" class="flex items-center h-full px-4 text-base-content/70 hover:text-primary hover:bg-base-200 transition-all cursor-pointer">Blog</a>
             <a href="/contact" class="flex items-center h-full px-4 text-base-content/70 hover:text-primary hover:bg-base-200 transition-all cursor-pointer">Contact</a>
-        </div>
-    </div>
-
-    <!-- Mobile Dropdown Menu (Sederhana) -->
-    <div id="mobile-links-menu" class="sm:hidden grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out bg-base-100 overflow-hidden border-t border-base-200">
-        <div class="min-h-0 flex flex-col">
-            {categories.map((cat) => (
-                <>
-                    <a href={cat.href} class="py-3 px-6 text-base-content hover:bg-base-200 border-b border-base-200 transition-colors flex justify-between items-center group font-semibold">
-                        {cat.name}
-                    </a>
-                </>
-            ))}
-            <div class="bg-base-300 py-2 px-6 text-base-content/50 uppercase text-[10px] tracking-widest font-bold">More Info</div>
-            <a href="/about" class="py-3 px-6 text-base-content hover:bg-base-200 border-b border-base-200 transition-colors">About Us</a>
-            <a href="/blog" class="py-3 px-6 text-base-content hover:bg-base-200 border-b border-base-200 transition-colors">Our Blog</a>
         </div>
     </div>
 </div>
@@ -271,19 +222,16 @@ const categories = [
     const setupToggle = () => {
         const toggleBtn = document.getElementById("mobile-links-toggle");
         const menu = document.getElementById("mobile-links-menu");
-        const chevron = document.getElementById("chevron-icon");
 
-        if (toggleBtn && menu && chevron) {
+        if (toggleBtn && menu) {
             toggleBtn.addEventListener("click", () => {
                 const isOpen = menu.classList.contains("grid-rows-[1fr]");
                 if (isOpen) {
                     menu.classList.remove("grid-rows-[1fr]");
                     menu.classList.add("grid-rows-[0fr]");
-                    chevron.classList.remove("rotate-180");
                 } else {
                     menu.classList.remove("grid-rows-[0fr]");
                     menu.classList.add("grid-rows-[1fr]");
-                    chevron.classList.add("rotate-180");
                 }
             });
         }
