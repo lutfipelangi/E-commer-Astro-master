@@ -34,12 +34,12 @@ import { Icon } from "astro-icon/components";
                     </div>
                 </details>
 
-                <!-- ACCORDION UNDANGAN (Dengan Badge Baru) -->
+                <!-- ACCORDION UNDANGAN (Dengan Badge Mobile) -->
                 <details class="group border-b border-base-200">
                     <summary class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 cursor-pointer flex justify-between items-center list-none">
                         <div class="flex items-center gap-2">
                             Undangan
-                            <!-- Badge Mobile -->
+                            <!-- Badge Mobile (Pakai animasi pulse bawaan Tailwind) -->
                             <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black bg-pink-500 text-white animate-pulse shadow-sm">
                                 <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
                                 PROMO
@@ -128,15 +128,16 @@ import { Icon } from "astro-icon/components";
                 </div>
             </div>
 
-            <!-- MEGA MENU UNDANGAN (Dengan Badge Baru) -->
+            <!-- MEGA MENU UNDANGAN (Dengan Badge Desktop) -->
             <div class="dropdown dropdown-hover h-full static">
                 <div tabindex="0" role="button" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer gap-2 font-semibold">
                     Undangan 
                     
-                    <!-- BADGE PINK BERKEDIP -->
-<span id="badge-baru-desktop" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-pink-500 text-white shadow-sm">
-    Promo
-</span>
+                    <!-- BADGE PINK BERKEDIP KHUSUS DESKTOP -->
+                    <span id="badge-baru-desktop" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-pink-500 text-white shadow-sm">
+                        PROMO
+                    </span>
+                    
                     <Icon name="lucide:chevron-down" class="w-3 h-3 opacity-70" />
                 </div>
                 <div tabindex="0" class="dropdown-content absolute left-0 top-full w-full bg-base-100 rounded-b-box z-50 p-6 shadow-2xl border border-base-200">
@@ -253,21 +254,15 @@ import { Icon } from "astro-icon/components";
     setupToggle();
     document.addEventListener("astro:after-swap", setupToggle);
 </script>
-<style is:inline>
-  /* Animasi Nyala-Mati ala Lampu Sein */
-  @keyframes kedipSein {
-    0%, 100% { 
-      opacity: 1; 
-      box-shadow: 0 0 10px #ff1493; /* Efek Glow Pink */
-    }
-    50% { 
-      opacity: 0; /* Hilang total */
-      box-shadow: none; 
-    }
-  }
 
-  /* Terapkan ke Desktop dan Mobile */
-  #badge-baru-desktop, #badge-baru-mobile {
-    animation: kedipSein 1.7s step-end infinite !important;
+<style>
+  /* Animasi Berkedip Khusus Desktop */
+  @keyframes kedipDesktop {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  #badge-baru-desktop {
+    animation: kedipDesktop 1.5s step-end infinite;
   }
 </style>
