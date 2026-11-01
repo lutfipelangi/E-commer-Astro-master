@@ -33,7 +33,7 @@ import Layout from "../layouts/Layout.astro";
         messageDiv.className = "mt-4 text-center text-sm font-medium text-gray-500";
 
         try {
-            // Kita tembak API lokal kita sendiri, bukan Supabase langsung
+            // Kita panggil API Astro kita sendiri, bukan langsung ke Supabase
             const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -49,11 +49,10 @@ import Layout from "../layouts/Layout.astro";
                 throw new Error(result.error || "Email atau password salah");
             }
 
-            // Kalau berhasil
-            messageDiv.textContent = "Login Berhasil!";
+            messageDiv.textContent = "Login Berhasil! Mengalihkan...";
             messageDiv.className = "mt-4 text-center text-sm font-medium text-green-500";
             
-            // Simpan data user
+            // Simpan data user di localStorage browser untuk cek di dashboard
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('userEmail', result.user.email);
 
