@@ -9,22 +9,19 @@ import { Icon } from "astro-icon/components";
         >
             <!-- Brand Section -->
             <div class="col-span-1 lg:col-span-1">
-                <a href="/" class="flex items-center gap-2 mb-6 group">
+                <a href="/" class="inline-flex items-center gap-2 mb-6 group shrink-0">
                     <div
-                        class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform shadow-lg"
+                        class="w-6 h-6 bg-[#233876] rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm shrink-0"
                     >
                         <Icon
                             name="lucide:shopping-bag"
-                            class="w-6 h-6 text-primary-content"
+                            class="w-4 h-4 text-white"
                         />
                     </div>
-                    <span
-                        class="text-2xl font-bold tracking-tighter gradient-text"
-                    >
-                        Kios Pelangi
+                    <span class="text-2xl tracking-tighter">
+                        <span class="font-light" style="color: #233876 !important;">Kios</span><span class="font-extrabold" style="color: #233876 !important;">Pelangi</span>
                     </span>
-                </a>
-                <p class="text-base-content/70 mb-6 leading-relaxed">
+                </a>                <p class="text-base-content/70 mb-6 leading-relaxed">
                     Percetakan  |  Undangan  |  Souvenir   sejak tahun 2005
                 </p>
                 <!-- Socials -->
@@ -85,7 +82,35 @@ import { Icon } from "astro-icon/components";
                             href="#"
                             class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
                             >Discounts</a
-                        >
+                        ><a id="btn-promo" href="/promo" class="ml-3 font-bold" style="color: #ff1493; text-decoration: none;">
+  PROMO
+</a>
+
+<style is:inline>
+  /* Animasi CSS */
+  @keyframes kilatCepat {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  #btn-promo {
+    /* Kita panggil animasinya di sini */
+    animation: kilatCepat 1.5s step-end infinite !important;
+  }
+</style>
+
+<script is:inline>
+  // Cadangan jika CSS di atas diblokir oleh browser
+  document.addEventListener("DOMContentLoaded", function() {
+    var promo = document.getElementById("btn-promo");
+    if (promo) {
+      var nyala = true;
+      setInterval(function() {
+        promo.style.opacity = nyala ? "0" : "1";
+        nyala = !nyala;
+      }, 500); // 500ms = 0.5 detik
+    }
+  });
+</script>
                     </li>
                 </ul>
             </div>

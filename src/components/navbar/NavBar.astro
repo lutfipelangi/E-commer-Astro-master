@@ -10,22 +10,19 @@ import Links from "./Links.astro";
 <div class="bg-base-100 shadow-sm border-b border-gray-200">         <nav class="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Left Side: Logo -->
             <div class="navbar-start">
-                <a href="/" class="flex items-center gap-2 group">
+                <a href="/" class="flex items-center gap-1.5 group shrink-0 dark:bg-white/30 px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl transition-all shadow-sm">
                     <div
-                        class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm"
+                        class="w-6 h-6 sm:w-5 sm:h-5 bg-[#233876] rounded-md flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm shrink-0"
                     >
                         <Icon
                             name="lucide:shopping-bag"
-                            class="w-5 h-5 text-primary-content"
+                            class="w-3.5 h-3.5 text-white"
                         />
                     </div>
-                    <span
-                        class="text-xl font-bold tracking-tighter sm:text-2xl gradient-text"
-                    >
-                        Kios Pelangi
+                    <span class="text-lg sm:text-xl tracking-tighter">
+                        <span class="font-light" style="color: #233876 !important;">Kios</span><span class="font-extrabold" style="color: #233876 !important;">Pelangi</span>
                     </span>
-                </a>
-            </div>
+                </a>                       </div>
 
             <!-- Middle Space -->
             <div class="navbar-center hidden lg:flex">
@@ -35,15 +32,14 @@ import Links from "./Links.astro";
             <!-- Right Side: Icons -->
             <div class="navbar-end gap-2 sm:gap-4">
                 <!-- TOMBOL DARK MODE KAPSUL (BARU) -->
-<button id="theme-toggle" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-base-300 bg-base-100 hover:bg-base-200 transition-all duration-300 text-sm font-medium text-base-content shadow-sm ml-2">
+<button id="theme-toggle" class="flex items-center justify-center gap-2 px-3 py-2 sm:py-1.5 rounded-full border border-base-300 dark:border-white/20 bg-base-100 dark:bg-white/10 hover:bg-base-200 dark:hover:bg-white/20 transition-all duration-300 text-sm font-medium text-base-content shadow-sm shrink-0">
     <!-- Ikon Bulan (Tampil saat Gelap) -->
-    <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 sm:w-4 sm:h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
     <!-- Ikon Matahari (Tampil saat Terang) -->
-    <svg id="theme-toggle-light-icon" class="hidden w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-    <!-- Teks Light/Dark -->
+    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 sm:w-4 sm:h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+    <!-- Teks Light/Dark (Hanya muncul di Desktop) -->
     <span id="theme-text" class="hidden sm:block">Light</span>
-</button>
-<a 
+</button><a 
     href="https://wa.me/62816262734?text=Halo%20Kios%20Pelangi,%20saya%20mau%20order." 
     target="_blank"
     class="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs sm:text-sm px-3 py-2 sm:px-5 sm:py-2.5 rounded-full font-bold transition-all duration-300 shadow-[0_4px_14px_0_rgba(37,211,102,0.39)] hover:shadow-[0_6px_20px_rgba(37,211,102,0.23)] hover:-translate-y-0.5 mr-2"
