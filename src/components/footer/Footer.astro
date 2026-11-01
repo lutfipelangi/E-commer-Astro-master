@@ -47,17 +47,11 @@ import { Icon } from "astro-icon/components";
                     </li>
                     <li>
                         <a href="#" class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block">Discounts</a>
-                        <a id="btn-promo" href="/promo" class="ml-3 font-bold" style="color: #ff1493; text-decoration: none;">PROMO</a>
                         
-                        <style is:inline>
-                            @keyframes kilatCepat {
-                                0%, 100% { opacity: 1; }
-                                50% { opacity: 0; }
-                            }
-                            #btn-promo {
-                                animation: kilatCepat 1.5s step-end infinite !important;
-                            }
-                        </style>
+                        <!-- PROMO BERKEDIP (Menggunakan Tailwind murni, tanpa CSS manual) -->
+                        <a href="/promo" class="ml-3 font-bold text-pink-500 animate-pulse" style="text-decoration: none;">
+                            PROMO
+                        </a>
                     </li>
                 </ul>
             </div>
