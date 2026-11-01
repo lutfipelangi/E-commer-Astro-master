@@ -4,47 +4,29 @@ import { Icon } from "astro-icon/components";
 
 <footer class="bg-base-300 text-base-content pt-16 pb-8 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12"
-        >
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
             <!-- Brand Section -->
             <div class="col-span-1 lg:col-span-1">
                 <a href="/" class="inline-flex items-center gap-2 mb-6 group shrink-0">
-                    <div
-                        class="w-6 h-6 bg-[#233876] rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm shrink-0"
-                    >
-                        <Icon
-                            name="lucide:shopping-bag"
-                            class="w-4 h-4 text-white"
-                        />
+                    <div class="w-6 h-6 bg-[#233876] rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm shrink-0">
+                        <Icon name="lucide:shopping-bag" class="w-4 h-4 text-white" />
                     </div>
                     <span class="text-2xl tracking-tighter">
                         <span class="font-light" style="color: #233876 !important;">Kios</span><span class="font-extrabold" style="color: #233876 !important;">Pelangi</span>
                     </span>
-                </a>                <p class="text-base-content/70 mb-6 leading-relaxed">
+                </a>                
+                <p class="text-base-content/70 mb-6 leading-relaxed">
                     Percetakan  |  Undangan  |  Souvenir   sejak tahun 2005
                 </p>
                 <!-- Socials -->
                 <div class="flex gap-4">
-                    <a
-                        href="#"
-                        class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary transition-colors"
-                        aria-label="Twitter"
-                    >
+                    <a href="#" class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary transition-colors" aria-label="Twitter">
                         <Icon name="lucide:twitter" class="w-5 h-5" />
                     </a>
-                    <a
-                        href="#"
-                        class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary transition-colors"
-                        aria-label="Instagram"
-                    >
+                    <a href="#" class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary transition-colors" aria-label="Instagram">
                         <Icon name="lucide:instagram" class="w-5 h-5" />
                     </a>
-                    <a
-                        href="#"
-                        class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary transition-colors"
-                        aria-label="Github"
-                    >
+                    <a href="#" class="btn btn-circle btn-sm btn-ghost hover:bg-primary/20 hover:text-primary transition-colors" aria-label="Github">
                         <Icon name="lucide:github" class="w-5 h-5" />
                     </a>
                 </div>
@@ -52,138 +34,72 @@ import { Icon } from "astro-icon/components";
 
             <!-- Links Column 1 -->
             <div>
-                <h3 class="font-bold text-lg mb-6 text-base-content/90">
-                    Shop
-                </h3>
+                <h3 class="font-bold text-lg mb-6 text-base-content/90">Shop</h3>
                 <ul class="space-y-4">
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >All Products</a
-                        >
+                        <a href="#" class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block">All Products</a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >Featured</a
-                        >
+                        <a href="#" class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block">Featured</a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >New Arrivals</a
-                        >
+                        <a href="#" class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block">New Arrivals</a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >Discounts</a
-                        ><a id="btn-promo" href="/promo" class="ml-3 font-bold" style="color: #ff1493; text-decoration: none;">
-  PROMO
-</a>
-
-<style is:inline>
-  /* Animasi CSS */
-  @keyframes kilatCepat {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-  #btn-promo {
-    /* Kita panggil animasinya di sini */
-    animation: kilatCepat 1.5s step-end infinite !important;
-  }
-</style>
-
-<script is:inline>
-  // Cadangan jika CSS di atas diblokir oleh browser
-  document.addEventListener("DOMContentLoaded", function() {
-    var promo = document.getElementById("btn-promo");
-    if (promo) {
-      var nyala = true;
-      setInterval(function() {
-        promo.style.opacity = nyala ? "0" : "1";
-        nyala = !nyala;
-      }, 500); // 500ms = 0.5 detik
-    }
-  });
-</script>
+                        <a href="#" class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block">Discounts</a>
+                        <a id="btn-promo" href="/promo" class="ml-3 font-bold" style="color: #ff1493; text-decoration: none;">PROMO</a>
+                        
+                        <style is:inline>
+                            @keyframes kilatCepat {
+                                0%, 100% { opacity: 1; }
+                                50% { opacity: 0; }
+                            }
+                            #btn-promo {
+                                animation: kilatCepat 1.5s step-end infinite !important;
+                            }
+                        </style>
                     </li>
                 </ul>
             </div>
 
             <!-- Links Column 2 -->
             <div>
-                <h3 class="font-bold text-lg mb-6 text-base-content/90">
-                    Support
-                </h3>
+                <h3 class="font-bold text-lg mb-6 text-base-content/90">Support</h3>
                 <ul class="space-y-4">
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >Contact Us</a
-                        >
+                        <a href="#" class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block">Contact Us</a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >FAQs</a
-                        >
+                        <a href="#" class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block">FAQs</a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >Shipping & Returns</a
-                        >
+                        <a href="#" class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block">Shipping & Returns</a>
                     </li>
                     <li>
-                        <a
-                            href="#"
-                            class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block"
-                            >Order Status</a
-                        >
+                        <a href="#" class="text-base-content/60 hover:text-primary hover:translate-x-1 transition-all inline-block">Order Status</a>
                     </li>
                 </ul>
             </div>
 
-<!-- Tombol Bantuan Cepat -->
-<div>
-    <h3 class="font-bold text-lg mb-6 text-base-content/90">
-        Hubungi Kami
-    </h3>
-    <p class="text-base-content/70 mb-4 text-sm">
-        Konsultasi dan Estimasi harga bisa langsung dengan tim kami.
-    </p>
-    <div class="form-control w-full">
-        <a 
-            href="https://wa.me/62816262734?text=Halo%20Kios%20Pelangi,%20saya%20mau%20konsultasi%20soal%20cetakan." 
-            target="_blank"
-            class="btn bg-green-500 hover:bg-green-600 text-white border-none w-full rounded-xl font-bold"
-        >
-            Chat via WhatsApp
-        </a>
-    </div>
-</div>        </div>
+            <!-- Tombol Bantuan Cepat -->
+            <div>
+                <h3 class="font-bold text-lg mb-6 text-base-content/90">Hubungi Kami</h3>
+                <p class="text-base-content/70 mb-4 text-sm">
+                    Konsultasi dan Estimasi harga bisa langsung dengan tim kami.
+                </p>
+                <div class="form-control w-full">
+                    <a href="https://wa.me/62816262734?text=Halo%20Kios%20Pelangi,%20saya%20mau%20konsultasi%20soal%20cetakan." target="_blank" class="btn bg-green-500 hover:bg-green-600 text-white border-none w-full rounded-xl font-bold">
+                        Chat via WhatsApp
+                    </a>
+                </div>
+            </div>        
+        </div>
 
-        <div
-            class="border-t border-base-content/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-base-content/50"
-        >
-            <p>
-                &copy; {new Date().getFullYear()} kiospelangi.com. All rights reserved.
-            </p>
+        <div class="border-t border-base-content/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-base-content/50">
+            <p>&copy; {new Date().getFullYear()} kiospelangi.com. All rights reserved.</p>
             <div class="flex gap-6">
-                <a href="#" class="hover:text-base-content transition-colors"
-                    >Privacy Policy</a
-                >
-                <a href="#" class="hover:text-base-content transition-colors"
-                    >Terms of Service</a
-                >
+                <a href="#" class="hover:text-base-content transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-base-content transition-colors">Terms of Service</a>
             </div>
         </div>
     </div>
