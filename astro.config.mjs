@@ -1,4 +1,3 @@
-cat << 'EOF' > astro.config.mjs
 // @ts-check
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
@@ -14,4 +13,3 @@ export default defineConfig({
   output: 'server',
   adapter: cloudflare()
 });
-EOF
