@@ -21,7 +21,7 @@ import { Icon } from "astro-icon/components";
         Masuk dengan akun Google, atau dengan email dan kata sandi.
       </p>
 
-      <!-- Tombol Google (TAMBAHKAN ID="btn-google") -->
+      <!-- Tombol Google -->
       <button id="btn-google" class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-full py-3 px-4 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-all">
         <svg class="w-5 h-5" viewBox="0 0 24 24">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -39,15 +39,15 @@ import { Icon } from "astro-icon/components";
         <div class="flex-grow border-t border-gray-200"></div>
       </div>
 
-      <!-- Form -->
-      <form class="flex flex-col gap-4">
+      <!-- Form (Pastikan ada id="login-form") -->
+      <form id="login-form" class="flex flex-col gap-4">
         <div>
           <label class="block text-sm font-semibold text-gray-800 mb-1.5">Email</label>
-          <input type="email" placeholder="cth: budi@toko.id" class="w-full px-4 py-3 rounded-full border border-gray-300 text-sm focus:outline-none focus:border-[#233876]" required />
+          <input type="email" id="email" placeholder="cth: budi@toko.id" class="w-full px-4 py-3 rounded-full border border-gray-300 text-sm focus:outline-none focus:border-[#233876]" required />
         </div>
         <div>
           <label class="block text-sm font-semibold text-gray-800 mb-1.5">Kata Sandi</label>
-          <input type="password" class="w-full px-4 py-3 rounded-full border border-gray-300 text-sm focus:outline-none focus:border-[#233876]" required />
+          <input type="password" id="password" class="w-full px-4 py-3 rounded-full border border-gray-300 text-sm focus:outline-none focus:border-[#233876]" required />
         </div>
         <button type="submit" class="w-full bg-[#233876] hover:bg-[#1a2957] text-white font-bold rounded-full py-3.5 px-4 text-sm mt-2 transition-all shadow-md">
           Masuk
@@ -63,27 +63,49 @@ import { Icon } from "astro-icon/components";
   </div>
 </Layout>
 
-<!-- TAMBAHKAN SCRIPT INI DI PALING BAWAH -->
+<!-- SCRIPT LOGIN (WAJIB ADA) -->
 <script>
   import { supabase } from '../lib/supabase';
 
+  // Logika Google
   const btnGoogle = document.getElementById('btn-google');
-  
   if (btnGoogle) {
     btnGoogle.addEventListener('click', async () => {
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: {
-          // Setelah login sukses, user akan diarahkan ke halaman ini.
-          // Ganti '/dashboard' dengan halaman tujuan Anda (misal '/' untuk ke beranda)
-          redirectTo: `${window.location.origin}/` 
-        }
+        options: { redirectTo: `${window.location.origin}/` }
+      });
+      if (error) {
+        console.error(error);
+        alert('Gagal login Google: ' + error.message);
+      }
+    });
+  }
+
+  // Logika Email/Password
+  const loginForm = document.getElementById('login-form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Mencegah reload halaman
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Coba tembak ke Supabase
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
       });
 
       if (error) {
-        console.error('Error login:', error.message);
-        alert('Gagal login dengan Google. Silakan coba lagi.');
+        console.error(error);
+        alert('Gagal Login: ' + error.message); // Akan muncul jika password/email salah
+      } else {
+        alert('Login Berhasil!');
+        window.location.href = '/'; 
       }
     });
+  } else {
+    console.log("Form login tidak ditemukan di halaman ini.");
   }
 </script>
