@@ -100,11 +100,8 @@ import { Icon } from "astro-icon/components";
         console.error(error);
         alert('Gagal Login: ' + error.message); 
       } else {
-        alert('Login Berhasil!');
-        // Pindah ke halaman utama setelah user klik OK pada alert
-        setTimeout(() => {
-          window.location.replace('/'); 
-        }, 100);
+        // PERUBAHAN DISINI: Alert dihapus, langsung pindah halaman
+        window.location.replace('/'); 
       }
     });
   }
