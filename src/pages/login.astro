@@ -73,7 +73,10 @@ import { Icon } from "astro-icon/components";
     btnGoogle.addEventListener('click', async () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: `${window.location.origin}/` }
+        options: { 
+          // DIUBAH DISINI: Mengarahkan ke halaman form
+          redirectTo: `${window.location.origin}/form-undangan` 
+        }
       });
       if (error) {
         console.error(error);
@@ -100,8 +103,9 @@ import { Icon } from "astro-icon/components";
         console.error(error);
         alert('Gagal Login: ' + error.message); 
       } else {
-        // PERUBAHAN DISINI: Alert dihapus, langsung pindah halaman
-window.location.replace('/form-undangan');      }
+        // Pindah ke halaman form pendaftaran
+        window.location.replace('/form-undangan'); 
+      }
     });
   }
 </script>
