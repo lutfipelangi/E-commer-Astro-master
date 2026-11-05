@@ -1,0 +1,14 @@
+# Kios Pelangi
+
+> Penyedia layanan percetakan, undangan, dan souvenir custom di Surabaya. Melayani pesanan personal maupun korporat dengan kualitas terbaik.
+
+## Kategori Utama
+- [Undangan](https://e-commer-astro-master-ez7.pages.dev/category/undangan): Berbagai pilihan undangan pernikahan, khitanan, dan aqiqah.
+- [Souvenir](https://e-commer-astro-master-ez7.pages.dev/category/souvenir): Souvenir custom seperti tumbler, totebag, dan payung.
+- [Percetakan](https://e-commer-astro-master-ez7.pages.dev/category/percetakan): Layanan cetak buku, kalender, map, dan kop surat.
+
+## Halaman Penting
+- [Beranda](https://e-commer-astro-master-ez7.pages.dev/): Halaman utama Kios Pelangi.
+- [Tentang Kami](https://e-commer-astro-master-ez7.pages.dev/about): Informasi profil dan sejarah Kios Pelangi.
+- [Kontak](https://e-commer-astro-master-ez7.pages.dev/contact): Hubungi tim customer service Kios Pelangi.
+- [Pemesanan](https://e-commer-astro-master-ez7.pages.dev/pemesanan): Formulir pemesanan layanan custom.
