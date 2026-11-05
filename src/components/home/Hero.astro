@@ -66,28 +66,30 @@
     </div>
 </section>
 
-<!-- Swiper Styles (Load Async agar tidak memblokir gambar) -->
+<!-- Swiper Styles (Load Async) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'">
 
-<!-- Swiper JS (Load Defer agar tidak memblokir render) -->
+<!-- Swiper JS (Load Defer) -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 
-<!-- Script Inisialisasi Swiper (Hanya berjalan setelah halaman siap) -->
+<!-- Script Inisialisasi Swiper (Aman & Cepat) -->
 <script>
-    window.addEventListener('load', () => {
-        setTimeout(() => {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Trik: Kita cek setiap 50ms apakah Swiper sudah selesai diunduh
+        let cekSwiper = setInterval(() => {
             if (typeof Swiper !== 'undefined') {
+                clearInterval(cekSwiper); // Jika sudah ada, hentikan pengecekan
+                
+                // Jalankan Slider
                 new Swiper('.hero-swiper', {
                     loop: true,
                     autoplay: { delay: 5000, disableOnInteraction: false },
                     pagination: { el: '.swiper-pagination', clickable: true },
                     navigation: { nextEl: '.hero-next', prevEl: '.hero-prev' },
-                    preloadImages: false, 
-                    lazy: true,
                     observer: true,
                     observeParents: true
                 });
             }
-        }, 300); 
+        }, 50);
     });
 </script>
