@@ -1,85 +1,94 @@
 ---
-// Kode Standar Anti-Gagal
+// Kode final: Menggunakan <picture> untuk LCP, Tanpa Import
 ---
 
 <section class="relative w-full px-4 md:px-8 lg:px-12 pt-4 md:pt-8 pb-4">
+    
+    <!-- Swiper Container -->
     <div class="swiper hero-swiper h-[350px] sm:h-[450px] md:h-[500px] rounded-2xl overflow-hidden">
         <div class="swiper-wrapper">
             
-            <!-- Slide 1 -->
+            <!-- Slide 1: Percetakan (LCP Element - Wajib Cepat) -->
             <div class="swiper-slide relative">
-                <img src="/images/percetakan-murah-surabaya.webp" alt="Percetakan" class="absolute inset-0 w-full h-full object-cover">                
+                <picture>
+                    <!-- Untuk layar HP (di bawah 768px), gunakan gambar yang sama (karena Anda hanya punya 1 file) -->
+                    <source media="(max-width: 767px)" srcset="/images/percetakan-murah-surabaya.webp">
+                    
+                    <!-- Untuk layar Desktop, gunakan gambar utama -->
+                    <!-- fetchpriority="high" adalah kunci agar browser mengunduh ini PERTAMA KALI -->
+                    <img 
+                        src="/images/percetakan-murah-surabaya.webp" 
+                        alt="Percetakan Murah Surabaya" 
+                        class="absolute inset-0 w-full h-full object-cover" 
+                        fetchpriority="high" 
+                        loading="eager"
+                    >
+                </picture>
+
                 <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-center px-4">
-                    <div class="max-w-3xl">
+                    <div class="max-w-3xl animate-fade-in">
                         <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">Percetakan Offset</h1>
-                        <p class="text-lg md:text-xl text-white/90 mb-8 max-w-xl mx-auto">"Layanan cetak berkualitas untuk segala kebutuhan bisnis dan personal."</p>
+                        <p class="text-lg md:text-xl text-white/90 mb-8 max-w-xl mx-auto">"Layanan cetak berkualitas untuk segala kebutuhan bisnis dan personal. Cepat, rapi, dan harga bersahabat."</p>
                         <a href="/kontak" class="btn btn-primary btn-lg rounded-full px-8 shadow-xl">Pesan Cetak Sekarang</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide 2 -->
+            <!-- Slide 2: Undangan (Lazy Load) -->
             <div class="swiper-slide relative">
-                <img src="/images/undangan-pernikahan-surabaya.webp" alt="Undangan" class="absolute inset-0 w-full h-full object-cover">                
+                <img src="/images/undangan-pernikahan-surabaya.webp" alt="Undangan" class="absolute inset-0 w-full h-full object-cover" loading="lazy">                
                 <div class="absolute inset-0 bg-linear-to-r from-black/60 to-transparent flex items-center justify-start px-8 md:px-24">
                     <div class="max-w-2xl text-left">
                         <span class="badge badge-primary mb-4 p-4 font-bold uppercase tracking-widest">Best Seller</span>
                         <h2 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">UNDANGAN</h2>
-                        <p class="text-lg md:text-xl text-white/90 mb-8">Tersedia berbagai pilihan undangan: Pernikahan, Khitanan, Aqiqah, dll.</p>
+                        <p class="text-lg md:text-xl text-white/90 mb-8">Tersedia berbagai pilihan undangan: Pernikahan, Khitanan, Aqiqah, Ulang Tahun, hingga Syukuran.</p>
                         <a href="/undangan" class="btn btn-secondary btn-lg rounded-full px-8 shadow-xl">Lihat Desain Undangan</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide 3 -->
+            <!-- Slide 3: Souvenir (Lazy Load) -->
             <div class="swiper-slide relative">
-                <img src="/images/souvenir-murah-surabaya.webp" alt="Souvenir" class="absolute inset-0 w-full h-full object-cover">                
+                <img src="/images/souvenir-murah-surabaya.webp" alt="Souvenir" class="absolute inset-0 w-full h-full object-cover" loading="lazy">                
                 <div class="absolute inset-0 bg-black/50 flex items-center justify-center text-center px-4">
                     <div class="max-w-3xl">
                         <h2 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">SOUVENIR</h2>
-                        <p class="text-base sm:text-lg md:text-xl text-white/90 mb-6">Abadikan momen berharga dengan souvenir custom.</p>
-                        <a href="/kontak" class="btn btn-primary btn-lg rounded-full px-8 shadow-xl">Tanya via WhatsApp</a>
+                        <p class="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed">
+                            Abadikan momen berharga dengan souvenir custom.<br class="hidden sm:block">
+                            Tersedia souvenir pernikahan, aqiqah, hingga merchandise.
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <a href="/kontak" class="btn btn-primary btn-lg rounded-full px-8 shadow-xl">Tanya via WhatsApp</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <!-- Navigation -->
+        <!-- Navigation & Pagination -->
         <div class="hero-next text-white! w-10 h-10 hidden sm:flex items-center justify-center bg-black/20 hover:bg-black/40 rounded-full cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 z-50">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18l6-6l-6-6"/></svg>
         </div>
         <div class="hero-prev text-white! w-10 h-10 hidden sm:flex items-center justify-center bg-black/20 hover:bg-black/40 rounded-full cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 z-50">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 18l-6-6l6-6"/></svg>
         </div>
-
         <div class="swiper-pagination bottom-8!"></div>
     </div>
 </section>
 
-<!-- 1. CSS Swiper -->
+<!-- Swiper CSS & JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
-<!-- 2. JS Swiper (Gunakan is:inline agar Astro tidak mengutak-atik) -->
 <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<!-- 3. Inisialisasi Swiper (Gunakan is:inline dan jalankan setelah DOM siap) -->
 <script is:inline>
   document.addEventListener('DOMContentLoaded', function () {
-    var swiper = new Swiper('.hero-swiper', {
+    // Inisialisasi Swiper
+    new Swiper('.hero-swiper', {
       loop: true,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.hero-next',
-        prevEl: '.hero-prev',
-      },
+      autoplay: { delay: 3000, disableOnInteraction: false },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.hero-next', prevEl: '.hero-prev' },
     });
   });
 </script>
