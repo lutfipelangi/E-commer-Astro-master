@@ -31,12 +31,12 @@ import SEO from "../components/seo.astro";
 			<slot />
 		</main>
 		<Footer />
-<button id="backToTop" class="fixed bottom-8 right-8 z-50 bg-sky-500 hover:bg-sky-600 text-white p-3 rounded-md shadow-lg transition-all duration-300 opacity-0 pointer-events-none">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+<button id="backToTop" aria-label="Kembali ke atas" class="fixed bottom-8 right-8 z-50 bg-sky-500 hover:bg-sky-600 text-white p-3 rounded-md shadow-lg transition-all duration-300 opacity-0 pointer-events-none">
+  <span class="sr-only">Kembali ke atas</span>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" aria-hidden="true">
     <path d="m18 15-6-6-6 6"/>
   </svg>
 </button>
-
 <script>
   const backToTopBtn = document.getElementById("backToTop");
 
