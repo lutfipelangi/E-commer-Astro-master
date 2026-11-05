@@ -39,7 +39,7 @@ import { Icon } from "astro-icon/components";
         <div class="flex-grow border-t border-gray-200"></div>
       </div>
 
-      <!-- Form (Pastikan ada id="login-form") -->
+      <!-- Form -->
       <form id="login-form" class="flex flex-col gap-4">
         <div>
           <label class="block text-sm font-semibold text-gray-800 mb-1.5">Email</label>
@@ -63,11 +63,11 @@ import { Icon } from "astro-icon/components";
   </div>
 </Layout>
 
-<!-- SCRIPT LOGIN (WAJIB ADA) -->
+<!-- SCRIPT LOGIN -->
 <script>
   import { supabase } from '../lib/supabase';
 
-  // Logika Google
+  // 1. Logika Google
   const btnGoogle = document.getElementById('btn-google');
   if (btnGoogle) {
     btnGoogle.addEventListener('click', async () => {
@@ -82,16 +82,15 @@ import { Icon } from "astro-icon/components";
     });
   }
 
-  // Logika Email/Password
+  // 2. Logika Email/Password
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Mencegah reload halaman
+      e.preventDefault(); 
       
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      // Coba tembak ke Supabase
       const { error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
@@ -99,13 +98,14 @@ import { Icon } from "astro-icon/components";
 
       if (error) {
         console.error(error);
-        alert('Gagal Login: ' + error.message); // Akan muncul jika password/email salah
+        alert('Gagal Login: ' + error.message); 
       } else {
         alert('Login Berhasil!');
-        window.location.href = '/'; 
+        // Pindah ke halaman utama setelah user klik OK pada alert
+        setTimeout(() => {
+          window.location.replace('/'); 
+        }, 100);
       }
     });
-  } else {
-    console.log("Form login tidak ditemukan di halaman ini.");
   }
 </script>
