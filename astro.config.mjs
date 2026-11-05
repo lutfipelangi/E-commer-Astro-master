@@ -35,5 +35,10 @@ export default defineConfig({
   },
   output: 'static',
   // Mengubah data-astro-cid-xxx menjadi class="astro-xxx"
-  scopedStyleStrategy: 'class' 
+  scopedStyleStrategy: 'class',
+  
+  // TAMBAHKAN BAGIAN INI UNTUK OPTIMASI LCP
+  build: {
+    inlineStylesheets: 'auto'
+  }
 });
