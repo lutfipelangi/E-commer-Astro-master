@@ -1,14 +1,93 @@
 ---
-// Versi Tes: Tanpa Gambar dan Tanpa Swiper
+// File ini sudah dioptimasi untuk LCP (Gambar WebP, Async CSS, Defer JS)
 ---
 
 <section class="relative w-full px-4 md:px-8 lg:px-12 pt-4 md:pt-8 pb-4">
-    <!-- Kotak sederhana dengan warna latar belakang -->
-    <div class="w-full h-[350px] sm:h-[450px] md:h-[500px] rounded-2xl overflow-hidden bg-[#233876] flex items-center justify-center text-center px-4">
-        <div class="max-w-3xl">
-            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">Percetakan Offset</h1>
-            <p class="text-lg md:text-xl text-white/90 mb-8 max-w-xl mx-auto">"Layanan cetak berkualitas untuk segala kebutuhan bisnis dan personal. Cepat, rapi, dan harga bersahabat."</p>
-            <a href="/kontak" class="btn btn-primary btn-lg rounded-full px-8 shadow-xl hover:scale-105 transition-transform">Pesan Cetak Sekarang</a>
+    <!-- Swiper Container -->
+    <div class="swiper hero-swiper h-[350px] sm:h-[450px] md:h-[500px] rounded-2xl overflow-hidden">
+        <div class="swiper-wrapper">
+            
+            <!-- Slide 1: Percetakan (Prioritas Utama untuk LCP) -->
+            <div class="swiper-slide relative">
+                <img src="/images/percetakan-murah-surabaya.webp" alt="Percetakan Murah Surabaya" class="absolute inset-0 w-full h-full object-cover" fetchpriority="high" loading="eager">                
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-center px-4">
+                    <div class="max-w-3xl animate-fade-in">
+                        <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">Percetakan Offset</h1>
+                        <p class="text-lg md:text-xl text-white/90 mb-8 max-w-xl mx-auto">"Layanan cetak berkualitas untuk segala kebutuhan bisnis dan personal. Cepat, rapi, dan harga bersahabat."</p>
+                        <a href="/kontak" class="btn btn-primary btn-lg rounded-full px-8 shadow-xl hover:scale-105 transition-transform">Pesan Cetak Sekarang</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Undangan (Lazy Load) -->
+            <div class="swiper-slide relative">
+                <img src="/images/undangan-pernikahan-surabaya.webp" alt="Undangan" class="absolute inset-0 w-full h-full object-cover" loading="lazy">                
+                <div class="absolute inset-0 bg-linear-to-r from-black/60 to-transparent flex items-center justify-start px-8 md:px-24">
+                    <div class="max-w-2xl text-left">
+                        <span class="badge badge-primary mb-4 p-4 font-bold uppercase tracking-widest">Best Seller</span>
+                        <h2 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">UNDANGAN</h2>
+                        <p class="text-lg md:text-xl text-white/90 mb-8">Tersedia berbagai pilihan undangan: Pernikahan, Khitanan, Aqiqah, Ulang Tahun, hingga Syukuran. Pilih versi cetak fisik atau undangan digital yang praktis.</p>
+                        <a href="/undangan" class="btn btn-secondary btn-lg rounded-full px-8 shadow-xl hover:scale-105 transition-transform">Lihat Desain Undangan</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: SOUVENIR (Lazy Load) -->
+            <div class="swiper-slide relative">
+                <img src="/images/souvenir-murah-surabaya.webp" alt="Souvenir Murah Surabaya" class="absolute inset-0 w-full h-full object-cover" loading="lazy">                
+                <div class="absolute inset-0 bg-black/50 flex items-center justify-center text-center px-4">
+                    <div class="max-w-3xl">
+                        <h2 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">SOUVENIR</h2>
+                        <p class="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed">
+                            Abadikan momen berharga dengan souvenir custom.<br class="hidden sm:block">
+                            Tersedia souvenir pernikahan, aqiqah, hingga merchandise.<br class="hidden sm:block">
+                            Bisa custom desain sesuai keinginan Anda.
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <a href="/kontak" class="btn btn-primary btn-lg rounded-full px-8 shadow-xl hover:shadow-primary/20 transition-all">Tanya via WhatsApp</a>
+                            <a href="/shop/accessories" class="btn btn-outline btn-white btn-lg rounded-full px-8 text-white hover:bg-white hover:text-black transition-all">Contoh Souvenir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+        <!-- Navigation -->
+        <div class="hero-next text-white! w-10 h-10 hover:scale-110 transition-transform hidden sm:flex items-center justify-center bg-black/20 hover:bg-black/40 rounded-full cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 z-50">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18l6-6l-6-6"/></svg>
+        </div>
+        <div class="hero-prev text-white! w-10 h-10 hover:scale-110 transition-transform hidden sm:flex items-center justify-center bg-black/20 hover:bg-black/40 rounded-full cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 z-50">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 18l-6-6l6-6"/></svg>
+        </div>
+
+        <!-- Pagination -->
+        <div class="swiper-pagination bottom-8!"></div>
     </div>
 </section>
+
+<!-- Swiper Styles (Load Async agar tidak memblokir gambar) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'">
+
+<!-- Swiper JS (Load Defer agar tidak memblokir render) -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+
+<!-- Script Inisialisasi Swiper (Hanya berjalan setelah halaman siap) -->
+<script>
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            if (typeof Swiper !== 'undefined') {
+                new Swiper('.hero-swiper', {
+                    loop: true,
+                    autoplay: { delay: 5000, disableOnInteraction: false },
+                    pagination: { el: '.swiper-pagination', clickable: true },
+                    navigation: { nextEl: '.hero-next', prevEl: '.hero-prev' },
+                    preloadImages: false, 
+                    lazy: true,
+                    observer: true,
+                    observeParents: true
+                });
+            }
+        }, 300); 
+    });
+</script>
