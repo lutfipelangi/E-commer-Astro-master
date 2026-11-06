@@ -4,10 +4,8 @@ import { Icon } from "astro-icon/components";
 ---
 
 <Layout title="Formulir Pemesanan - Kios Pelangi">
-  <!-- Container Utama: Dihapus flex justify-center agar mx-auto bekerja sempurna -->
   <div id="form-container" style="display: none;" class="min-h-screen bg-gray-50 py-10 px-4 font-sans">
     
-    <!-- mx-auto memastikan form tepat di tengah layar PC -->
     <div class="max-w-3xl mx-auto w-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden mt-6">
       
       <!-- HEADER & PROGRESS BAR -->
@@ -526,6 +524,10 @@ import { Icon } from "astro-icon/components";
       document.getElementById('step-2').classList.remove('flex');
       document.getElementById('step-2-buttons').classList.add('hidden');
       document.getElementById('step-2-buttons').classList.remove('flex');
+      
+      // SEMBUNYIKAN RINGKASAN LIVE
+      document.getElementById('live-summary').classList.add('hidden');
+
       document.getElementById('step-3').classList.remove('hidden');
       document.getElementById('step-3').classList.add('flex');
     });
@@ -547,6 +549,9 @@ import { Icon } from "astro-icon/components";
       document.getElementById('step-2-buttons').classList.add('hidden');
       document.getElementById('step-2-buttons').classList.remove('flex');
       
+      // SEMBUNYIKAN RINGKASAN LIVE
+      document.getElementById('live-summary').classList.add('hidden');
+
       // Tampilkan Step 3
       document.getElementById('step-3').classList.remove('hidden');
       document.getElementById('step-3').classList.add('flex');
@@ -640,7 +645,14 @@ import { Icon } from "astro-icon/components";
         pesanWA += `Total DP: ${formatRp(totalDp)}%0A%0A`;
         pesanWA += `Data saya sudah masuk ke sistem website. Mohon segera diproses ya.`;
         
+        // Buka WA di tab baru
         window.open(`https://wa.me/62816262734?text=${pesanWA}`, '_blank');
+
+        // ALIHKAN KE HALAMAN NOTA SETELAH DATA MASUK
+        // Asumsi: halaman nota Anda menerima parameter ?no_nota=... (sesuaikan jika berbeda)
+        setTimeout(() => {
+            window.location.href = `/nota?no_nota=${noNotaOtomatis}`; 
+        }, 1000);
 
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
