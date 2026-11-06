@@ -77,19 +77,30 @@
         let items = [];
         
         if (Array.isArray(detail)) {
-          items = detail.map(d => ({
-            nama: d.nama_item || 'Item',
-            harga: parseInt(d.harga) || 0,
-            qty: parseInt(d.qty) || 0,
-            dp: parseInt(d.dp) || 0
-          }));
+          items = detail.map(d => {
+            // Ambil keterangan dari form berdasarkan layanannya
+            let ket = '';
+            if (d.layanan === 'souvenir' && d.detail_lengkap?.keterangan_souvenir) {
+              ket = d.detail_lengkap.keterangan_souvenir;
+            } else if (d.layanan === 'percetakan' && d.detail_lengkap?.keterangan_percetakan) {
+              ket = d.detail_lengkap.keterangan_percetakan;
+            }
+
+            return {
+              nama: d.nama_item || 'Item',
+              harga: parseInt(d.harga) || 0,
+              qty: parseInt(d.qty) || 0,
+              dp: parseInt(d.dp) || 0,
+              keterangan: ket // Simpan data keterangan
+            };
+          });
         } else {
           if (item.layanan === 'souvenir') {
-            items.push({ nama: detail.nama_souvenir ? `Souvenir: ${detail.nama_souvenir}` : 'Souvenir Custom', harga: parseInt(detail.harga_souvenir) || 0, qty: parseInt(detail.jumlah_souvenir) || 0, dp: parseInt(detail.dp_souvenir) || 0 });
+            items.push({ nama: detail.nama_souvenir ? `Souvenir: ${detail.nama_souvenir}` : 'Souvenir Custom', harga: parseInt(detail.harga_souvenir) || 0, qty: parseInt(detail.jumlah_souvenir) || 0, dp: parseInt(detail.dp_souvenir) || 0, keterangan: detail.keterangan_souvenir || '' });
           } else if (item.layanan === 'percetakan') {
-            items.push({ nama: detail.keterangan_percetakan ? `Cetak: ${detail.keterangan_percetakan}` : 'Layanan Percetakan', harga: parseInt(detail.harga_percetakan) || 0, qty: parseInt(detail.jumlah_percetakan) || 0, dp: parseInt(detail.dp_percetakan) || 0 });
+            items.push({ nama: detail.nama_percetakan ? `Percetakan: ${detail.nama_percetakan}` : 'Layanan Percetakan', harga: parseInt(detail.harga_percetakan) || 0, qty: parseInt(detail.jumlah_percetakan) || 0, dp: parseInt(detail.dp_percetakan) || 0, keterangan: detail.keterangan_percetakan || '' });
           } else {
-            items.push({ nama: `Undangan ${detail.model_undangan || ''}`, harga: parseInt(detail.harga_undangan) || 0, qty: parseInt(detail.jumlah_undangan) || 0, dp: parseInt(detail.dp_undangan) || 0 });
+            items.push({ nama: `Undangan ${detail.model_undangan || ''}`, harga: parseInt(detail.harga_undangan) || 0, qty: parseInt(detail.jumlah_undangan) || 0, dp: parseInt(detail.dp_undangan) || 0, keterangan: '' });
           }
         }
 
@@ -105,21 +116,25 @@
           grandTotal += subtotal;
           grandDp += it.dp;
 
+          // Tampilkan keterangan jika ada isinya
+          const keteranganHTML = it.keterangan ? `<div class="item-desc" style="font-size: 11px; color: #475569; margin-top: 4px; font-style: italic;">Ket: ${it.keterangan}</div>` : '';
+
           tableRows += `
             <tr>
               <td style="border: 1px solid #ccc; padding: 6px 8px;">
                 <strong class="item-name" style="color: #233876; font-size: 13px;">${it.nama}</strong>
+                ${keteranganHTML}
               </td>
-              <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: right;">${formatRp(it.harga)}</td>
-              <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: center;">${it.qty}</td>
-              <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: right; font-weight: bold;">${formatRp(subtotal)}</td>
+              <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: right; vertical-align: top;">${formatRp(it.harga)}</td>
+              <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: center; vertical-align: top;">${it.qty}</td>
+              <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: right; font-weight: bold; vertical-align: top;">${formatRp(subtotal)}</td>
             </tr>
           `;
         });
 
         const sisa = grandTotal - grandDp;
 
-        // --- LOGIKA BARIS TOTAL (JIKA ADA DP VS CASH) ---
+        // --- LOGIKA BARIS TOTAL ---
         let totalRowsHtml = `
           <tr>
             <td style="border: 1px solid #ccc; padding: 5px 8px; background: #f9f9f9; font-weight: bold; text-align: right;">Total Tagihan:</td>
@@ -127,7 +142,6 @@
           </tr>
         `;
 
-        // Jika ada DP, tampilkan baris DP
         if (grandDp > 0) {
             totalRowsHtml += `
               <tr>
@@ -137,8 +151,6 @@
             `;
         }
         
-        // Selalu tampilkan Sisa Tagihan (Warna Merah)
-        // Jika tanpa DP, maka Sisa = Total
         totalRowsHtml += `
           <tr class="grand-total-row">
             <td style="border: 1px solid #ccc; padding: 6px 8px; background: #f9f9f9; font-weight: bold; text-align: right; font-size: 13px;">Sisa Tagihan:</td>
