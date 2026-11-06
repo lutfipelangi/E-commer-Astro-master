@@ -193,24 +193,24 @@
             </tbody>
           </table>
 
-          <!-- PEMBARUAN: Sejajarkan Rekening dan Total -->
+          <!-- PEMBARUAN: Wrapper sejajar -->
           <div class="totals-wrapper" style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 15px; margin-bottom: 20px;">
             
-            <!-- KOTAK INFO REKENING (MEMANJANG KE SAMPING) -->
-            <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 15px; width: 380px;">
-              <p style="margin: 0 0 5px 0; font-size: 10px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Informasi Pembayaran</p>
-              <p style="margin: 0 0 5px 0; font-size: 11px; color: #0f172a;">Silakan transfer ke:</p>
+            <!-- KOTAK INFO REKENING (DIPERKECIL & DIRAPATKAN) -->
+            <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; width: 300px;">
+              <p style="margin: 0 0 3px 0; font-size: 9px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Informasi Pembayaran</p>
+              <p style="margin: 0 0 4px 0; font-size: 10px; color: #0f172a;">Silakan transfer ke:</p>
               
               <!-- BARIS SEJAJAR UNTUK BANK & REKENING -->
-              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #94a3b8; padding-bottom: 5px; margin-bottom: 5px;">
-                <span style="font-size: 14px; font-weight: bold; color: #233876;">Bank BCA</span>
-                <span style="font-size: 16px; font-weight: bold; color: #0f172a; letter-spacing: 1px;">64646465464</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #94a3b8; padding-bottom: 4px; margin-bottom: 4px;">
+                <span style="font-size: 13px; font-weight: bold; color: #233876;">Bank BCA</span>
+                <span style="font-size: 15px; font-weight: bold; color: #0f172a; letter-spacing: 0.5px;">64646465464</span>
               </div>
               
-              <p style="margin: 0; font-size: 11px; color: #475569;">a.n. Eka Wati Sutrisno</p>
+              <p style="margin: 0; font-size: 10px; color: #475569;">a.n. Eka Wati Sutrisno</p>
             </div>
 
-            <!-- TABEL TOTAL TAGIHAN (TETAP DI KANAN) -->
+            <!-- TABEL TOTAL TAGIHAN -->
             <table class="totals-table" style="width: 250px; border-collapse: collapse; font-size: 11px; margin: 0;">
               ${totalRowsHtml}
             </table>
