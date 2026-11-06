@@ -3,46 +3,364 @@ import Layout from "../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
 ---
 
-<Layout title="Admin Dashboard - Kios Pelangi">
-  <div class="min-h-screen bg-gray-50 py-10 px-4 font-sans">
-    <div class="max-w-7xl mx-auto">
+<Layout title="Formulir Pemesanan - Kios Pelangi">
+  <div id="form-container" style="display: none;" class="min-h-screen bg-gray-50 py-10 px-4 font-sans">
+    
+    <div class="max-w-3xl mx-auto w-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden mt-6">
       
-      <!-- Header -->
-      <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900">Data Customer</h1>
-          <p class="text-gray-500 mt-1">Total Pesanan: <span id="total-pesanan" class="font-bold text-[#233876]">0</span></p>
-        </div>
-        <button id="btn-refresh" class="flex items-center gap-2 bg-[#233876] hover:bg-[#1a2957] text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md">
-          <Icon name="lucide:refresh-cw" class="w-4 h-4" /> Refresh Data
-        </button>
-      </div>
-
-      <!-- Tabel Pesanan -->
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-white border-b border-gray-200 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                <th class="px-6 py-4">No. Nota</th>
-                <th class="px-6 py-4">Nama Customer</th>
-                <th class="px-6 py-4">Tipe Order</th>
-                <th class="px-6 py-4">Tgl Acara</th>
-                <th class="px-6 py-4">Detail Pesanan</th>
-                <th class="px-6 py-4 text-center">Posisi</th>
-                <th class="px-6 py-4 text-center">Administrasi</th>
-              </tr>
-            </thead>
-            <tbody id="table-body" class="divide-y divide-gray-100">
-              <!-- Data akan diisi oleh JavaScript -->
-              <tr>
-                <td colspan="7" class="px-6 py-10 text-center text-gray-500">Memuat data...</td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- HEADER & PROGRESS BAR -->
+      <div class="bg-[#233876] px-8 py-6 text-white">
+        <h1 class="text-2xl font-bold mb-6">Formulir Pemesanan</h1>
+        <div class="flex items-center justify-between text-sm font-medium text-blue-200">
+          <div class="flex flex-col items-center gap-2">
+            <span id="ind-1" class="w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#233876] font-bold">1</span>
+            <span id="text-ind-1" class="text-white">Layanan</span>
+          </div>
+          <div class="flex-grow border-t border-blue-800 mx-2"></div>
+          <div class="flex flex-col items-center gap-2">
+            <span id="ind-2" class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-800 text-blue-300 font-bold">2</span>
+            <span id="text-ind-2" class="text-blue-300">Detail</span>
+          </div>
+          <div class="flex-grow border-t border-blue-800 mx-2"></div>
+          <div class="flex flex-col items-center gap-2">
+            <span id="ind-3" class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-800 text-blue-300 font-bold">3</span>
+            <span id="text-ind-3" class="text-blue-300">Selesai</span>
+          </div>
         </div>
       </div>
 
+      <!-- FORM CONTAINER -->
+      <div class="p-8">
+        <form id="order-form">
+          
+          <!-- ================= LANGKAH 1: LAYANAN & KONTAK ================= -->
+          <div id="step-1" class="flex flex-col gap-6 animate-fade-in">
+            <div>
+              <h2 class="text-xl font-bold text-gray-900 mb-1">Apa yang ingin Anda pesan?</h2>
+              <p class="text-gray-500 text-sm mb-4">Pilih salah satu layanan kami di bawah ini.</p>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <label class="cursor-pointer">
+                  <input type="radio" name="layanan" value="undangan" class="peer sr-only">
+                  <div class="p-4 border-2 border-gray-200 rounded-xl text-center peer-checked:border-[#233876] peer-checked:bg-blue-50 hover:border-blue-300 transition-all">
+                    <Icon name="lucide:mail" class="w-8 h-8 mx-auto mb-2 text-[#233876]" />
+                    <span class="font-semibold text-gray-800">Undangan</span>
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="layanan" value="souvenir" class="peer sr-only">
+                  <div class="p-4 border-2 border-gray-200 rounded-xl text-center peer-checked:border-[#233876] peer-checked:bg-blue-50 hover:border-blue-300 transition-all">
+                    <Icon name="lucide:gift" class="w-8 h-8 mx-auto mb-2 text-[#233876]" />
+                    <span class="font-semibold text-gray-800">Souvenir</span>
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="layanan" value="percetakan" class="peer sr-only">
+                  <div class="p-4 border-2 border-gray-200 rounded-xl text-center peer-checked:border-[#233876] peer-checked:bg-blue-50 hover:border-blue-300 transition-all">
+                    <Icon name="lucide:printer" class="w-8 h-8 mx-auto mb-2 text-[#233876]" />
+                    <span class="font-semibold text-gray-800">Percetakan</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <hr class="border-gray-100">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-semibold text-gray-800 mb-1.5">Nama Pemesan</label>
+                <input type="text" id="nama_pemesan" name="nama_pemesan" placeholder="Nama Lengkap" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" required />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-800 mb-1.5">Nomor WhatsApp</label>
+                <input type="tel" id="no_telp" name="no_whatsapp" placeholder="cth: 08123456789" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" required />
+              </div>
+            </div>
+
+            <button type="button" id="btn-next-1" class="mt-4 w-full bg-[#233876] hover:bg-[#1a2957] text-white font-bold rounded-xl py-3.5 transition-all shadow-md">
+              Lanjut ke Detail Pesanan &rarr;
+            </button>
+          </div>
+
+          <!-- ================= LANGKAH 2: DETAIL PESANAN ================= -->
+          <div id="step-2" class="hidden flex-col gap-6 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+            
+            <!-- DETAIL UNDANGAN -->
+            <div id="detail-undangan" class="hidden flex-col gap-8">
+              <div>
+                <h3 class="text-lg font-bold text-[#233876] mb-4 border-b pb-2">Data Calon Mempelai</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Nama Lengkap Mempelai Wanita</label>
+                    <input type="text" name="nama_mempelai_wanita" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Nama Lengkap" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Nama Lengkap Mempelai Pria</label>
+                    <input type="text" name="nama_mempelai_pria" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Nama Lengkap" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Nama Panggilan Wanita</label>
+                    <input type="text" name="panggilan_wanita" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Nama Panggilan" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Nama Panggilan Pria</label>
+                    <input type="text" name="panggilan_pria" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Nama Panggilan" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Nama Ayah & Ibu Wanita</label>
+                    <input type="text" name="orangtua_wanita" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Bapak ... & Ibu ..." />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Nama Ayah & Ibu Pria</label>
+                    <input type="text" name="orangtua_pria" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Bapak ... & Ibu ..." />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-lg font-bold text-[#233876] mb-4 border-b pb-2">Acara Akad Nikah / Pemberkatan</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Hari, Tanggal, Tahun</label>
+                    <input type="date" name="tanggal_akad" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Jam</label>
+                    <input type="time" name="jam_akad" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" />
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Alamat Lengkap</label>
+                  <textarea rows="2" name="alamat_akad" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Nama Gedung, Jalan, Kota..."></textarea>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-lg font-bold text-[#233876] mb-4 border-b pb-2">Acara Resepsi</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Hari, Tanggal, Tahun</label>
+                    <input type="date" name="tanggal_resepsi" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Jam</label>
+                    <input type="time" name="jam_resepsi" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Lokasi Gedung</label>
+                    <input type="text" name="lokasi_resepsi" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Nama Gedung / Rumah" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Alamat Lengkap</label>
+                    <input type="text" name="alamat_resepsi" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Jalan, Kota..." />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-lg font-bold text-[#233876] mb-4 border-b pb-2">Acara Tambahan / Ngunduh Mantu <span class="text-sm font-normal text-gray-500">(Jika ada)</span></h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Hari, Tanggal, Tahun</label>
+                    <input type="date" name="tanggal_ngunduh" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Jam</label>
+                    <input type="time" name="jam_ngunduh" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Lokasi Gedung</label>
+                    <input type="text" name="lokasi_ngunduh" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Nama Gedung" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Alamat Lengkap</label>
+                    <input type="text" name="alamat_ngunduh" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="Jalan, Kota..." />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-lg font-bold text-[#233876] mb-4 border-b pb-2">Hiburan & Foto</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Hiburan (Opsional)</label>
+                    <input type="text" name="hiburan" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="cth: Band Akustik, DJ" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Upload Foto Prewedding</label>
+                    <input type="file" id="foto_prewedding" name="foto" accept="image/*" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876] bg-gray-50 text-sm" />
+                    <p class="text-xs text-gray-500 mt-1">Format: JPG/PNG. Maks 5MB.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-lg font-bold text-[#233876] mb-4 border-b pb-2">Detail Pesanan Undangan</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Jumlah Pesanan (Pcs)</label>
+                    <input type="number" name="jumlah_undangan" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="cth: 500" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Model Undangan</label>
+                    <select name="model_undangan" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]">
+                      <option value="hardcover">Hardcover Premium</option>
+                      <option value="softcover">Softcover Elegan</option>
+                      <option value="digital">Digital / E-Invitation</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">Harga Undangan (Per Pcs)</label>
+                    <input type="number" name="harga_undangan" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="cth: 5000" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-800 mb-1.5">DP / Uang Muka (Rp)</label>
+                    <input type="number" name="dp_undangan" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:border-[#233876]" placeholder="cth: 500000" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- DETAIL SOUVENIR -->
+            <div id="detail-souvenir" class="hidden flex-col gap-4">
+              <h2 class="text-xl font-bold text-gray-900 mb-1">Detail Souvenir</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Nama Souvenir</label>
+                  <input type="text" name="nama_souvenir" placeholder="cth: Tumbler Custom, Totebag" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Jumlah Pesanan</label>
+                  <input type="number" name="jumlah_souvenir" placeholder="cth: 100" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Harga Satuan (Rp)</label>
+                  <input type="number" name="harga_souvenir" placeholder="cth: 50000" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">DP / Uang Muka (Rp)</label>
+                  <input type="number" name="dp_souvenir" placeholder="cth: 500000" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-800 mb-1.5">Keterangan / Desain Khusus</label>
+                <textarea rows="3" name="keterangan_souvenir" placeholder="Jelaskan detail desain..." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]"></textarea>
+              </div>
+            </div>
+
+            <!-- DETAIL PERCETAKAN -->
+            <div id="detail-percetakan" class="hidden flex-col gap-4">
+              <h2 class="text-xl font-bold text-gray-900 mb-1">Detail Percetakan</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Jumlah Pesanan (Lembar/Pcs)</label>
+                  <input type="number" name="jumlah_percetakan" placeholder="cth: 500" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Harga Satuan (Rp)</label>
+                  <input type="number" name="harga_percetakan" placeholder="cth: 5000" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">DP / Uang Muka (Rp)</label>
+                  <input type="number" name="dp_percetakan" placeholder="cth: 500000" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-800 mb-1.5">Keterangan (Jenis Kertas, Ukuran, dll)</label>
+                <textarea rows="3" name="keterangan_percetakan" placeholder="cth: Cetak brosur A5..." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]"></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ================= FITUR RINGKASAN LIVE ================= -->
+          <div id="live-summary" class="hidden mt-4 bg-blue-50 border border-blue-200 rounded-xl p-4 shadow-sm animate-fade-in">
+            <h4 class="font-bold text-[#233876] mb-2 flex items-center gap-2 text-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+              Ringkasan Pesanan Sementara
+            </h4>
+            <ul id="live-cart-list" class="text-xs text-gray-600 space-y-1 mb-3 list-disc pl-4"></ul>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-600">Total Item:</span>
+              <span id="live-total-qty" class="font-bold text-gray-900">0</span>
+            </div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-600">Total Harga:</span>
+              <span id="live-total-price" class="font-bold text-gray-900">Rp 0</span>
+            </div>
+            <div class="flex justify-between text-xs border-t border-blue-200 pt-2 mt-2 mb-3">
+              <span class="text-[#233876] font-semibold">Total DP:</span>
+              <span id="live-total-dp" class="font-bold text-[#233876]">Rp 0</span>
+            </div>
+            
+            <button type="button" id="btn-checkout-live" class="w-full bg-[#233876] hover:bg-[#1a2957] text-white font-bold rounded-lg py-2.5 text-sm transition-all shadow-md">
+              Lanjut ke Konfirmasi Pesanan &rarr;
+            </button>
+          </div>
+
+          <!-- Tombol Navigasi Step 2 -->
+          <div id="step-2-buttons" class="hidden gap-3 mt-6 border-t pt-6">
+            <button type="button" id="btn-prev-2" class="w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-xl py-3.5 transition-all">
+              &larr; Kembali
+            </button>
+            <button type="button" id="btn-add-item" class="w-1/3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl py-3.5 transition-all shadow-md">
+              + Tambah Item
+            </button>
+            <button type="button" id="btn-next-2" class="w-1/3 bg-[#233876] hover:bg-[#1a2957] text-white font-bold rounded-xl py-3.5 transition-all shadow-md">
+              Selesai & Lanjut &rarr;
+            </button>
+          </div>
+
+          <!-- ================= LANGKAH 3: KONFIRMASI ================= -->
+          <div id="step-3" class="hidden flex-col gap-6">
+            
+            <div class="text-center py-4">
+              <p class="text-gray-700 font-medium">Pastikan semua data sudah benar.</p>
+            </div>
+
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
+              <h3 class="font-bold text-gray-800 mb-2">Daftar Pesanan Anda:</h3>
+              <ul id="cart-list" class="list-disc pl-5 text-sm text-gray-700 space-y-1 mb-4"></ul>
+              
+              <div class="border-t border-gray-300 pt-3 mt-3">
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-gray-600">Total Harga:</span>
+                  <span id="final-total-price" class="font-bold text-gray-900">Rp 0</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-orange-600 font-semibold">Total DP:</span>
+                  <span id="final-total-dp" class="font-bold text-orange-600">Rp 0</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 text-center mt-2">
+              <p class="text-[#233876] font-bold mb-2">TERIMA KASIH TELAH MEMERCAYAKAN MOMEN SPESIAL ANDA KEPADA KAMI.</p>
+              <p class="text-sm text-gray-600">Kami siap membantu mewujudkan undangan pernikahan yang berkesan dan istimewa.</p>
+            </div>
+
+            <div class="flex flex-col gap-4 mt-4">
+              <div class="flex gap-3">
+                <button type="button" id="btn-prev-3" class="w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-xl py-3.5 transition-all">
+                  &larr; Kembali
+                </button>
+                <button type="submit" id="btn-submit-final" class="w-2/3 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold rounded-xl py-3.5 transition-all shadow-[0_4px_14px_0_rgba(37,211,102,0.39)]">
+                  Kirim via WhatsApp
+                </button>
+              </div>
+              
+              <button type="button" id="btn-logout-form" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold rounded-xl py-3.5 transition-all border border-red-200 mt-2">
+                Keluar dari Akun
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
     </div>
   </div>
 </Layout>
@@ -50,173 +368,327 @@ import { Icon } from "astro-icon/components";
 <script>
   import { supabase } from '../lib/supabase';
 
-  // Fungsi Format Rupiah
-  const formatRp = (angka) => {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka || 0);
-  };
+  let cart = []; // Keranjang belanja
 
-  // Fungsi Utama Mengambil Data
-  async function loadDataPesanan() {
-    const tbody = document.getElementById('table-body');
-    const totalEl = document.getElementById('total-pesanan');
+  // CEK LOGIN
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    if (!session) {
+      window.location.replace('/login');
+    } else {
+      document.getElementById('form-container').style.display = 'block';
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
     
-    // Ambil data dari tabel 'pesanan'
-    const { data: pesanan, error } = await supabase
-      .from('pesanan')
-      .select('*')
-      .order('no_nota', { ascending: false });
+    // --- FUNGSI UPDATE RINGKASAN LIVE ---
+    function updateLiveSummary() {
+      const summaryDiv = document.getElementById('live-summary');
+      const listEl = document.getElementById('live-cart-list');
+      const qtyEl = document.getElementById('live-total-qty');
+      const priceEl = document.getElementById('live-total-price');
+      const dpEl = document.getElementById('live-total-dp');
 
-    if (error) {
-      console.error("Error fetching data:", error);
-      tbody.innerHTML = `<tr><td colspan="7" class="text-center text-red-500 py-6">Gagal memuat data: ${error.message}</td></tr>`;
-      return;
-    }
+      if (!summaryDiv) return;
 
-    if (!pesanan || pesanan.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" class="text-center text-gray-500 py-6">Belum ada pesanan masuk.</td></tr>`;
-      totalEl.textContent = "0";
-      return;
-    }
+      if (cart.length === 0) {
+        summaryDiv.classList.add('hidden');
+        return;
+      }
 
-    // Update Total Pesanan di Header
-    totalEl.textContent = pesanan.length.toString();
-
-    // Kosongkan tabel
-    tbody.innerHTML = '';
-
-    // Looping setiap pesanan
-    pesanan.forEach((order, index) => {
+      summaryDiv.classList.remove('hidden');
+      listEl.innerHTML = '';
       
-      // --- 1. HITUNG TOTAL HARGA & DP DARI KERANJANG (ARRAY) ---
+      let totalQty = 0;
+      let totalPrice = 0;
       let totalDp = 0;
-      
-      // Pastikan detail_pesanan dibaca sebagai Array
-      let items = [];
-      try {
-        items = typeof order.detail_pesanan === 'string' 
-          ? JSON.parse(order.detail_pesanan) 
-          : (order.detail_pesanan || []);
-      } catch (e) {
-        console.error("Gagal parse JSON", e);
-      }
 
-      // Hitung total DP dari semua item di keranjang
-      if (Array.isArray(items)) {
-        items.forEach(item => {
-          totalDp += (parseInt(item.dp) || 0);
-        });
-      }
-
-      // --- 2. BUAT BARIS TABEL UTAMA ---
-      const tr = document.createElement('tr');
-      tr.className = "hover:bg-gray-50 transition-colors";
-      tr.innerHTML = `
-        <td class="px-6 py-4 font-bold text-gray-900">${order.no_nota}</td>
-        <td class="px-6 py-4 font-medium text-gray-800">${order.nama_pemesan}</td>
-        <td class="px-6 py-4 capitalize text-gray-600">${order.layanan}</td>
-        <td class="px-6 py-4 text-gray-500">-</td>
+      cart.forEach(item => {
+        totalQty += item.qty;
+        totalPrice += (item.qty * item.harga);
+        totalDp += item.dp;
         
-        <!-- TOMBOL LIHAT DETAIL -->
-        <td class="px-6 py-4">
-          <button class="btn-detail flex items-center gap-1 text-sm text-blue-600 font-semibold hover:text-blue-800" data-target="detail-${index}">
-            <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            Lihat Detail
-          </button>
-        </td>
+        listEl.innerHTML += `<li>${item.nama_item} (Qty: ${item.qty})</li>`;
+      });
 
-        <!-- DROPDOWN POSISI -->
-        <td class="px-6 py-4 text-center">
-          <select class="border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-50">
-            <option selected>Antri Desain</option>
-            <option>Proses Desain</option>
-            <option>Proses Cetak</option>
-            <option>Proses Finishing</option>
-            <option>Siap Ambil</option>
-          </select>
-        </td>
+      const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
 
-        <!-- BADGE DP WARNA ORANGE (DENGAN NOMINAL) -->
-        <td class="px-6 py-4 text-center">
-          <span class="inline-flex items-center justify-center px-3 py-1.5 rounded-md text-xs font-bold bg-orange-400 text-white shadow-sm min-w-[100px]">
-            DP: ${formatRp(totalDp)}
-          </span>
-        </td>
-      `;
-      tbody.appendChild(tr);
+      qtyEl.textContent = totalQty;
+      priceEl.textContent = formatRp(totalPrice);
+      dpEl.textContent = formatRp(totalDp);
+    }
 
-      // --- 3. BUAT BARIS DETAIL (Tersembunyi by default) ---
-      const trDetail = document.createElement('tr');
-      trDetail.id = `detail-${index}`;
-      trDetail.className = "hidden bg-white border-b-2 border-gray-200";
-      
-      let detailHtml = `<td colspan="7" class="px-6 py-6">
-                          <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 shadow-inner">
-                            <h4 class="font-bold text-[#233876] mb-4 border-b pb-2 text-lg">Rincian Item Pesanan:</h4>
-                            <ul class="space-y-4">`;
+    // --- FUNGSI PINDAH LANGKAH ---
+    const btnNext1 = document.getElementById('btn-next-1');
+    if (btnNext1) {
+      btnNext1.addEventListener('click', () => {
+        const nama = document.getElementById('nama_pemesan').value;
+        const telp = document.getElementById('no_telp').value;
+        const layanan = document.querySelector('input[name="layanan"]:checked');
 
-      if (items.length > 0) {
-        items.forEach((item) => {
-          detailHtml += `
-            <li class="pb-3 border-b border-gray-200 last:border-0 last:pb-0">
-              <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
-                <div class="md:col-span-2">
-                  <p class="font-bold text-gray-900 text-base">${item.nama_item}</p>
-                  <p class="text-sm text-gray-600">Jumlah: <span class="font-semibold text-gray-900">${item.qty}</span></p>
-                  <p class="text-sm text-gray-600">Harga Satuan: <span class="font-semibold text-gray-900">${formatRp(item.harga)}</span></p>
-                </div>
-                <div class="md:col-span-2 md:text-right flex flex-col justify-center">
-                  <p class="text-sm text-gray-600">Subtotal: <span class="font-bold text-green-600">${formatRp(item.qty * item.harga)}</span></p>
-                  <p class="text-sm text-gray-600">DP Item Ini: <span class="font-bold text-orange-500">${formatRp(item.dp)}</span></p>
-                </div>
-              </div>
-          `;
+        if (!layanan) return alert("Silakan pilih salah satu layanan terlebih dahulu.");
+        if (nama.trim() === "" || telp.trim() === "") return alert("Mohon isi Nama Pemesan dan Nomor WhatsApp Anda.");
 
-          // Tampilkan isi form detail (nama mempelai, keterangan, dll)
-          if (item.detail_lengkap && Object.keys(item.detail_lengkap).length > 0) {
-            detailHtml += `<div class="mt-3 p-3 bg-white rounded-lg border border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm shadow-sm">`;
-            for (const [key, value] of Object.entries(item.detail_lengkap)) {
-              const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-              detailHtml += `<div><span class="font-semibold text-gray-500">${label}:</span> <span class="text-gray-900 font-medium">${value}</span></div>`;
-            }
-            detailHtml += `</div>`;
-          }
+        document.getElementById('step-1').classList.add('hidden');
+        document.getElementById('step-1').classList.remove('flex');
+        
+        document.getElementById('step-2').classList.remove('hidden');
+        document.getElementById('step-2').classList.add('flex');
+        document.getElementById('step-2-buttons').classList.remove('hidden');
+        document.getElementById('step-2-buttons').classList.add('flex');
 
-          detailHtml += `</li>`;
-        });
-      } else {
-        detailHtml += `<li class="text-gray-500 italic">Tidak ada rincian item.</li>`;
-      }
-
-      detailHtml += `</ul></div></td>`;
-      trDetail.innerHTML = detailHtml;
-      tbody.appendChild(trDetail);
-    });
-
-    // --- 4. LOGIKA TOMBOL LIHAT DETAIL (TOGGLE) ---
-    document.querySelectorAll('.btn-detail').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const targetId = btn.getAttribute('data-target');
-        const targetRow = document.getElementById(targetId);
-        const icon = btn.querySelector('svg');
-
-        if (targetRow.classList.contains('hidden')) {
-          targetRow.classList.remove('hidden');
-          icon.classList.add('rotate-90'); 
-        } else {
-          targetRow.classList.add('hidden');
-          icon.classList.remove('rotate-90');
+        const targetDetail = document.getElementById(`detail-${layanan.value}`);
+        document.getElementById('detail-undangan').classList.add('hidden');
+        document.getElementById('detail-souvenir').classList.add('hidden');
+        document.getElementById('detail-percetakan').classList.add('hidden');
+        if(targetDetail) {
+          targetDetail.classList.remove('hidden');
+          targetDetail.classList.add('flex');
         }
       });
-    });
-  }
+    }
 
-  // Jalankan saat halaman dimuat
-  document.addEventListener('DOMContentLoaded', () => {
-    loadDataPesanan();
-    
-    // Tombol Refresh
-    document.getElementById('btn-refresh')?.addEventListener('click', () => {
-        loadDataPesanan();
+    // Fungsi Mengumpulkan Data dari Step 2
+    function collectData() {
+      const layanan = document.querySelector('input[name="layanan"]:checked').value;
+      const form = document.getElementById('order-form');
+      const formData = new FormData(form);
+      const detail = {};
+      
+      formData.forEach((value, key) => {
+        if (key !== 'foto' && value !== "" && key !== 'nama_pemesan' && key !== 'no_whatsapp' && key !== 'layanan') {
+          detail[key] = value;
+        }
+      });
+
+      let namaItem = "Item";
+      let harga = 0;
+      let qty = 0;
+      let dp = 0;
+
+      if (layanan === 'souvenir') {
+        namaItem = `Souvenir: ${detail.nama_souvenir || ''}`;
+        harga = parseInt(detail.harga_souvenir) || 0;
+        qty = parseInt(detail.jumlah_souvenir) || 0;
+        dp = parseInt(detail.dp_souvenir) || 0;
+      } else if (layanan === 'percetakan') {
+        namaItem = `Percetakan: ${detail.keterangan_percetakan || ''}`;
+        harga = parseInt(detail.harga_percetakan) || 0;
+        qty = parseInt(detail.jumlah_percetakan) || 0;
+        dp = parseInt(detail.dp_percetakan) || 0;
+      } else {
+        namaItem = `Undangan ${detail.model_undangan || ''}`;
+        harga = parseInt(detail.harga_undangan) || 0;
+        qty = parseInt(detail.jumlah_undangan) || 0;
+        dp = parseInt(detail.dp_undangan) || 0;
+      }
+
+      return {
+        layanan: layanan,
+        nama_item: namaItem,
+        harga: harga,
+        qty: qty,
+        dp: dp,
+        detail_lengkap: detail
+      };
+    }
+
+    // Tombol Tambah Item
+    document.getElementById('btn-add-item')?.addEventListener('click', () => {
+      const itemBaru = collectData();
+      if (itemBaru.qty <= 0) return alert("Mohon isi jumlah pesanan minimal 1.");
+      
+      cart.push(itemBaru);
+      updateLiveSummary();
+      
+      alert("Item berhasil ditambahkan ke daftar pesanan!");
+      
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-2').classList.remove('flex');
+      document.getElementById('step-2-buttons').classList.add('hidden');
+      document.getElementById('step-2-buttons').classList.remove('flex');
+      document.getElementById('step-1').classList.remove('hidden');
+      document.getElementById('step-1').classList.add('flex');
+      
+      document.querySelectorAll('input[name="layanan"]').forEach(r => r.checked = false);
     });
+
+    document.getElementById('btn-next-2')?.addEventListener('click', () => {
+      const itemBaru = collectData();
+      if (itemBaru.qty <= 0) return alert("Mohon isi jumlah pesanan minimal 1.");
+      
+      cart.push(itemBaru);
+
+      let totalHarga = 0;
+      let totalDp = 0;
+      const cartList = document.getElementById('cart-list');
+      cartList.innerHTML = '';
+      
+      cart.forEach((item, index) => {
+        totalHarga += (item.qty * item.harga);
+        totalDp += item.dp;
+        cartList.innerHTML += `<li>${item.nama_item} (Qty: ${item.qty}) - Rp ${item.harga.toLocaleString('id-ID')}</li>`;
+      });
+
+      const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+      document.getElementById('final-total-price').textContent = formatRp(totalHarga);
+      document.getElementById('final-total-dp').textContent = formatRp(totalDp);
+
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-2').classList.remove('flex');
+      document.getElementById('step-2-buttons').classList.add('hidden');
+      document.getElementById('step-2-buttons').classList.remove('flex');
+      
+      document.getElementById('live-summary').classList.add('hidden');
+
+      document.getElementById('step-3').classList.remove('hidden');
+      document.getElementById('step-3').classList.add('flex');
+    });
+
+    document.getElementById('btn-checkout-live')?.addEventListener('click', () => {
+      let totalHarga = 0;
+      let totalDp = 0;
+      const cartList = document.getElementById('cart-list');
+      cartList.innerHTML = '';
+      
+      cart.forEach((item, index) => {
+        totalHarga += (item.qty * item.harga);
+        totalDp += item.dp;
+        cartList.innerHTML += `<li>${item.nama_item} (Qty: ${item.qty}) - Rp ${item.harga.toLocaleString('id-ID')}</li>`;
+      });
+
+      const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+      document.getElementById('final-total-price').textContent = formatRp(totalHarga);
+      document.getElementById('final-total-dp').textContent = formatRp(totalDp);
+
+      document.getElementById('step-1').classList.add('hidden');
+      document.getElementById('step-1').classList.remove('flex');
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-2').classList.remove('flex');
+      document.getElementById('step-2-buttons').classList.add('hidden');
+      document.getElementById('step-2-buttons').classList.remove('flex');
+      
+      document.getElementById('live-summary').classList.add('hidden');
+
+      document.getElementById('step-3').classList.remove('hidden');
+      document.getElementById('step-3').classList.add('flex');
+    });
+
+    document.getElementById('btn-prev-2')?.addEventListener('click', () => {
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-2').classList.remove('flex');
+      document.getElementById('step-2-buttons').classList.add('hidden');
+      document.getElementById('step-2-buttons').classList.remove('flex');
+      document.getElementById('step-1').classList.remove('hidden');
+      document.getElementById('step-1').classList.add('flex');
+    });
+
+    document.getElementById('btn-prev-3')?.addEventListener('click', () => {
+      cart.pop(); 
+      updateLiveSummary();
+      
+      document.getElementById('step-3').classList.add('hidden');
+      document.getElementById('step-3').classList.remove('flex');
+      document.getElementById('step-2').classList.remove('hidden');
+      document.getElementById('step-2').classList.add('flex');
+      document.getElementById('step-2-buttons').classList.remove('hidden');
+      document.getElementById('step-2-buttons').classList.add('flex');
+    });
+
+
+    // --- LOGIKA SIMPAN KE SUPABASE ---
+    document.getElementById('order-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const nama = document.getElementById('nama_pemesan').value;
+      const telp = document.getElementById('no_telp').value;
+      const layanan = cart[0]?.layanan || 'mixed';
+
+      const submitBtn = document.getElementById('btn-submit-final');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = "Menyimpan Data...";
+      submitBtn.disabled = true;
+
+      try {
+        let fotoUrl = null;
+        const fileInput = document.getElementById('foto_prewedding');
+        if (fileInput && fileInput.files.length > 0) {
+          const file = fileInput.files[0];
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+          const { error: uploadError } = await supabase.storage.from('foto-prewedding').upload(fileName, file);
+          if (uploadError) throw new Error("Gagal upload foto: " + uploadError.message);
+          const { data: urlData } = supabase.storage.from('foto-prewedding').getPublicUrl(fileName);
+          fotoUrl = urlData.publicUrl;
+        }
+
+        const now = new Date();
+        const yy = String(now.getFullYear()).slice(-2);
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const prefix = `KP-${yy}${mm}-`; 
+        const { count } = await supabase.from('pesanan').select('*', { count: 'exact', head: true }).like('no_nota', `${prefix}%`);
+        const nextNumber = String((count || 0) + 1).padStart(3, '0');
+        const noNotaOtomatis = `${prefix}${nextNumber}`;
+
+        const { error: dbError } = await supabase.from('pesanan').insert([{
+          no_nota: noNotaOtomatis,
+          nama_pemesan: nama,
+          no_whatsapp: telp,
+          layanan: layanan,
+          detail_pesanan: cart,
+          foto_url: fotoUrl
+        }]);
+
+        if (dbError) throw new Error("Gagal simpan ke database: " + dbError.message);
+
+        let totalHarga = 0;
+        let totalDp = 0;
+        cart.forEach(item => {
+            totalHarga += (item.qty * item.harga);
+            totalDp += item.dp;
+        });
+        const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+
+        let pesanWA = `Halo Admin Kios Pelangi,%0A%0A`;
+        pesanWA += `Saya *${nama}* (${telp}) ingin memesan.%0A`;
+        pesanWA += `Nomor Nota: *${noNotaOtomatis}*%0A`;
+        pesanWA += `Total Item: ${cart.length} jenis.%0A`;
+        pesanWA += `Total Harga: ${formatRp(totalHarga)}%0A`;
+        pesanWA += `Total DP: ${formatRp(totalDp)}%0A%0A`;
+        pesanWA += `Data saya sudah masuk ke sistem website. Mohon segera diproses ya.`;
+        
+        window.open(`https://wa.me/62816262734?text=${pesanWA}`, '_blank');
+
+        setTimeout(() => {
+            window.location.href = `/dashboard`; 
+        }, 1000);
+
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+
+
+    document.getElementById('btn-logout-form')?.addEventListener('click', async () => {
+      if (confirm("Apakah Anda yakin ingin keluar?")) {
+        await supabase.auth.signOut();
+        window.location.replace('/login');
+      }
+    });
+
   });
 </script>
+
+<style>
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+</style>
