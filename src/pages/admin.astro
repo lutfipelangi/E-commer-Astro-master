@@ -104,7 +104,7 @@ import { Icon } from "astro-icon/components";
       }
 
       filteredData.forEach((item) => {
-        // --- PERBAIKAN: BACA DATA KERANJANG (ARRAY) ---
+        // --- 1. BACA DATA KERANJANG (ARRAY) ---
         let items = [];
         try {
           items = typeof item.detail_pesanan === 'string' 
@@ -122,7 +122,7 @@ import { Icon } from "astro-icon/components";
             dpAmount += (parseInt(cartItem.dp) || 0);
           });
 
-          // Susun HTML untuk detail (bisa dibuka tutup)
+          // Susun HTML untuk detail
           detailHTML = `
             <details style="cursor: pointer;">
               <summary style="color: #2563eb; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; gap: 0.3rem; list-style: none;">
@@ -141,22 +141,55 @@ import { Icon } from "astro-icon/components";
                 <div style="font-size: 0.75rem; color: #f59e0b; font-weight: bold;">DP: Rp ${(cartItem.dp || 0).toLocaleString('id-ID')}</div>
             `;
             
-            // Tampilkan isi form detail (jika ada)
+            // --- 2. FILTER DETAIL SESUAI LAYANAN ---
             if (cartItem.detail_lengkap && Object.keys(cartItem.detail_lengkap).length > 0) {
-              detailHTML += `<ul style="margin: 0.5rem 0 0 0; padding: 0 0 0 1rem; list-style-type: disc; font-size: 0.7rem; color: #64748b;">`;
-              for (const [key, value] of Object.entries(cartItem.detail_lengkap)) {
-                const cleanKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                detailHTML += `<li><strong>${cleanKey}:</strong> ${value}</li>`;
+              
+              const allowedKeys = {
+                undangan: ['nama_mempelai_wanita', 'nama_mempelai_pria', 'panggilan_wanita', 'panggilan_pria', 'orangtua_wanita', 'orangtua_pria', 'tanggal_akad', 'jam_akad', 'alamat_akad', 'tanggal_resepsi', 'jam_resepsi', 'lokasi_resepsi', 'alamat_resepsi', 'tanggal_ngunduh', 'jam_ngunduh', 'lokasi_ngunduh', 'alamat_ngunduh', 'hiburan', 'jumlah_undangan', 'model_undangan', 'harga_undangan', 'dp_undangan'],
+                souvenir: ['nama_souvenir', 'jumlah_souvenir', 'harga_souvenir', 'dp_souvenir', 'keterangan_souvenir'],
+                percetakan: ['jumlah_percetakan', 'harga_percetakan', 'dp_percetakan', 'keterangan_percetakan']
+              };
+              
+              const urutanPrioritas = [
+                'nama_mempelai_wanita', 'nama_mempelai_pria',
+                'panggilan_wanita', 'panggilan_pria',
+                'orangtua_wanita', 'orangtua_pria',
+                'tanggal_akad', 'jam_akad', 'alamat_akad',
+                'tanggal_resepsi', 'jam_resepsi', 'lokasi_resepsi', 'alamat_resepsi',
+                'tanggal_ngunduh', 'jam_ngunduh', 'lokasi_ngunduh', 'alamat_ngunduh',
+                'hiburan',
+                'nama_souvenir', 'jumlah_souvenir', 'harga_souvenir', 'dp_souvenir', 'keterangan_souvenir',
+                'jumlah_percetakan', 'harga_percetakan', 'dp_percetakan', 'keterangan_percetakan',
+                'jumlah_undangan', 'model_undangan', 'harga_undangan', 'dp_undangan'
+              ];
+
+              const allowed = allowedKeys[cartItem.layanan] || [];
+              let sortedKeys = [];
+              
+              urutanPrioritas.forEach(key => {
+                if (cartItem.detail_lengkap[key] !== undefined && cartItem.detail_lengkap[key] !== '' && allowed.includes(key)) {
+                  sortedKeys.push(key);
+                }
+              });
+
+              if (sortedKeys.length > 0) {
+                detailHTML += `<ul style="margin: 0.5rem 0 0 0; padding: 0 0 0 1rem; list-style-type: disc; font-size: 0.7rem; color: #64748b;">`;
+                sortedKeys.forEach(key => {
+                  const value = cartItem.detail_lengkap[key];
+                  const cleanKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                  detailHTML += `<li><strong>${cleanKey}:</strong> ${value}</li>`;
+                });
+                detailHTML += `</ul>`;
               }
-              detailHTML += `</ul>`;
             }
+            
             detailHTML += `</div>`;
           });
           
           detailHTML += `</div></details>`;
         }
 
-        // --- LOGIKA BADGE ADMINISTRASI (MENGAMBIL NOMINAL DP) ---
+        // --- 3. LOGIKA BADGE ADMINISTRASI (MENGAMBIL NOMINAL DP) ---
         const formatRupiah = (angka) => "Rp" + angka.toLocaleString('id-ID');
 
         let labelAdministrasi = 'Belum Bayar';
@@ -166,13 +199,12 @@ import { Icon } from "astro-icon/components";
             labelAdministrasi = 'LUNAS';
             bgColor = '#3b82f6'; // Biru
         } else if (dpAmount > 0) {
-            // Tampilkan nominal DP
             labelAdministrasi = `DP ${formatRupiah(dpAmount)}`;
         } else if (item.status_pembayaran) {
             labelAdministrasi = item.status_pembayaran;
         }
 
-        // --- LOGIKA TIPE ORDER & TANGGAL ---
+        // --- 4. LOGIKA TIPE ORDER & TANGGAL ---
         let tipeOrder = item.layanan ? item.layanan.charAt(0).toUpperCase() + item.layanan.slice(1) : "Custom";
         let tglAcara = '-';
         
