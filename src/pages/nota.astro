@@ -35,8 +35,8 @@
       .footer-signature-wrapper { margin-top: 10px !important; padding-top: 5px !important; }
       .footer { font-size: 9px !important; line-height: 1.2 !important; }
       
-      /* Penyesuaian Spasi Tanda Tangan untuk Print */
-      .signature-space { margin-bottom: 45px !important; }
+      /* Memaksa spasi tanda tangan tetap ada saat print */
+      .signature-space { height: 40px !important; }
     }
     body { background-color: #f3f4f6; margin: 0; font-family: Arial, sans-serif; }
   </style>
@@ -177,20 +177,25 @@
             </table>
           </div>
 
-          <div class="footer-signature-wrapper" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+          <div class="footer-signature-wrapper" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px; padding-top: 15px; border-top: 1px solid #eee;">
+            
             <div class="footer" style="text-align: left; font-size: 9px; color: #666; max-width: 350px;">
               <p style="margin: 0 0 3px 0;">Terima kasih atas kepercayaan Anda kepada kami.</p>
               <p style="margin: 0;">Barang yang sudah dipesan tidak dapat dibatalkan.</p>
             </div>
             
             <!-- AREA TANDA TANGAN (SPASI DIPERLEBAR) -->
-            <div style="display: flex; gap: 50px; text-align: center; font-size: 11px;">
-              <div style="min-width: 140px;">
-                <p style="margin: 0;" class="signature-space">Hormat Kami,</p>
+            <div style="display: flex; gap: 60px; text-align: center; font-size: 11px;">
+              <div style="min-width: 150px;">
+                <!-- div kosong ini berfungsi sebagai ruang untuk tanda tangan -->
+                <p style="margin: 0 0 5px 0;">Hormat Kami,</p>
+                <div class="signature-space" style="height: 60px;"></div>
                 <p style="margin: 0; font-weight: bold; border-top: 1px solid #333; padding-top: 5px;">Moch Luthfie Mubtadi</p>
               </div>
-              <div style="min-width: 140px;">
-                <p style="margin: 0;" class="signature-space">Penerima,</p>
+              <div style="min-width: 150px;">
+                <!-- div kosong ini berfungsi sebagai ruang untuk tanda tangan -->
+                <p style="margin: 0 0 5px 0;">Penerima,</p>
+                <div class="signature-space" style="height: 60px;"></div>
                 <p style="margin: 0; font-weight: bold; border-top: 1px solid #333; padding-top: 5px;">${item.nama_pemesan}</p>
               </div>
             </div>
