@@ -67,16 +67,13 @@ import { Icon } from "astro-icon/components";
 <script>
   import { supabase } from '../lib/supabase';
 
-  // 1. Logika Google
+  // --- 1. LOGIKA TOMBOL GOOGLE ---
   const btnGoogle = document.getElementById('btn-google');
   if (btnGoogle) {
     btnGoogle.addEventListener('click', async () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: { 
-          // DIUBAH DISINI: Mengarahkan ke halaman form
-          redirectTo: `${window.location.origin}/form-undangan` 
-        }
+        options: { redirectTo: `${window.location.origin}/form-undangan` }
       });
       if (error) {
         console.error(error);
@@ -85,7 +82,7 @@ import { Icon } from "astro-icon/components";
     });
   }
 
-  // 2. Logika Email/Password
+  // --- 2. LOGIKA FORM EMAIL/PASSWORD (INI YANG KITA UBAH) ---
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
@@ -94,7 +91,8 @@ import { Icon } from "astro-icon/components";
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      const { error } = await supabase.auth.signInWithPassword({
+      // Proses Login ke Supabase
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
       });
@@ -103,8 +101,17 @@ import { Icon } from "astro-icon/components";
         console.error(error);
         alert('Gagal Login: ' + error.message); 
       } else {
-        // Pindah ke halaman form pendaftaran
-        window.location.replace('/form-undangan'); 
+        // =======================================================
+        // LOGIKA PENGECEKAN ROLE (ADMIN ATAU CLIENT)
+        // =======================================================
+        // Jika email yang login adalah admin@kios.com
+        if (data.user && data.user.email === 'admin@kios.com') {
+          // Arahkan ke halaman dashboard admin
+          window.location.replace('/admin'); 
+        } else {
+          // Jika email lain (client), arahkan ke form pemesanan
+          window.location.replace('/form-undangan'); 
+        }
       }
     });
   }
