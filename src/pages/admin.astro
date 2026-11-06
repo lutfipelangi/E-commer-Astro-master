@@ -104,66 +104,59 @@ import { Icon } from "astro-icon/components";
       }
 
       filteredData.forEach((item) => {
-        const detail = item.detail_pesanan || {};
+        // --- PERBAIKAN: BACA DATA KERANJANG (ARRAY) ---
+        let items = [];
+        try {
+          items = typeof item.detail_pesanan === 'string' 
+            ? JSON.parse(item.detail_pesanan) 
+            : (item.detail_pesanan || []);
+        } catch (e) {}
+
+        let dpAmount = 0;
         let detailHTML = '<span style="color: #94a3b8;">-</span>';
         
-        if (Object.keys(detail).length > 0) {
+        if (Array.isArray(items) && items.length > 0) {
           
-          // Filter HANYA data yang relevan dengan layanan yang dipilih
-          const allowedKeys = {
-            undangan: ['nama_mempelai_wanita', 'nama_mempelai_pria', 'panggilan_wanita', 'panggilan_pria', 'orangtua_wanita', 'orangtua_pria', 'tanggal_akad', 'jam_akad', 'alamat_akad', 'tanggal_resepsi', 'jam_resepsi', 'lokasi_resepsi', 'alamat_resepsi', 'tanggal_ngunduh', 'jam_ngunduh', 'lokasi_ngunduh', 'alamat_ngunduh', 'hiburan', 'jumlah_undangan', 'model_undangan', 'harga_undangan', 'dp_undangan'],
-            souvenir: ['nama_souvenir', 'jumlah_souvenir', 'harga_souvenir', 'dp_souvenir', 'keterangan_souvenir'],
-            percetakan: ['jumlah_percetakan', 'harga_percetakan', 'dp_percetakan', 'keterangan_percetakan']
-          };
-          const validKeys = allowedKeys[item.layanan] || [];
-
-          // Urutan tampilan di dalam detail
-          const urutanPrioritas = [
-            'nama_mempelai_wanita', 'nama_mempelai_pria',
-            'panggilan_wanita', 'panggilan_pria',
-            'orangtua_wanita', 'orangtua_pria',
-            'tanggal_akad', 'jam_akad', 'alamat_akad',
-            'tanggal_resepsi', 'jam_resepsi', 'lokasi_resepsi', 'alamat_resepsi',
-            'tanggal_ngunduh', 'jam_ngunduh', 'lokasi_ngunduh', 'alamat_ngunduh',
-            'hiburan',
-            'nama_souvenir', 'jumlah_souvenir', 'harga_souvenir', 'dp_souvenir', 'keterangan_souvenir',
-            'jumlah_percetakan', 'harga_percetakan', 'dp_percetakan', 'keterangan_percetakan',
-            'jumlah_undangan', 'model_undangan', 'harga_undangan', 'dp_undangan'
-          ];
-
-          let sortedKeys = [];
-          urutanPrioritas.forEach(key => {
-            // Hanya masukkan jika key ada di data DAN diizinkan untuk layanan ini
-            if (detail[key] !== undefined && detail[key] !== null && detail[key] !== '' && validKeys.includes(key)) {
-              sortedKeys.push(key);
-            }
+          // Hitung total DP dari semua item di keranjang
+          items.forEach(cartItem => {
+            dpAmount += (parseInt(cartItem.dp) || 0);
           });
 
+          // Susun HTML untuk detail (bisa dibuka tutup)
           detailHTML = `
             <details style="cursor: pointer;">
               <summary style="color: #2563eb; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; gap: 0.3rem; list-style: none;">
                 <svg style="width: 1rem; height: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18l6-6l-6-6"/></svg>
                 Lihat Detail
               </summary>
-              <div style="margin-top: 0.5rem; background-color: #ffffff; padding: 1rem; border-radius: 0.5rem; width: 260px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-height: 250px; overflow-y: auto; position: relative; z-index: 10;">
-                <ul style="margin: 0; padding: 0; list-style-type: none; display: flex; flex-direction: column; gap: 0.4rem;">
+              <div style="margin-top: 0.5rem; background-color: #ffffff; padding: 1rem; border-radius: 0.5rem; width: 300px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-height: 300px; overflow-y: auto; position: relative; z-index: 10;">
           `;
           
-          sortedKeys.forEach(key => {
-            const value = detail[key];
-            const cleanKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-            detailHTML += `<li style="font-size: 0.75rem; color: #334155; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.3rem;"><strong style="color: #0f172a;">${cleanKey}:</strong> ${value}</li>`;
+          // Looping setiap barang di keranjang
+          items.forEach((cartItem, idx) => {
+            detailHTML += `
+              <div style="margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px dashed #cbd5e1;">
+                <div style="font-weight: bold; color: #0f172a; font-size: 0.85rem;">${cartItem.nama_item}</div>
+                <div style="font-size: 0.75rem; color: #475569;">Qty: ${cartItem.qty} | Harga: Rp ${(cartItem.harga || 0).toLocaleString('id-ID')}</div>
+                <div style="font-size: 0.75rem; color: #f59e0b; font-weight: bold;">DP: Rp ${(cartItem.dp || 0).toLocaleString('id-ID')}</div>
+            `;
+            
+            // Tampilkan isi form detail (jika ada)
+            if (cartItem.detail_lengkap && Object.keys(cartItem.detail_lengkap).length > 0) {
+              detailHTML += `<ul style="margin: 0.5rem 0 0 0; padding: 0 0 0 1rem; list-style-type: disc; font-size: 0.7rem; color: #64748b;">`;
+              for (const [key, value] of Object.entries(cartItem.detail_lengkap)) {
+                const cleanKey = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                detailHTML += `<li><strong>${cleanKey}:</strong> ${value}</li>`;
+              }
+              detailHTML += `</ul>`;
+            }
+            detailHTML += `</div>`;
           });
           
-          detailHTML += `</ul></div></details>`;
+          detailHTML += `</div></details>`;
         }
 
         // --- LOGIKA BADGE ADMINISTRASI (MENGAMBIL NOMINAL DP) ---
-        let dpAmount = 0;
-        if (item.layanan === 'souvenir') dpAmount = parseInt(detail.dp_souvenir) || 0;
-        else if (item.layanan === 'percetakan') dpAmount = parseInt(detail.dp_percetakan) || 0;
-        else dpAmount = parseInt(detail.dp_undangan) || 0;
-
         const formatRupiah = (angka) => "Rp" + angka.toLocaleString('id-ID');
 
         let labelAdministrasi = 'Belum Bayar';
@@ -179,12 +172,14 @@ import { Icon } from "astro-icon/components";
             labelAdministrasi = item.status_pembayaran;
         }
 
-        let tipeOrder = "Custom";
-        if (detail.model_undangan && item.layanan === 'undangan') tipeOrder = `Undangan ${detail.model_undangan}`;
-        if (item.layanan === 'souvenir') tipeOrder = `Souvenir`;
-        if (item.layanan === 'percetakan') tipeOrder = `Percetakan`;
+        // --- LOGIKA TIPE ORDER & TANGGAL ---
+        let tipeOrder = item.layanan ? item.layanan.charAt(0).toUpperCase() + item.layanan.slice(1) : "Custom";
+        let tglAcara = '-';
         
-        const tglAcara = detail.tanggal_resepsi || detail.tanggal_akad || detail.tanggal_ngunduh || '-';
+        if (items.length > 0 && items[0].detail_lengkap) {
+           const detailForm = items[0].detail_lengkap;
+           tglAcara = detailForm.tanggal_resepsi || detailForm.tanggal_akad || detailForm.tanggal_ngunduh || '-';
+        }
         const formatTgl = tglAcara !== '-' ? new Date(tglAcara).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-';
 
         const currentStatus = item.status_produksi || 'Antri Desain';
@@ -194,7 +189,7 @@ import { Icon } from "astro-icon/components";
           <tr style="border-bottom: 1px solid #e2e8f0; background-color: white;">
             <td style="padding: 0.8rem; font-weight: bold; color: #0f172a; vertical-align: top;">${noNota}</td>
             <td style="padding: 0.8rem; font-weight: bold; vertical-align: top;">${item.nama_pemesan}</td>
-            <td style="padding: 0.8rem; font-size: 0.8rem; vertical-align: top;">${tipeOrder}</td>
+            <td style="padding: 0.8rem; font-size: 0.8rem; vertical-align: top; text-transform: capitalize;">${tipeOrder}</td>
             <td style="padding: 0.8rem; vertical-align: top;">${formatTgl}</td>
             <td style="padding: 0.8rem; vertical-align: top;">${detailHTML}</td>
             <td style="padding: 0.8rem; vertical-align: top;">
@@ -207,7 +202,7 @@ import { Icon } from "astro-icon/components";
               </select>
             </td>
             <td style="padding: 0.8rem; vertical-align: top;">
-              <span style="display: inline-block; padding: 0.2rem 0.6rem; font-size: 0.7rem; font-weight: bold; border-radius: 0.3rem; color: white; background-color: ${bgColor}; white-space: nowrap;">
+              <span style="display: inline-block; padding: 0.4rem 0.8rem; font-size: 0.75rem; font-weight: bold; border-radius: 0.3rem; color: white; background-color: ${bgColor}; white-space: nowrap;">
                 ${labelAdministrasi}
               </span>
             </td>
