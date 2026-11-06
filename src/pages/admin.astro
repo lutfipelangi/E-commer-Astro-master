@@ -30,8 +30,6 @@ import { Icon } from "astro-icon/components";
         <button class="tab-btn" data-filter="Proses Cetak" style="padding: 0.5rem 1rem; background-color: white; color: #334155; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: bold; border-radius: 0.5rem; cursor: pointer;">Proses Cetak</button>
         <button class="tab-btn" data-filter="Proses Finishing" style="padding: 0.5rem 1rem; background-color: white; color: #334155; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: bold; border-radius: 0.5rem; cursor: pointer;">Proses Finishing</button>
         <button class="tab-btn" data-filter="Siap Ambil" style="padding: 0.5rem 1rem; background-color: white; color: #334155; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: bold; border-radius: 0.5rem; cursor: pointer;">Siap Ambil</button>
-        
-        <!-- TAMBAHAN TAB SELESAI -->
         <button class="tab-btn" data-filter="Selesai" style="padding: 0.5rem 1rem; background-color: white; color: #334155; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: bold; border-radius: 0.5rem; cursor: pointer;">Selesai (Diambil)</button>
       </div>
 
@@ -59,6 +57,23 @@ import { Icon } from "astro-icon/components";
       </div>
     </div>
   </div>
+
+  <!-- MODAL EDIT PESANAN -->
+  <div id="edit-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 2rem; border-radius: 0.75rem; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+      <h2 style="margin-top: 0; margin-bottom: 1rem; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem;">Edit Pesanan: <span id="edit-no-nota"></span></h2>
+      
+      <div id="edit-items-container">
+        <!-- Form item akan di-generate oleh JS -->
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+        <button id="btn-cancel-edit" style="padding: 0.5rem 1rem; background: #e2e8f0; border: none; border-radius: 0.5rem; font-weight: bold; cursor: pointer;">Batal</button>
+        <button id="btn-save-edit" style="padding: 0.5rem 1rem; background: #2563eb; color: white; border: none; border-radius: 0.5rem; font-weight: bold; cursor: pointer;">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+
 </Layout>
 
 <script>
@@ -75,6 +90,15 @@ import { Icon } from "astro-icon/components";
     const totalOrders = document.getElementById('total-orders');
     let allOrders = [];
 
+    // --- VARIABEL UNTUK MODAL EDIT ---
+    let editingOrderId = null;
+    let editingItems = [];
+
+    const editModal = document.getElementById('edit-modal');
+    const editItemsContainer = document.getElementById('edit-items-container');
+    const editNoNota = document.getElementById('edit-no-nota');
+
+    // Ambil Data dari Supabase
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
       window.location.replace('/login');
@@ -84,15 +108,16 @@ import { Icon } from "astro-icon/components";
     loading.style.display = 'none';
     adminContent.style.display = 'block';
 
-    const { data: pesanan, error } = await supabase.from('pesanan').select('*').order('created_at', { ascending: false });
-
-    if (error || !pesanan) {
-      orderList.innerHTML = `<tr><td colspan="8" style="padding: 1rem; text-align: center; color: #dc2626;">Gagal memuat data.</td></tr>`;
-      return;
+    async function fetchData() {
+      const { data: pesanan, error } = await supabase.from('pesanan').select('*').order('created_at', { ascending: false });
+      if (error || !pesanan) {
+        orderList.innerHTML = `<tr><td colspan="8" style="padding: 1rem; text-align: center; color: #dc2626;">Gagal memuat data.</td></tr>`;
+        return;
+      }
+      allOrders = pesanan;
+      totalOrders.innerText = allOrders.length;
+      renderTable('all');
     }
-
-    allOrders = pesanan;
-    totalOrders.innerText = allOrders.length;
 
     function renderTable(filterStatus = 'all') {
       orderList.innerHTML = '';
@@ -107,44 +132,29 @@ import { Icon } from "astro-icon/components";
       }
 
       filteredData.forEach((item) => {
-        // --- 1. BACA DATA KERANJANG (ARRAY) ---
         let items = [];
         try {
-          items = typeof item.detail_pesanan === 'string' 
-            ? JSON.parse(item.detail_pesanan) 
-            : (item.detail_pesanan || []);
+          items = typeof item.detail_pesanan === 'string' ? JSON.parse(item.detail_pesanan) : (item.detail_pesanan || []);
         } catch (e) {}
 
         let dpAmount = 0;
         let detailHTML = '<span style="color: #94a3b8;">-</span>';
-        
-        // --- 2. LOGIKA TIPE ORDER GABUNGAN (MULTIPLE LAYANAN) ---
-        let uniqueTypes = new Set(); // Gunakan Set agar tidak ada duplikat tipe
+        let uniqueTypes = new Set();
         
         if (Array.isArray(items) && items.length > 0) {
-          
           items.forEach(cartItem => {
-            // Hitung DP
             dpAmount += (parseInt(cartItem.dp) || 0);
-            
-            // Kumpulkan jenis layanan
             if (cartItem.layanan) {
-                // Kapitalisasi huruf pertama (souvenir -> Souvenir)
                 const typeName = cartItem.layanan.charAt(0).toUpperCase() + cartItem.layanan.slice(1);
                 uniqueTypes.add(typeName);
             }
           });
 
-          // Gabungkan tipe layanan dengan pemisah " & " (jika lebih dari satu)
           let tipeOrder = "Custom";
-          if (uniqueTypes.size > 0) {
-              tipeOrder = Array.from(uniqueTypes).join(' & ');
-          } else if (item.layanan) {
-              tipeOrder = item.layanan.charAt(0).toUpperCase() + item.layanan.slice(1);
-          }
-          item._formattedTipeOrder = tipeOrder; // Simpan sementara untuk dipakai di HTML
+          if (uniqueTypes.size > 0) tipeOrder = Array.from(uniqueTypes).join(' & ');
+          else if (item.layanan) tipeOrder = item.layanan.charAt(0).toUpperCase() + item.layanan.slice(1);
+          item._formattedTipeOrder = tipeOrder;
 
-          // Susun HTML untuk detail
           detailHTML = `
             <details style="cursor: pointer;">
               <summary style="color: #2563eb; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; gap: 0.3rem; list-style: none;">
@@ -154,8 +164,7 @@ import { Icon } from "astro-icon/components";
               <div style="margin-top: 0.5rem; background-color: #ffffff; padding: 1rem; border-radius: 0.5rem; width: 300px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-height: 300px; overflow-y: auto; position: relative; z-index: 10;">
           `;
           
-          // Looping setiap barang di keranjang
-          items.forEach((cartItem, idx) => {
+          items.forEach((cartItem) => {
             detailHTML += `
               <div style="margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px dashed #cbd5e1;">
                 <div style="font-weight: bold; color: #0f172a; font-size: 0.85rem;">${cartItem.nama_item}</div>
@@ -163,35 +172,20 @@ import { Icon } from "astro-icon/components";
                 <div style="font-size: 0.75rem; color: #f59e0b; font-weight: bold;">DP: Rp ${(cartItem.dp || 0).toLocaleString('id-ID')}</div>
             `;
             
-            // Filter Detail Sesuai Layanan
             if (cartItem.detail_lengkap && Object.keys(cartItem.detail_lengkap).length > 0) {
-              
               const allowedKeys = {
                 undangan: ['nama_mempelai_wanita', 'nama_mempelai_pria', 'panggilan_wanita', 'panggilan_pria', 'orangtua_wanita', 'orangtua_pria', 'tanggal_akad', 'jam_akad', 'alamat_akad', 'tanggal_resepsi', 'jam_resepsi', 'lokasi_resepsi', 'alamat_resepsi', 'tanggal_ngunduh', 'jam_ngunduh', 'lokasi_ngunduh', 'alamat_ngunduh', 'hiburan', 'jumlah_undangan', 'model_undangan', 'harga_undangan', 'dp_undangan'],
                 souvenir: ['nama_souvenir', 'jumlah_souvenir', 'harga_souvenir', 'dp_souvenir', 'keterangan_souvenir'],
-                percetakan: ['jumlah_percetakan', 'harga_percetakan', 'dp_percetakan', 'keterangan_percetakan']
+                percetakan: ['nama_percetakan', 'jumlah_percetakan', 'harga_percetakan', 'dp_percetakan', 'keterangan_percetakan']
               };
-              
               const urutanPrioritas = [
-                'nama_mempelai_wanita', 'nama_mempelai_pria',
-                'panggilan_wanita', 'panggilan_pria',
-                'orangtua_wanita', 'orangtua_pria',
-                'tanggal_akad', 'jam_akad', 'alamat_akad',
-                'tanggal_resepsi', 'jam_resepsi', 'lokasi_resepsi', 'alamat_resepsi',
-                'tanggal_ngunduh', 'jam_ngunduh', 'lokasi_ngunduh', 'alamat_ngunduh',
-                'hiburan',
-                'nama_souvenir', 'jumlah_souvenir', 'harga_souvenir', 'dp_souvenir', 'keterangan_souvenir',
-                'jumlah_percetakan', 'harga_percetakan', 'dp_percetakan', 'keterangan_percetakan',
-                'jumlah_undangan', 'model_undangan', 'harga_undangan', 'dp_undangan'
+                'nama_mempelai_wanita', 'nama_mempelai_pria', 'panggilan_wanita', 'panggilan_pria', 'orangtua_wanita', 'orangtua_pria', 'tanggal_akad', 'jam_akad', 'alamat_akad', 'tanggal_resepsi', 'jam_resepsi', 'lokasi_resepsi', 'alamat_resepsi', 'tanggal_ngunduh', 'jam_ngunduh', 'lokasi_ngunduh', 'alamat_ngunduh', 'hiburan', 'nama_souvenir', 'jumlah_souvenir', 'harga_souvenir', 'dp_souvenir', 'keterangan_souvenir', 'nama_percetakan', 'jumlah_percetakan', 'harga_percetakan', 'dp_percetakan', 'keterangan_percetakan', 'jumlah_undangan', 'model_undangan', 'harga_undangan', 'dp_undangan'
               ];
-
               const allowed = allowedKeys[cartItem.layanan] || [];
               let sortedKeys = [];
               
               urutanPrioritas.forEach(key => {
-                if (cartItem.detail_lengkap[key] !== undefined && cartItem.detail_lengkap[key] !== '' && allowed.includes(key)) {
-                  sortedKeys.push(key);
-                }
+                if (cartItem.detail_lengkap[key] !== undefined && cartItem.detail_lengkap[key] !== '' && allowed.includes(key)) sortedKeys.push(key);
               });
 
               if (sortedKeys.length > 0) {
@@ -204,31 +198,26 @@ import { Icon } from "astro-icon/components";
                 detailHTML += `</ul>`;
               }
             }
-            
             detailHTML += `</div>`;
           });
-          
           detailHTML += `</div></details>`;
         } else {
              item._formattedTipeOrder = item.layanan ? item.layanan.charAt(0).toUpperCase() + item.layanan.slice(1) : "Custom";
         }
 
-        // --- 3. LOGIKA BADGE ADMINISTRASI (MENGAMBIL NOMINAL DP) ---
         const formatRupiah = (angka) => "Rp" + angka.toLocaleString('id-ID');
-
         let labelAdministrasi = 'Belum Bayar';
-        let bgColor = '#f59e0b'; // Oranye default
+        let bgColor = '#f59e0b';
 
         if (item.status_pembayaran === 'LUNAS') {
             labelAdministrasi = 'LUNAS';
-            bgColor = '#3b82f6'; // Biru
+            bgColor = '#3b82f6';
         } else if (dpAmount > 0) {
             labelAdministrasi = `DP ${formatRupiah(dpAmount)}`;
         } else if (item.status_pembayaran) {
             labelAdministrasi = item.status_pembayaran;
         }
 
-        // --- 4. LOGIKA TANGGAL ACARA ---
         let tglAcara = '-';
         if (items.length > 0 && items[0].detail_lengkap) {
            const detailForm = items[0].detail_lengkap;
@@ -253,8 +242,6 @@ import { Icon } from "astro-icon/components";
                 <option value="Proses Cetak" ${currentStatus === 'Proses Cetak' ? 'selected' : ''}>Proses Cetak</option>
                 <option value="Proses Finishing" ${currentStatus === 'Proses Finishing' ? 'selected' : ''}>Proses Finishing</option>
                 <option value="Siap Ambil" ${currentStatus === 'Siap Ambil' ? 'selected' : ''}>Siap Ambil</option>
-                
-                <!-- TAMBAHAN OPSI SELESAI -->
                 <option value="Selesai" ${currentStatus === 'Selesai' ? 'selected' : ''}>Selesai (Diambil)</option>
               </select>
             </td>
@@ -264,15 +251,23 @@ import { Icon } from "astro-icon/components";
               </span>
             </td>
             <td style="padding: 0.8rem; text-align: center; vertical-align: top;">
-              <a href="/nota?id=${item.id}" target="_blank" style="display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.4rem 0.8rem; background-color: #1e293b; color: white; font-size: 0.75rem; font-weight: bold; border-radius: 0.3rem; text-decoration: none;">
-                Cetak
-              </a>
+              <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                <!-- TOMBOL EDIT BARU -->
+                <button class="btn-edit" data-id="${item.id}" style="display: inline-flex; align-items: center; padding: 0.4rem 0.8rem; background-color: #f59e0b; color: white; font-size: 0.75rem; font-weight: bold; border-radius: 0.3rem; border: none; cursor: pointer;">
+                  Edit
+                </button>
+                <!-- TOMBOL CETAK -->
+                <a href="/nota?id=${item.id}" target="_blank" style="display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.4rem 0.8rem; background-color: #1e293b; color: white; font-size: 0.75rem; font-weight: bold; border-radius: 0.3rem; text-decoration: none;">
+                  Cetak
+                </a>
+              </div>
             </td>
           </tr>
         `;
         orderList.innerHTML += row;
       });
 
+      // Event Listener Dropdown Status
       document.querySelectorAll('.status-dropdown').forEach(dropdown => {
         dropdown.addEventListener('change', async (e) => {
           const newStatus = e.target.value;
@@ -292,10 +287,99 @@ import { Icon } from "astro-icon/components";
           }
         });
       });
+
+      // Event Listener Tombol Edit
+      document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const orderId = e.target.closest('button').dataset.id;
+          const order = allOrders.find(o => o.id === orderId);
+          
+          if (order) {
+            editingOrderId = orderId;
+            
+            let items = [];
+            try {
+              items = typeof order.detail_pesanan === 'string' ? JSON.parse(order.detail_pesanan) : (order.detail_pesanan || []);
+            } catch (err) {}
+            
+            editingItems = JSON.parse(JSON.stringify(items)); // Deep copy
+            
+            editNoNota.innerText = order.no_nota || order.id;
+            editItemsContainer.innerHTML = '';
+
+            editingItems.forEach((item, index) => {
+              editItemsContainer.innerHTML += `
+                <div style="border: 1px solid #cbd5e1; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; background: #f8fafc;">
+                  <h4 style="margin: 0 0 0.5rem 0; color: #0f172a;">${item.nama_item}</h4>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
+                    <div>
+                      <label style="font-size: 0.75rem; font-weight: bold; color: #475569;">Qty</label>
+                      <input type="number" class="edit-qty" data-index="${index}" value="${item.qty}" style="width: 100%; padding: 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.3rem;">
+                    </div>
+                    <div>
+                      <label style="font-size: 0.75rem; font-weight: bold; color: #475569;">Harga</label>
+                      <input type="number" class="edit-harga" data-index="${index}" value="${item.harga}" style="width: 100%; padding: 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.3rem;">
+                    </div>
+                    <div>
+                      <label style="font-size: 0.75rem; font-weight: bold; color: #475569;">DP</label>
+                      <input type="number" class="edit-dp" data-index="${index}" value="${item.dp}" style="width: 100%; padding: 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.3rem;">
+                    </div>
+                  </div>
+                </div>
+              `;
+            });
+
+            editModal.style.display = 'flex';
+          }
+        });
+      });
     }
 
-    renderTable('all');
+    // --- LOGIKA SIMPAN EDIT ---
+    document.getElementById('btn-save-edit').addEventListener('click', async () => {
+      const qtyInputs = document.querySelectorAll('.edit-qty');
+      const hargaInputs = document.querySelectorAll('.edit-harga');
+      const dpInputs = document.querySelectorAll('.edit-dp');
 
+      qtyInputs.forEach(input => {
+        const idx = input.dataset.index;
+        editingItems[idx].qty = parseInt(input.value) || 0;
+      });
+      hargaInputs.forEach(input => {
+        const idx = input.dataset.index;
+        editingItems[idx].harga = parseInt(input.value) || 0;
+      });
+      dpInputs.forEach(input => {
+        const idx = input.dataset.index;
+        editingItems[idx].dp = parseInt(input.value) || 0;
+      });
+
+      const btnSave = document.getElementById('btn-save-edit');
+      const originalText = btnSave.innerText;
+      btnSave.innerText = "Menyimpan...";
+      btnSave.disabled = true;
+
+      const { error } = await supabase.from('pesanan').update({ detail_pesanan: editingItems }).eq('id', editingOrderId);
+
+      if (error) {
+        alert('Gagal menyimpan perubahan: ' + error.message);
+        btnSave.innerText = originalText;
+        btnSave.disabled = false;
+      } else {
+        alert('Pesanan berhasil diperbarui!');
+        editModal.style.display = 'none';
+        btnSave.innerText = originalText;
+        btnSave.disabled = false;
+        await fetchData(); // Refresh tabel
+      }
+    });
+
+    // --- LOGIKA TUTUP MODAL ---
+    document.getElementById('btn-cancel-edit').addEventListener('click', () => {
+      editModal.style.display = 'none';
+    });
+
+    // Filter Tabs
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         document.querySelectorAll('.tab-btn').forEach(b => {
@@ -315,5 +399,8 @@ import { Icon } from "astro-icon/components";
       await supabase.auth.signOut();
       window.location.replace('/login');
     });
+
+    // Inisialisasi awal
+    await fetchData();
   });
 </script>
