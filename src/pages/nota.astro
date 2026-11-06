@@ -28,11 +28,11 @@
       table.main-table td { padding: 4px 8px !important; }
       .item-name { font-size: 11px !important; }
       .item-desc { font-size: 9px !important; }
-      .totals-wrapper { margin-bottom: 10px !important; }
+      .totals-wrapper { margin-bottom: 15px !important; }
       .totals-table { width: 220px !important; font-size: 10px !important; }
       .totals-table td { padding: 4px 8px !important; }
       .totals-table .grand-total-row td { font-size: 12px !important; padding: 4px 8px !important; }
-      .footer-signature-wrapper { margin-top: 10px !important; padding-top: 5px !important; }
+      .footer-signature-wrapper { margin-top: 15px !important; padding-top: 10px !important; }
       .footer { font-size: 9px !important; line-height: 1.2 !important; }
       .signature-space { height: 40px !important; }
     }
@@ -176,7 +176,8 @@
           </div>
 
           <div class="client-info" style="margin-bottom: 15px; background-color: #f8fafc; padding: 8px 12px; border-radius: 6px; border-left: 4px solid #233876;">
-<p style="font-size: 10px; color: #666; margin: 0 0 2px 0; font-weight: bold;">Kepada Yth Bapak/ Ibu/ Saudara/ i:</p>            <h3 style="font-size: 16px; color: #111; margin: 0 0 2px 0;">${item.nama_pemesan}</h3>
+            <p style="font-size: 10px; color: #666; margin: 0 0 2px 0; font-weight: bold;">Kepada Yth Bapak/ Ibu/ Saudara/ i:</p>
+            <h3 style="font-size: 16px; color: #111; margin: 0 0 2px 0;">${item.nama_pemesan}</h3>
             <p style="font-size: 11px; color: #475569; margin: 0;">${item.no_whatsapp}</p>
           </div>
 
@@ -194,31 +195,29 @@
             </tbody>
           </table>
 
-          <div class="totals-wrapper" style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+          <!-- PEMBARUAN: Wrapper untuk Rekening dan Total -->
+          <div class="totals-wrapper" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            
+            <!-- KOTAK INFO REKENING (PINDAH KE SINI) -->
+            <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 15px; width: 250px;">
+              <p style="margin: 0 0 5px 0; font-size: 10px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Informasi Pembayaran</p>
+              <p style="margin: 0 0 3px 0; font-size: 12px; color: #0f172a;">Silakan transfer ke:</p>
+              <p style="margin: 0 0 2px 0; font-size: 14px; font-weight: bold; color: #233876;">Bank BCA</p>
+              <p style="margin: 0 0 2px 0; font-size: 15px; font-weight: bold; color: #0f172a; letter-spacing: 1px;">64646465464</p>
+              <p style="margin: 0; font-size: 11px; color: #475569;">a.n. Eka Wati Sutrisno</p>
+            </div>
+
+            <!-- TABEL TOTAL TAGIHAN (TETAP DI KANAN) -->
             <table class="totals-table" style="width: 250px; border-collapse: collapse; font-size: 11px;">
               ${totalRowsHtml}
             </table>
           </div>
 
-          <div class="footer-signature-wrapper" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px; padding-top: 15px; border-top: 1px solid #eee;">
+          <div class="footer-signature-wrapper" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
             
-            <!-- BAGIAN KIRI: INFO REKENING & FOOTER -->
-            <div style="text-align: left; max-width: 350px;">
-              
-              <!-- KOTAK INFO REKENING -->
-              <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 15px; margin-bottom: 15px; width: fit-content;">
-                <p style="margin: 0 0 5px 0; font-size: 10px; font-weight: bold; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Informasi Pembayaran</p>
-                <p style="margin: 0 0 3px 0; font-size: 12px; color: #0f172a;">Silakan transfer ke:</p>
-                <p style="margin: 0 0 2px 0; font-size: 14px; font-weight: bold; color: #233876;">Bank BCA</p>
-                <p style="margin: 0 0 2px 0; font-size: 15px; font-weight: bold; color: #0f172a; letter-spacing: 1px;">64646465464</p>
-                <p style="margin: 0; font-size: 11px; color: #475569;">a.n. Eka Wati Sutrisno</p>
-              </div>
-
-              <!-- FOOTER TEXT -->
-              <div class="footer" style="font-size: 9px; color: #666;">
-                <p style="margin: 0 0 3px 0;">Terima kasih atas kepercayaan Anda kepada kami.</p>
-                <p style="margin: 0;">Barang yang sudah dipesan tidak dapat dibatalkan.</p>
-              </div>
+            <div class="footer" style="text-align: left; font-size: 9px; color: #666; max-width: 350px;">
+              <p style="margin: 0 0 3px 0;">Terima kasih atas kepercayaan Anda kepada kami.</p>
+              <p style="margin: 0;">Barang yang sudah dipesan tidak dapat dibatalkan.</p>
             </div>
             
             <!-- AREA TANDA TANGAN -->
