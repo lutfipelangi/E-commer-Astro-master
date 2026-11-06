@@ -30,6 +30,9 @@ import { Icon } from "astro-icon/components";
         <button class="tab-btn" data-filter="Proses Cetak" style="padding: 0.5rem 1rem; background-color: white; color: #334155; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: bold; border-radius: 0.5rem; cursor: pointer;">Proses Cetak</button>
         <button class="tab-btn" data-filter="Proses Finishing" style="padding: 0.5rem 1rem; background-color: white; color: #334155; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: bold; border-radius: 0.5rem; cursor: pointer;">Proses Finishing</button>
         <button class="tab-btn" data-filter="Siap Ambil" style="padding: 0.5rem 1rem; background-color: white; color: #334155; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: bold; border-radius: 0.5rem; cursor: pointer;">Siap Ambil</button>
+        
+        <!-- TAMBAHAN TAB SELESAI -->
+        <button class="tab-btn" data-filter="Selesai" style="padding: 0.5rem 1rem; background-color: white; color: #334155; border: 1px solid #cbd5e1; font-size: 0.85rem; font-weight: bold; border-radius: 0.5rem; cursor: pointer;">Selesai (Diambil)</button>
       </div>
 
       <div id="loading" style="text-align: center; padding: 3rem; color: #64748b;">Memuat data...</div>
@@ -250,6 +253,9 @@ import { Icon } from "astro-icon/components";
                 <option value="Proses Cetak" ${currentStatus === 'Proses Cetak' ? 'selected' : ''}>Proses Cetak</option>
                 <option value="Proses Finishing" ${currentStatus === 'Proses Finishing' ? 'selected' : ''}>Proses Finishing</option>
                 <option value="Siap Ambil" ${currentStatus === 'Siap Ambil' ? 'selected' : ''}>Siap Ambil</option>
+                
+                <!-- TAMBAHAN OPSI SELESAI -->
+                <option value="Selesai" ${currentStatus === 'Selesai' ? 'selected' : ''}>Selesai (Diambil)</option>
               </select>
             </td>
             <td style="padding: 0.8rem; vertical-align: top;">
