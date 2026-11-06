@@ -362,7 +362,7 @@ import { Icon } from "astro-icon/components";
 
   let cart = []; // Keranjang belanja
 
-  // CEK LOGIN (Aman, tidak merusak sistem auth/nota)
+  // CEK LOGIN
   supabase.auth.getSession().then(({ data: { session } }) => {
     if (!session) {
       window.location.replace('/login');
@@ -648,10 +648,9 @@ import { Icon } from "astro-icon/components";
         // Buka WA di tab baru
         window.open(`https://wa.me/62816262734?text=${pesanWA}`, '_blank');
 
-        // ALIHKAN KE HALAMAN NOTA SETELAH DATA MASUK
-        // Asumsi: halaman nota Anda menerima parameter ?no_nota=... (sesuaikan jika berbeda)
+        // ALIHKAN KE HALAMAN DASHBOARD SETELAH DATA MASUK
         setTimeout(() => {
-            window.location.href = `/nota?no_nota=${noNotaOtomatis}`; 
+            window.location.href = `/dashboard`; 
         }, 1000);
 
         submitBtn.innerHTML = originalText;
