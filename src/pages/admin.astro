@@ -252,11 +252,9 @@ import { Icon } from "astro-icon/components";
             </td>
             <td style="padding: 0.8rem; text-align: center; vertical-align: top;">
               <div style="display: flex; gap: 0.5rem; justify-content: center;">
-                <!-- TOMBOL EDIT BARU -->
                 <button class="btn-edit" data-id="${item.id}" style="display: inline-flex; align-items: center; padding: 0.4rem 0.8rem; background-color: #f59e0b; color: white; font-size: 0.75rem; font-weight: bold; border-radius: 0.3rem; border: none; cursor: pointer;">
                   Edit
                 </button>
-                <!-- TOMBOL CETAK -->
                 <a href="/nota?id=${item.id}" target="_blank" style="display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.4rem 0.8rem; background-color: #1e293b; color: white; font-size: 0.75rem; font-weight: bold; border-radius: 0.3rem; text-decoration: none;">
                   Cetak
                 </a>
@@ -267,7 +265,6 @@ import { Icon } from "astro-icon/components";
         orderList.innerHTML += row;
       });
 
-      // Event Listener Dropdown Status
       document.querySelectorAll('.status-dropdown').forEach(dropdown => {
         dropdown.addEventListener('change', async (e) => {
           const newStatus = e.target.value;
@@ -288,7 +285,6 @@ import { Icon } from "astro-icon/components";
         });
       });
 
-      // Event Listener Tombol Edit
       document.querySelectorAll('.btn-edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const orderId = e.target.closest('button').dataset.id;
@@ -335,23 +331,46 @@ import { Icon } from "astro-icon/components";
       });
     }
 
-    // --- LOGIKA SIMPAN EDIT ---
+    // --- LOGIKA SIMPAN EDIT (DENGAN SINKRONISASI) ---
     document.getElementById('btn-save-edit').addEventListener('click', async () => {
       const qtyInputs = document.querySelectorAll('.edit-qty');
       const hargaInputs = document.querySelectorAll('.edit-harga');
       const dpInputs = document.querySelectorAll('.edit-dp');
 
+      // SINKRONISASI QTY
       qtyInputs.forEach(input => {
         const idx = input.dataset.index;
-        editingItems[idx].qty = parseInt(input.value) || 0;
+        const val = parseInt(input.value) || 0;
+        editingItems[idx].qty = val;
+        
+        const layanan = editingItems[idx].layanan;
+        if (layanan === 'souvenir') editingItems[idx].detail_lengkap.jumlah_souvenir = val.toString();
+        else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.jumlah_percetakan = val.toString();
+        else if (layanan === 'undangan') editingItems[idx].detail_lengkap.jumlah_undangan = val.toString();
       });
+
+      // SINKRONISASI HARGA
       hargaInputs.forEach(input => {
         const idx = input.dataset.index;
-        editingItems[idx].harga = parseInt(input.value) || 0;
+        const val = parseInt(input.value) || 0;
+        editingItems[idx].harga = val;
+        
+        const layanan = editingItems[idx].layanan;
+        if (layanan === 'souvenir') editingItems[idx].detail_lengkap.harga_souvenir = val.toString();
+        else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.harga_percetakan = val.toString();
+        else if (layanan === 'undangan') editingItems[idx].detail_lengkap.harga_undangan = val.toString();
       });
+
+      // SINKRONISASI DP
       dpInputs.forEach(input => {
         const idx = input.dataset.index;
-        editingItems[idx].dp = parseInt(input.value) || 0;
+        const val = parseInt(input.value) || 0;
+        editingItems[idx].dp = val;
+        
+        const layanan = editingItems[idx].layanan;
+        if (layanan === 'souvenir') editingItems[idx].detail_lengkap.dp_souvenir = val.toString();
+        else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.dp_percetakan = val.toString();
+        else if (layanan === 'undangan') editingItems[idx].detail_lengkap.dp_undangan = val.toString();
       });
 
       const btnSave = document.getElementById('btn-save-edit');
@@ -374,12 +393,10 @@ import { Icon } from "astro-icon/components";
       }
     });
 
-    // --- LOGIKA TUTUP MODAL ---
     document.getElementById('btn-cancel-edit').addEventListener('click', () => {
       editModal.style.display = 'none';
     });
 
-    // Filter Tabs
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         document.querySelectorAll('.tab-btn').forEach(b => {
@@ -400,7 +417,6 @@ import { Icon } from "astro-icon/components";
       window.location.replace('/login');
     });
 
-    // Inisialisasi awal
     await fetchData();
   });
 </script>
