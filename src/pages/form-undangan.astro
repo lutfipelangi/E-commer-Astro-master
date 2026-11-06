@@ -4,8 +4,6 @@ import { Icon } from "astro-icon/components";
 ---
 
 <Layout title="Formulir Pemesanan - Kios Pelangi">
-  
-  <!-- DIV INI DIBERI ID AGAR BISA DISEMBUNYIKAN SEBELUM LOGIN -->
   <div id="form-container" style="display: none;" class="min-h-screen bg-gray-50 py-12 px-4 flex items-center justify-center font-sans">
     
     <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
@@ -49,7 +47,6 @@ import { Icon } from "astro-icon/components";
                     <span class="font-semibold text-gray-800">Undangan</span>
                   </div>
                 </label>
-
                 <label class="cursor-pointer">
                   <input type="radio" name="layanan" value="souvenir" class="peer sr-only">
                   <div class="p-4 border-2 border-gray-200 rounded-xl text-center peer-checked:border-[#233876] peer-checked:bg-blue-50 hover:border-blue-300 transition-all">
@@ -57,7 +54,6 @@ import { Icon } from "astro-icon/components";
                     <span class="font-semibold text-gray-800">Souvenir</span>
                   </div>
                 </label>
-
                 <label class="cursor-pointer">
                   <input type="radio" name="layanan" value="percetakan" class="peer sr-only">
                   <div class="p-4 border-2 border-gray-200 rounded-xl text-center peer-checked:border-[#233876] peer-checked:bg-blue-50 hover:border-blue-300 transition-all">
@@ -286,8 +282,11 @@ import { Icon } from "astro-icon/components";
             <button type="button" id="btn-prev-2" class="w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-xl py-3.5 transition-all">
               &larr; Kembali
             </button>
-            <button type="button" id="btn-next-2" class="w-2/3 bg-[#233876] hover:bg-[#1a2957] text-white font-bold rounded-xl py-3.5 transition-all shadow-md">
-              Lanjut ke Konfirmasi &rarr;
+            <button type="button" id="btn-add-item" class="w-1/3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl py-3.5 transition-all shadow-md">
+              + Tambah Item
+            </button>
+            <button type="button" id="btn-next-2" class="w-1/3 bg-[#233876] hover:bg-[#1a2957] text-white font-bold rounded-xl py-3.5 transition-all shadow-md">
+              Selesai & Lanjut &rarr;
             </button>
           </div>
 
@@ -296,6 +295,12 @@ import { Icon } from "astro-icon/components";
             
             <div class="text-center py-4">
               <p class="text-gray-700 font-medium">Pastikan semua data sudah benar.</p>
+            </div>
+
+            <!-- RINGKASAN KERANJANG -->
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
+              <h3 class="font-bold text-gray-800 mb-2">Daftar Pesanan Anda:</h3>
+              <ul id="cart-list" class="list-disc pl-5 text-sm text-gray-700 space-y-1"></ul>
             </div>
 
             <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 text-center mt-2">
@@ -328,13 +333,13 @@ import { Icon } from "astro-icon/components";
 <script>
   import { supabase } from '../lib/supabase';
 
-  // CEK LOGIN: Jika belum login, tendang ke halaman /login
+  let cart = []; // Keranjang belanja
+
+  // CEK LOGIN
   supabase.auth.getSession().then(({ data: { session } }) => {
     if (!session) {
-      // Jika tidak ada sesi, arahkan ke login
       window.location.replace('/login');
     } else {
-      // Jika sudah login, tampilkan form
       document.getElementById('form-container').style.display = 'block';
     }
   });
@@ -368,14 +373,94 @@ import { Icon } from "astro-icon/components";
           targetDetail.classList.remove('hidden');
           targetDetail.classList.add('flex');
         }
-
-        // Ubah Indikator
-        document.getElementById('ind-1').className = "w-8 h-8 flex items-center justify-center rounded-full bg-green-400 text-white font-bold";
-        document.getElementById('ind-1').innerHTML = "✓";
-        document.getElementById('ind-2').className = "w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#233876] font-bold";
-        document.getElementById('text-ind-2').className = "text-white font-bold";
       });
     }
+
+    // Fungsi Mengumpulkan Data dari Step 2
+    function collectData() {
+      const layanan = document.querySelector('input[name="layanan"]:checked').value;
+      const form = document.getElementById('order-form');
+      const formData = new FormData(form);
+      const detail = {};
+      
+      formData.forEach((value, key) => {
+        if (key !== 'foto' && value !== "" && key !== 'nama_pemesan' && key !== 'no_whatsapp' && key !== 'layanan') {
+          detail[key] = value;
+        }
+      });
+
+      let namaItem = "Item";
+      let harga = 0;
+      let qty = 0;
+      let dp = 0;
+
+      if (layanan === 'souvenir') {
+        namaItem = `Souvenir: ${detail.nama_souvenir || ''}`;
+        harga = parseInt(detail.harga_souvenir) || 0;
+        qty = parseInt(detail.jumlah_souvenir) || 0;
+        dp = parseInt(detail.dp_souvenir) || 0;
+      } else if (layanan === 'percetakan') {
+        namaItem = `Percetakan: ${detail.keterangan_percetakan || ''}`;
+        harga = parseInt(detail.harga_percetakan) || 0;
+        qty = parseInt(detail.jumlah_percetakan) || 0;
+        dp = parseInt(detail.dp_percetakan) || 0;
+      } else {
+        namaItem = `Undangan ${detail.model_undangan || ''}`;
+        harga = parseInt(detail.harga_undangan) || 0;
+        qty = parseInt(detail.jumlah_undangan) || 0;
+        dp = parseInt(detail.dp_undangan) || 0;
+      }
+
+      return {
+        layanan: layanan,
+        nama_item: namaItem,
+        harga: harga,
+        qty: qty,
+        dp: dp,
+        detail_lengkap: detail
+      };
+    }
+
+    // Tombol Tambah Item
+    document.getElementById('btn-add-item')?.addEventListener('click', () => {
+      const itemBaru = collectData();
+      if (itemBaru.qty <= 0) return alert("Mohon isi jumlah pesanan minimal 1.");
+      
+      cart.push(itemBaru);
+      alert("Item berhasil ditambahkan ke daftar pesanan!");
+      
+      // Reset Step 2 dan kembali ke Step 1 (kecuali nama & telp)
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-2').classList.remove('flex');
+      document.getElementById('step-2-buttons').classList.add('hidden');
+      document.getElementById('step-2-buttons').classList.remove('flex');
+      document.getElementById('step-1').classList.remove('hidden');
+      document.getElementById('step-1').classList.add('flex');
+      
+      // Uncheck radio layanan
+      document.querySelectorAll('input[name="layanan"]').forEach(r => r.checked = false);
+    });
+
+    document.getElementById('btn-next-2')?.addEventListener('click', () => {
+      const itemBaru = collectData();
+      if (itemBaru.qty <= 0) return alert("Mohon isi jumlah pesanan minimal 1.");
+      
+      cart.push(itemBaru); // Masukkan item terakhir
+
+      // Tampilkan ke Ringkasan Step 3
+      const cartList = document.getElementById('cart-list');
+      cartList.innerHTML = '';
+      cart.forEach((item, index) => {
+        cartList.innerHTML += `<li>${item.nama_item} (Qty: ${item.qty}) - Rp ${item.harga.toLocaleString('id-ID')}</li>`;
+      });
+
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-2').classList.remove('flex');
+      document.getElementById('step-2-buttons').classList.add('hidden');
+      document.getElementById('step-2-buttons').classList.remove('flex');
+      document.getElementById('step-3').classList.remove('hidden');
+      document.getElementById('step-3').classList.add('flex');
+    });
 
     document.getElementById('btn-prev-2')?.addEventListener('click', () => {
       document.getElementById('step-2').classList.add('hidden');
@@ -386,22 +471,10 @@ import { Icon } from "astro-icon/components";
       document.getElementById('step-1').classList.add('flex');
     });
 
-    document.getElementById('btn-next-2')?.addEventListener('click', () => {
-      document.getElementById('step-2').classList.add('hidden');
-      document.getElementById('step-2').classList.remove('flex');
-      document.getElementById('step-2-buttons').classList.add('hidden');
-      document.getElementById('step-2-buttons').classList.remove('flex');
-      document.getElementById('step-3').classList.remove('hidden');
-      document.getElementById('step-3').classList.add('flex');
-
-      // Ubah Indikator
-      document.getElementById('ind-2').className = "w-8 h-8 flex items-center justify-center rounded-full bg-green-400 text-white font-bold";
-      document.getElementById('ind-2').innerHTML = "✓";
-      document.getElementById('ind-3').className = "w-8 h-8 flex items-center justify-center rounded-full bg-white text-[#233876] font-bold";
-      document.getElementById('text-ind-3').className = "text-white font-bold";
-    });
-
     document.getElementById('btn-prev-3')?.addEventListener('click', () => {
+      // Hapus item terakhir dari cart karena user kembali untuk edit
+      cart.pop(); 
+      
       document.getElementById('step-3').classList.add('hidden');
       document.getElementById('step-3').classList.remove('flex');
       document.getElementById('step-2').classList.remove('hidden');
@@ -411,22 +484,13 @@ import { Icon } from "astro-icon/components";
     });
 
 
-    // --- LOGIKA SIMPAN KE SUPABASE & WHATSAPP ---
+    // --- LOGIKA SIMPAN KE SUPABASE ---
     document.getElementById('order-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const nama = document.getElementById('nama_pemesan').value;
       const telp = document.getElementById('no_telp').value;
-      const layanan = document.querySelector('input[name="layanan"]:checked').value;
-
-      const formData = new FormData(e.target);
-      const detailPesanan = {};
-      
-      formData.forEach((value, key) => {
-        if (key !== 'foto' && value !== "") {
-          detailPesanan[key] = value;
-        }
-      });
+      const layanan = cart[0]?.layanan || 'mixed'; // Ambil layanan pertama untuk label
 
       const submitBtn = document.getElementById('btn-submit-final');
       const originalText = submitBtn.innerHTML;
@@ -434,69 +498,50 @@ import { Icon } from "astro-icon/components";
       submitBtn.disabled = true;
 
       try {
+        // Upload Foto
         let fotoUrl = null;
         const fileInput = document.getElementById('foto_prewedding');
-        
         if (fileInput && fileInput.files.length > 0) {
           const file = fileInput.files[0];
           const fileExt = file.name.split('.').pop();
           const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-
-          const { error: uploadError } = await supabase.storage
-            .from('foto-prewedding')
-            .upload(fileName, file);
-
+          const { error: uploadError } = await supabase.storage.from('foto-prewedding').upload(fileName, file);
           if (uploadError) throw new Error("Gagal upload foto: " + uploadError.message);
-
-          const { data: urlData } = supabase.storage
-            .from('foto-prewedding')
-            .getPublicUrl(fileName);
-          
+          const { data: urlData } = supabase.storage.from('foto-prewedding').getPublicUrl(fileName);
           fotoUrl = urlData.publicUrl;
         }
 
-        // =======================================================
-        // LOGIKA NOMOR NOTA OTOMATIS (Format: KP-YYMM-XXX)
-        // =======================================================
+        // Nomor Nota Otomatis
         const now = new Date();
         const yy = String(now.getFullYear()).slice(-2);
         const mm = String(now.getMonth() + 1).padStart(2, '0');
         const prefix = `KP-${yy}${mm}-`; 
-
-        // Hitung berapa banyak pesanan yang sudah ada di bulan ini
-        const { count } = await supabase
-          .from('pesanan')
-          .select('*', { count: 'exact', head: true })
-          .like('no_nota', `${prefix}%`);
-
-        // Buat nomor urut (001, 002, dst)
+        const { count } = await supabase.from('pesanan').select('*', { count: 'exact', head: true }).like('no_nota', `${prefix}%`);
         const nextNumber = String((count || 0) + 1).padStart(3, '0');
         const noNotaOtomatis = `${prefix}${nextNumber}`;
 
-        // 3. Simpan ke Database (Tambahkan no_nota)
-        const { error: dbError } = await supabase
-          .from('pesanan')
-          .insert([{
-            no_nota: noNotaOtomatis,
-            nama_pemesan: nama,
-            no_whatsapp: telp,
-            layanan: layanan,
-            detail_pesanan: detailPesanan,
-            foto_url: fotoUrl
-          }]);
+        // Simpan ke Database
+        const { error: dbError } = await supabase.from('pesanan').insert([{
+          no_nota: noNotaOtomatis,
+          nama_pemesan: nama,
+          no_whatsapp: telp,
+          layanan: layanan,
+          detail_pesanan: cart, // SIMPAN SEBAGAI ARRAY (Keranjang)
+          foto_url: fotoUrl
+        }]);
 
         if (dbError) throw new Error("Gagal simpan ke database: " + dbError.message);
 
         let pesanWA = `Halo Admin Kios Pelangi,%0A%0A`;
-        pesanWA += `Saya *${nama}* (${telp}) ingin memesan layanan *${layanan.toUpperCase()}*.%0A`;
+        pesanWA += `Saya *${nama}* (${telp}) ingin memesan.%0A`;
         pesanWA += `Nomor Nota: *${noNotaOtomatis}*%0A`;
-        pesanWA += `Data saya sudah masuk ke sistem website. Mohon segera diproses ya. Terima kasih.`;
+        pesanWA += `Total Item: ${cart.length} jenis.%0A`;
+        pesanWA += `Data saya sudah masuk ke sistem website. Mohon segera diproses ya.`;
         
         window.open(`https://wa.me/62816262734?text=${pesanWA}`, '_blank');
 
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-
       } catch (error) {
         console.error(error);
         alert(error.message);
@@ -506,10 +551,8 @@ import { Icon } from "astro-icon/components";
     });
 
 
-    // --- LOGIKA LOGOUT ---
     document.getElementById('btn-logout-form')?.addEventListener('click', async () => {
-      const confirmLogout = confirm("Apakah Anda yakin ingin keluar?");
-      if (confirmLogout) {
+      if (confirm("Apakah Anda yakin ingin keluar?")) {
         await supabase.auth.signOut();
         window.location.replace('/login');
       }
@@ -519,13 +562,8 @@ import { Icon } from "astro-icon/components";
 </script>
 
 <style>
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fade-in {
-    animation: fadeIn 0.4s ease-out forwards;
-  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
   .custom-scrollbar::-webkit-scrollbar { width: 6px; }
   .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
   .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
