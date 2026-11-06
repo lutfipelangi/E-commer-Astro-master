@@ -68,8 +68,9 @@ import { Icon } from "astro-icon/components";
       </div>
 
       <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
-        <button id="btn-cancel-edit" style="padding: 0.5rem 1rem; background: #e2e8f0; border: none; border-radius: 0.5rem; font-weight: bold; cursor: pointer;">Batal</button>
-        <button id="btn-save-edit" style="padding: 0.5rem 1rem; background: #2563eb; color: white; border: none; border-radius: 0.5rem; font-weight: bold; cursor: pointer;">Simpan Perubahan</button>
+        <!-- TAMBAHKAN type="button" AGAR TIDAK MEMICU FORM SUBMIT -->
+        <button type="button" id="btn-cancel-edit" style="padding: 0.5rem 1rem; background: #e2e8f0; border: none; border-radius: 0.5rem; font-weight: bold; cursor: pointer;">Batal</button>
+        <button type="button" id="btn-save-edit" style="padding: 0.5rem 1rem; background: #2563eb; color: white; border: none; border-radius: 0.5rem; font-weight: bold; cursor: pointer;">Simpan Perubahan</button>
       </div>
     </div>
   </div>
@@ -252,7 +253,7 @@ import { Icon } from "astro-icon/components";
             </td>
             <td style="padding: 0.8rem; text-align: center; vertical-align: top;">
               <div style="display: flex; gap: 0.5rem; justify-content: center;">
-                <button class="btn-edit" data-id="${item.id}" style="display: inline-flex; align-items: center; padding: 0.4rem 0.8rem; background-color: #f59e0b; color: white; font-size: 0.75rem; font-weight: bold; border-radius: 0.3rem; border: none; cursor: pointer;">
+                <button type="button" class="btn-edit" data-id="${item.id}" style="display: inline-flex; align-items: center; padding: 0.4rem 0.8rem; background-color: #f59e0b; color: white; font-size: 0.75rem; font-weight: bold; border-radius: 0.3rem; border: none; cursor: pointer;">
                   Edit
                 </button>
                 <a href="/nota?id=${item.id}" target="_blank" style="display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.4rem 0.8rem; background-color: #1e293b; color: white; font-size: 0.75rem; font-weight: bold; border-radius: 0.3rem; text-decoration: none;">
@@ -265,7 +266,6 @@ import { Icon } from "astro-icon/components";
         orderList.innerHTML += row;
       });
 
-      // Event Listener Dropdown Status
       document.querySelectorAll('.status-dropdown').forEach(dropdown => {
         dropdown.addEventListener('change', async (e) => {
           const newStatus = e.target.value;
@@ -286,7 +286,6 @@ import { Icon } from "astro-icon/components";
         });
       });
 
-      // Event Listener Tombol Edit
       document.querySelectorAll('.btn-edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const orderId = e.target.closest('button').dataset.id;
@@ -312,15 +311,15 @@ import { Icon } from "astro-icon/components";
                   <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
                     <div>
                       <label style="font-size: 0.75rem; font-weight: bold; color: #475569;">Qty</label>
-                      <input type="number" class="edit-qty" data-index="${index}" value="${item.qty}" style="width: 100%; padding: 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.3rem;">
+                      <input type="number" class="edit-qty" data-index="${index}" value="${item.qty}" min="1" style="width: 100%; padding: 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.3rem;">
                     </div>
                     <div>
                       <label style="font-size: 0.75rem; font-weight: bold; color: #475569;">Harga</label>
-                      <input type="number" class="edit-harga" data-index="${index}" value="${item.harga}" style="width: 100%; padding: 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.3rem;">
+                      <input type="number" class="edit-harga" data-index="${index}" value="${item.harga}" min="0" style="width: 100%; padding: 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.3rem;">
                     </div>
                     <div>
                       <label style="font-size: 0.75rem; font-weight: bold; color: #475569;">DP</label>
-                      <input type="number" class="edit-dp" data-index="${index}" value="${item.dp}" style="width: 100%; padding: 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.3rem;">
+                      <input type="number" class="edit-dp" data-index="${index}" value="${item.dp}" min="0" style="width: 100%; padding: 0.4rem; border: 1px solid #cbd5e1; border-radius: 0.3rem;">
                     </div>
                   </div>
                 </div>
@@ -335,6 +334,8 @@ import { Icon } from "astro-icon/components";
 
     // --- LOGIKA SIMPAN EDIT (DENGAN SINKRONISASI) ---
     document.getElementById('btn-save-edit').addEventListener('click', async () => {
+      console.log("Tombol Simpan diklik!"); // DEBUG
+      
       const qtyInputs = document.querySelectorAll('.edit-qty');
       const hargaInputs = document.querySelectorAll('.edit-harga');
       const dpInputs = document.querySelectorAll('.edit-dp');
@@ -347,10 +348,10 @@ import { Icon } from "astro-icon/components";
           editingItems[idx].qty = val;
           
           if (!editingItems[idx].detail_lengkap) editingItems[idx].detail_lengkap = {};
-          const layanan = editingItems[idx].layanan;
-          if (layanan === 'souvenir') editingItems[idx].detail_lengkap.jumlah_souvenir = val.toString();
-          else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.jumlah_percetakan = val.toString();
-          else if (layanan === 'undangan') editingItems[idx].detail_lengkap.jumlah_undangan = val.toString();
+          const layanan = editingItems[idx].layanan || '';
+          
+          const keyQty = layanan === 'souvenir' ? 'jumlah_souvenir' : (layanan === 'percetakan' ? 'jumlah_percetakan' : 'jumlah_undangan');
+          editingItems[idx].detail_lengkap[keyQty] = val.toString();
         });
 
         // SINKRONISASI HARGA
@@ -360,10 +361,10 @@ import { Icon } from "astro-icon/components";
           editingItems[idx].harga = val;
           
           if (!editingItems[idx].detail_lengkap) editingItems[idx].detail_lengkap = {};
-          const layanan = editingItems[idx].layanan;
-          if (layanan === 'souvenir') editingItems[idx].detail_lengkap.harga_souvenir = val.toString();
-          else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.harga_percetakan = val.toString();
-          else if (layanan === 'undangan') editingItems[idx].detail_lengkap.harga_undangan = val.toString();
+          const layanan = editingItems[idx].layanan || '';
+          
+          const keyHarga = layanan === 'souvenir' ? 'harga_souvenir' : (layanan === 'percetakan' ? 'harga_percetakan' : 'harga_undangan');
+          editingItems[idx].detail_lengkap[keyHarga] = val.toString();
         });
 
         // SINKRONISASI DP
@@ -373,10 +374,10 @@ import { Icon } from "astro-icon/components";
           editingItems[idx].dp = val;
           
           if (!editingItems[idx].detail_lengkap) editingItems[idx].detail_lengkap = {};
-          const layanan = editingItems[idx].layanan;
-          if (layanan === 'souvenir') editingItems[idx].detail_lengkap.dp_souvenir = val.toString();
-          else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.dp_percetakan = val.toString();
-          else if (layanan === 'undangan') editingItems[idx].detail_lengkap.dp_undangan = val.toString();
+          const layanan = editingItems[idx].layanan || '';
+          
+          const keyDp = layanan === 'souvenir' ? 'dp_souvenir' : (layanan === 'percetakan' ? 'dp_percetakan' : 'dp_undangan');
+          editingItems[idx].detail_lengkap[keyDp] = val.toString();
         });
       } catch (err) {
         console.error("Gagal memproses data form", err);
@@ -389,10 +390,13 @@ import { Icon } from "astro-icon/components";
       btnSave.innerText = "Menyimpan...";
       btnSave.disabled = true;
 
+      console.log("Mengirim data ke Supabase:", editingItems); // DEBUG
+
       const { error } = await supabase.from('pesanan').update({ detail_pesanan: editingItems }).eq('id', editingOrderId);
 
       if (error) {
-        alert('Gagal menyimpan perubahan: ' + error.message);
+        console.error("Supabase Error:", error);
+        alert('Gagal menyimpan perubahan: ' + error.message + '\n\nCek F12 Console untuk detail.');
         btnSave.innerText = originalText;
         btnSave.disabled = false;
       } else {
@@ -401,7 +405,6 @@ import { Icon } from "astro-icon/components";
         btnSave.innerText = originalText;
         btnSave.disabled = false;
         
-        // Refresh tabel dan tutup modal
         await fetchData(); 
       }
     });
@@ -410,7 +413,6 @@ import { Icon } from "astro-icon/components";
       editModal.style.display = 'none';
     });
 
-    // Filter Tabs
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         document.querySelectorAll('.tab-btn').forEach(b => {
@@ -431,7 +433,6 @@ import { Icon } from "astro-icon/components";
       window.location.replace('/login');
     });
 
-    // Inisialisasi awal
     await fetchData();
   });
 </script>
