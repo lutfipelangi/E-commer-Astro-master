@@ -4,9 +4,10 @@ import { Icon } from "astro-icon/components";
 ---
 
 <Layout title="Formulir Pemesanan - Kios Pelangi">
-  <div id="form-container" style="display: none;" class="min-h-screen bg-gray-50 py-12 px-4 flex items-center justify-center font-sans">
+  <!-- Perubahan: items-start pt-10 agar tidak terpotong di atas saat form panjang -->
+  <div id="form-container" style="display: none;" class="min-h-screen bg-gray-50 py-10 px-4 flex justify-center items-start font-sans">
     
-    <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+    <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden mt-6">
       
       <!-- HEADER & PROGRESS BAR -->
       <div class="bg-[#233876] px-8 py-6 text-white">
@@ -277,6 +278,28 @@ import { Icon } from "astro-icon/components";
 
           </div>
 
+          <!-- ================= FITUR RINGKASAN LIVE ================= -->
+          <div id="live-summary" class="hidden mt-4 bg-blue-50 border border-blue-200 rounded-xl p-4 shadow-sm animate-fade-in">
+            <h4 class="font-bold text-[#233876] mb-2 flex items-center gap-2 text-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+              Ringkasan Pesanan Sementara
+            </h4>
+            <ul id="live-cart-list" class="text-xs text-gray-600 space-y-1 mb-3 list-disc pl-4"></ul>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-600">Total Item:</span>
+              <span id="live-total-qty" class="font-bold text-gray-900">0</span>
+            </div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-gray-600">Total Harga:</span>
+              <span id="live-total-price" class="font-bold text-gray-900">Rp 0</span>
+            </div>
+            <div class="flex justify-between text-xs border-t border-blue-200 pt-2 mt-2">
+              <span class="text-[#233876] font-semibold">Total DP:</span>
+              <span id="live-total-dp" class="font-bold text-[#233876]">Rp 0</span>
+            </div>
+          </div>
+          <!-- ================= END RINGKASAN LIVE ================= -->
+
           <!-- Tombol Navigasi Step 2 -->
           <div id="step-2-buttons" class="hidden gap-3 mt-6 border-t pt-6">
             <button type="button" id="btn-prev-2" class="w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-xl py-3.5 transition-all">
@@ -335,7 +358,7 @@ import { Icon } from "astro-icon/components";
 
   let cart = []; // Keranjang belanja
 
-  // CEK LOGIN
+  // CEK LOGIN (Aman, tidak merusak sistem auth/nota)
   supabase.auth.getSession().then(({ data: { session } }) => {
     if (!session) {
       window.location.replace('/login');
@@ -346,6 +369,43 @@ import { Icon } from "astro-icon/components";
 
   document.addEventListener('DOMContentLoaded', () => {
     
+    // --- FUNGSI UPDATE RINGKASAN LIVE ---
+    function updateLiveSummary() {
+      const summaryDiv = document.getElementById('live-summary');
+      const listEl = document.getElementById('live-cart-list');
+      const qtyEl = document.getElementById('live-total-qty');
+      const priceEl = document.getElementById('live-total-price');
+      const dpEl = document.getElementById('live-total-dp');
+
+      if (!summaryDiv) return;
+
+      if (cart.length === 0) {
+        summaryDiv.classList.add('hidden');
+        return;
+      }
+
+      summaryDiv.classList.remove('hidden');
+      listEl.innerHTML = '';
+      
+      let totalQty = 0;
+      let totalPrice = 0;
+      let totalDp = 0;
+
+      cart.forEach(item => {
+        totalQty += item.qty;
+        totalPrice += (item.qty * item.harga);
+        totalDp += item.dp;
+        
+        listEl.innerHTML += `<li>${item.nama_item} (Qty: ${item.qty})</li>`;
+      });
+
+      const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+
+      qtyEl.textContent = totalQty;
+      priceEl.textContent = formatRp(totalPrice);
+      dpEl.textContent = formatRp(totalDp);
+    }
+
     // --- FUNGSI PINDAH LANGKAH ---
     const btnNext1 = document.getElementById('btn-next-1');
     if (btnNext1) {
@@ -427,6 +487,8 @@ import { Icon } from "astro-icon/components";
       if (itemBaru.qty <= 0) return alert("Mohon isi jumlah pesanan minimal 1.");
       
       cart.push(itemBaru);
+      updateLiveSummary(); // <-- Update Ringkasan Live
+      
       alert("Item berhasil ditambahkan ke daftar pesanan!");
       
       // Reset Step 2 dan kembali ke Step 1 (kecuali nama & telp)
@@ -474,6 +536,7 @@ import { Icon } from "astro-icon/components";
     document.getElementById('btn-prev-3')?.addEventListener('click', () => {
       // Hapus item terakhir dari cart karena user kembali untuk edit
       cart.pop(); 
+      updateLiveSummary(); // <-- Update Ringkasan Live
       
       document.getElementById('step-3').classList.add('hidden');
       document.getElementById('step-3').classList.remove('flex');
@@ -484,7 +547,7 @@ import { Icon } from "astro-icon/components";
     });
 
 
-    // --- LOGIKA SIMPAN KE SUPABASE ---
+    // --- LOGIKA SIMPAN KE SUPABASE (SISTEM NOTA) ---
     document.getElementById('order-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       
