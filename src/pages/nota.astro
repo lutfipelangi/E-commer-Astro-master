@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cetak Nota - Kios Pelangi</title>
+  <style>
+    /* CSS Cetak */
+    @media print {
+      @page { size: A5 landscape; margin: 5mm; }
+      body { background: white !important; margin: 0 !important; padding: 0 !important; }
+      .no-print { display: none !important; } /* Tombol disembunyikan saat print */
+      #nota-container { box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; max-width: 100% !important; width: 100% !important; page-break-inside: avoid; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      
+      .header { padding-bottom: 5px !important; margin-bottom: 10px !important; border-bottom-width: 2px !important; }
+      .logo { width: 40px !important; height: 40px !important; }
+      .company-name { font-size: 18px !important; margin-bottom: 0px !important; }
+      .company-sub { font-size: 10px !important; line-height: 1.1 !important; }
+      .header-right h2 { font-size: 18px !important; margin-bottom: 2px !important; }
+      .header-right p { font-size: 10px !important; margin-bottom: 0px !important; }
+      .client-info { margin-bottom: 10px !important; padding: 5px 10px !important; }
+      .client-info h3 { font-size: 14px !important; margin-bottom: 0px !important; }
+      .client-info p, .client-info span { font-size: 10px !important; }
+      table.main-table { font-size: 10px !important; margin-bottom: 10px !important; }
+      table.main-table th { padding: 4px 8px !important; font-size: 10px !important; }
+      table.main-table td { padding: 4px 8px !important; }
+      .item-name { font-size: 11px !important; }
+      .item-desc { font-size: 9px !important; }
+      .totals-wrapper { margin-bottom: 10px !important; }
+      .totals-table { width: 220px !important; font-size: 10px !important; }
+      .totals-table td { padding: 4px 8px !important; }
+      .totals-table .grand-total-row td { font-size: 12px !important; padding: 4px 8px !important; }
+      .footer-signature-wrapper { margin-top: 10px !important; padding-top: 5px !important; }
+      .footer { font-size: 9px !important; line-height: 1.2 !important; }
+    }
+    body { background-color: #f3f4f6; margin: 0; font-family: Arial, sans-serif; }
+  </style>
+</head>
+<body style="padding: 40px 20px; display: flex; flex-direction: column; align-items: center; color: #333;">
+
+  <!-- Wadah Kertas Nota -->
+  <div id="nota-container" style="background: #fff; width: 100%; max-width: 800px; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    <div style="text-align: center; padding: 50px; color: #888;">Memuat data nota...</div>
+  </div>
+
+  <script type="module">
+    import { supabase } from '../lib/supabase';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      const container = document.getElementById('nota-container');
+
+      if (!id) {
+        container.innerHTML = "<h2 style='text-align:center; color:red;'>Error: ID Nota tidak ditemukan di URL.</h2>";
+        return;
+      }
+
+      try {
+        const { data: item, error } = await supabase.from('pesanan').select('*').eq('id', id).single();
+
+        if (error || !item) {
+          throw new Error("Data pesanan tidak ditemukan di database.");
+        }
+
+        const detail = item.detail_pesanan || {};
+        
+        const dateObj = new Date(item.created_at);
+        const dateStr = dateObj.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
+        const timeStr = dateObj.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':') + ' WIB';
+        
+        const noNota = item.no_nota || `PW${String(item.id).substring(0, 6).toUpperCase()}`;
+
+        // Logika Kalkulasi Dinamis
+        let harga = 0;
+        let jumlah = 0;
+        let dp = 0;
+        let namaBarang = "";
+
+        if (item.layanan === 'souvenir') {
+          harga = parseInt(detail.harga_souvenir) || 0;
+          jumlah = parseInt(detail.jumlah_souvenir) || 0;
+          dp = parseInt(detail.dp_souvenir) || 0;
+          namaBarang = detail.nama_souvenir ? `Souvenir: ${detail.nama_souvenir}` : "Souvenir Custom";
+        } else if (item.layanan === 'percetakan') {
+          harga = parseInt(detail.harga_percetakan) || 0;
+          jumlah = parseInt(detail.jumlah_percetakan) || 0;
+          dp = parseInt(detail.dp_percetakan) || 0;
+          namaBarang = detail.keterangan_percetakan ? `Cetak: ${detail.keterangan_percetakan}` : "Layanan Percetakan";
+        } else {
+          harga = parseInt(detail.harga_undangan) || 0;
+          jumlah = parseInt(detail.jumlah_undangan) || 0;
+          dp = parseInt(detail.dp_undangan) || 0;
+          namaBarang = `Undangan ${detail.model_undangan || ''}`;
+        }
+
+        const totalHarga = harga * jumlah;
+        const sisa = totalHarga - dp;
+        const formatRp = (angka) => "Rp " + angka.toLocaleString('id-ID');
+
+        // Render HTML Nota
+        container.innerHTML = `
+          <div class="header" style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #233876; padding-bottom: 15px; margin-bottom: 15px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <img src="/logo.png" alt="Logo" class="logo" style="width: 55px; height: 55px; object-fit: contain; border-radius: 6px;" onerror="this.style.display='none'">
+              <div>
+                <h1 class="company-name" style="font-size: 24px; color: #233876; margin: 0 0 3px 0; font-weight: 800;">Kios Pelangi</h1>
+                <p class="company-sub" style="font-size: 11px; color: #666; margin: 0 0 2px 0;">www.kiospelangi.com | WA: 0816-2627-34</p>
+                <p class="company-sub" style="font-size: 11px; color: #666; margin: 0;">Percetakan & Undangan Custom Surabaya</p>
+              </div>
+            </div>
+            <div class="header-right" style="text-align: right;">
+              <h2 style="font-size: 22px; color: #111; margin: 0 0 5px 0; font-weight: bold; letter-spacing: 1px;">INVOICE</h2>
+              <p style="font-size: 11px; color: #555; margin: 0 0 2px 0;"><strong>No:</strong> ${noNota}</p>
+              <p style="font-size: 11px; color: #555; margin: 0;"><strong>Dibuat:</strong> ${dateStr} | ${timeStr}</p>
+            </div>
+          </div>
+
+          <div class="client-info" style="margin-bottom: 15px; background-color: #f8fafc; padding: 8px 12px; border-radius: 6px; border-left: 4px solid #233876;">
+            <p style="font-size: 10px; color: #666; margin: 0 0 2px 0; text-transform: uppercase; font-weight: bold;">Ditagihkan kepada:</p>
+            <h3 style="font-size: 16px; color: #111; margin: 0 0 2px 0;">${item.nama_pemesan}</h3>
+            <p style="font-size: 11px; color: #475569; margin: 0;">${item.no_whatsapp}</p>
+          </div>
+
+          <table class="main-table" style="width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 12px;">
+            <thead>
+              <tr>
+                <th style="border: 1px solid #ccc; background-color: #233876; color: white; padding: 6px 8px; text-align: left;">Deskripsi Layanan</th>
+                <th style="border: 1px solid #ccc; background-color: #233876; color: white; padding: 6px 8px; text-align: right; width: 100px;">Harga</th>
+                <th style="border: 1px solid #ccc; background-color: #233876; color: white; padding: 6px 8px; text-align: center; width: 50px;">Qty</th>
+                <th style="border: 1px solid #ccc; background-color: #233876; color: white; padding: 6px 8px; text-align: right; width: 120px;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="border: 1px solid #ccc; padding: 6px 8px;">
+                  <strong class="item-name" style="color: #233876; font-size: 13px;">${item.layanan.toUpperCase()}</strong><br>
+                  <span class="item-desc" style="color: #666; font-size: 10px;">${namaBarang}</span>
+                </td>
+                <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: right;">${formatRp(harga)}</td>
+                <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: center;">${jumlah}</td>
+                <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: right; font-weight: bold;">${formatRp(totalHarga)}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="totals-wrapper" style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+            <table class="totals-table" style="width: 250px; border-collapse: collapse; font-size: 11px;">
+              <tr>
+                <td style="border: 1px solid #ccc; padding: 5px 8px; background: #f9f9f9; font-weight: bold; text-align: right;">Total Tagihan:</td>
+                <td style="border: 1px solid #ccc; padding: 5px 8px; text-align: right; font-weight: bold;">${formatRp(totalHarga)}</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid #ccc; padding: 5px 8px; background: #f9f9f9; font-weight: bold; text-align: right; color: #059669;">DP Dibayar:</td>
+                <td style="border: 1px solid #ccc; padding: 5px 8px; text-align: right; font-weight: bold; color: #059669;">- ${formatRp(dp)}</td>
+              </tr>
+              <tr class="grand-total-row">
+                <td style="border: 1px solid #ccc; padding: 6px 8px; background: #f9f9f9; font-weight: bold; text-align: right; font-size: 13px;">Sisa Tagihan:</td>
+                <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: right; font-weight: bold; color: #e11d48; font-size: 13px;">${formatRp(sisa)}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="footer-signature-wrapper" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 15px; padding-top: 8px; border-top: 1px solid #ccc;">
+            <div class="footer" style="text-align: left; font-size: 9px; color: #666; max-width: 350px;">
+              <p style="margin: 0 0 3px 0;">Terima kasih telah mempercayakan momen spesial Anda kepada kami.</p>
+              <p style="margin: 0;">Barang yang sudah dipesan tidak dapat dibatalkan.</p>
+            </div>
+            <div style="display: flex; gap: 30px; text-align: center; font-size: 10px;">
+              <div>
+                <p style="margin: 0 0 20px 0;">Hormat Kami,</p>
+                <p style="margin: 0; font-weight: bold; border-top: 1px solid #333; padding-top: 3px;">Kios Pelangi</p>
+              </div>
+              <div>
+                <p style="margin: 0 0 20px 0;">Penerima,</p>
+                <p style="margin: 0; font-weight: bold; border-top: 1px solid #333; padding-top: 3px;">${item.nama_pemesan}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px;">
+            <h2 style="color: #dc2626; margin-bottom: 10px;">Gagal Memuat Nota</h2>
+            <p style="color: #475569;">${err.message || 'Terjadi kesalahan sistem.'}</p>
+          </div>
+        `;
+      }
+    });
+  </script>
+
+  <!-- TOMBOL AKSI (Akan hilang saat diprint karena class no-print) -->
+  <div class="no-print" style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+    <button onclick="window.print()" style="background-color: #233876; color: white; padding: 12px 25px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      🖨️ Cetak Nota (Print)
+    </button>
+    <a href="/admin" style="background-color: #e2e8f0; color: #333; padding: 12px 25px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; text-decoration: none; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      ⬅️ Kembali ke Admin
+    </a>
+  </div>
+
+</body>
+</html>

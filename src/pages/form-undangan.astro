@@ -227,7 +227,7 @@ import { Icon } from "astro-icon/components";
               </div>
             </div>
 
-            <!-- DETAIL SOUVENIR -->
+            <!-- DETAIL SOUVENIR (DIPERBARUI DENGAN HARGA & DP) -->
             <div id="detail-souvenir" class="hidden flex-col gap-4">
               <h2 class="text-xl font-bold text-gray-900 mb-1">Detail Souvenir</h2>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -239,23 +239,41 @@ import { Icon } from "astro-icon/components";
                   <label class="block text-sm font-semibold text-gray-800 mb-1.5">Jumlah Pesanan</label>
                   <input type="number" name="jumlah_souvenir" placeholder="cth: 100" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
                 </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Harga Satuan (Rp)</label>
+                  <input type="number" name="harga_souvenir" placeholder="cth: 50000" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">DP / Uang Muka (Rp)</label>
+                  <input type="number" name="dp_souvenir" placeholder="cth: 500000" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
               </div>
               <div>
                 <label class="block text-sm font-semibold text-gray-800 mb-1.5">Keterangan / Desain Khusus</label>
-                <textarea rows="3" name="keterangan_souvenir" placeholder="Jelaskan detail desain atau kebutuhan khusus..." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]"></textarea>
+                <textarea rows="3" name="keterangan_souvenir" placeholder="Jelaskan detail desain..." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]"></textarea>
               </div>
             </div>
 
-            <!-- DETAIL PERCETAKAN -->
+            <!-- DETAIL PERCETAKAN (DIPERBARUI DENGAN HARGA & DP) -->
             <div id="detail-percetakan" class="hidden flex-col gap-4">
               <h2 class="text-xl font-bold text-gray-900 mb-1">Detail Percetakan</h2>
-              <div>
-                <label class="block text-sm font-semibold text-gray-800 mb-1.5">Jumlah Pesanan (Lembar/Pcs)</label>
-                <input type="number" name="jumlah_percetakan" placeholder="cth: 500" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Jumlah Pesanan (Lembar/Pcs)</label>
+                  <input type="number" name="jumlah_percetakan" placeholder="cth: 500" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">Harga Satuan (Rp)</label>
+                  <input type="number" name="harga_percetakan" placeholder="cth: 5000" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-800 mb-1.5">DP / Uang Muka (Rp)</label>
+                  <input type="number" name="dp_percetakan" placeholder="cth: 500000" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]" />
+                </div>
               </div>
               <div>
                 <label class="block text-sm font-semibold text-gray-800 mb-1.5">Keterangan (Jenis Kertas, Ukuran, dll)</label>
-                <textarea rows="3" name="keterangan_percetakan" placeholder="cth: Cetak brosur A5, kertas Art Paper 150gsm..." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]"></textarea>
+                <textarea rows="3" name="keterangan_percetakan" placeholder="cth: Cetak brosur A5..." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-[#233876]"></textarea>
               </div>
             </div>
 
@@ -388,7 +406,6 @@ import { Icon } from "astro-icon/components";
       const telp = document.getElementById('no_telp').value;
       const layanan = document.querySelector('input[name="layanan"]:checked').value;
 
-      // Kumpulkan semua data (sekarang name="" sudah ada di HTML)
       const formData = new FormData(e.target);
       const detailPesanan = {};
       
@@ -398,7 +415,6 @@ import { Icon } from "astro-icon/components";
         }
       });
 
-      // Tombol berubah jadi loading
       const submitBtn = document.getElementById('btn-submit-final');
       const originalText = submitBtn.innerHTML;
       submitBtn.innerHTML = "Menyimpan Data...";
@@ -408,7 +424,6 @@ import { Icon } from "astro-icon/components";
         let fotoUrl = null;
         const fileInput = document.getElementById('foto_prewedding');
         
-        // 1. Upload Foto (Jika ada)
         if (fileInput && fileInput.files.length > 0) {
           const file = fileInput.files[0];
           const fileExt = file.name.split('.').pop();
@@ -427,10 +442,29 @@ import { Icon } from "astro-icon/components";
           fotoUrl = urlData.publicUrl;
         }
 
-        // 2. Simpan Teks ke Tabel 'pesanan'
+        // =======================================================
+        // LOGIKA NOMOR NOTA OTOMATIS (Format: KP-YYMM-XXX)
+        // =======================================================
+        const now = new Date();
+        const yy = String(now.getFullYear()).slice(-2);
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const prefix = `KP-${yy}${mm}-`; 
+
+        // Hitung berapa banyak pesanan yang sudah ada di bulan ini
+        const { count } = await supabase
+          .from('pesanan')
+          .select('*', { count: 'exact', head: true })
+          .like('no_nota', `${prefix}%`);
+
+        // Buat nomor urut (001, 002, dst)
+        const nextNumber = String((count || 0) + 1).padStart(3, '0');
+        const noNotaOtomatis = `${prefix}${nextNumber}`;
+
+        // 3. Simpan ke Database (Tambahkan no_nota)
         const { error: dbError } = await supabase
           .from('pesanan')
           .insert([{
+            no_nota: noNotaOtomatis, // Masukkan nomor nota otomatis
             nama_pemesan: nama,
             no_whatsapp: telp,
             layanan: layanan,
@@ -440,14 +474,13 @@ import { Icon } from "astro-icon/components";
 
         if (dbError) throw new Error("Gagal simpan ke database: " + dbError.message);
 
-        // 3. Buka WhatsApp
         let pesanWA = `Halo Admin Kios Pelangi,%0A%0A`;
         pesanWA += `Saya *${nama}* (${telp}) ingin memesan layanan *${layanan.toUpperCase()}*.%0A`;
+        pesanWA += `Nomor Nota: *${noNotaOtomatis}*%0A`;
         pesanWA += `Data saya sudah masuk ke sistem website. Mohon segera diproses ya. Terima kasih.`;
         
         window.open(`https://wa.me/62816262734?text=${pesanWA}`, '_blank');
 
-        // Kembalikan tombol
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
 
