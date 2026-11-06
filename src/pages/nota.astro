@@ -34,8 +34,6 @@
       .totals-table .grand-total-row td { font-size: 12px !important; padding: 4px 8px !important; }
       .footer-signature-wrapper { margin-top: 10px !important; padding-top: 5px !important; }
       .footer { font-size: 9px !important; line-height: 1.2 !important; }
-      
-      /* Memaksa spasi tanda tangan tetap ada saat print */
       .signature-space { height: 40px !important; }
     }
     body { background-color: #f3f4f6; margin: 0; font-family: Arial, sans-serif; }
@@ -79,7 +77,6 @@
         let items = [];
         
         if (Array.isArray(detail)) {
-          // Data baru (Keranjang)
           items = detail.map(d => ({
             nama: d.nama_item || 'Item',
             harga: parseInt(d.harga) || 0,
@@ -87,7 +84,6 @@
             dp: parseInt(d.dp) || 0
           }));
         } else {
-          // Data lama (Single item)
           if (item.layanan === 'souvenir') {
             items.push({ nama: detail.nama_souvenir ? `Souvenir: ${detail.nama_souvenir}` : 'Souvenir Custom', harga: parseInt(detail.harga_souvenir) || 0, qty: parseInt(detail.jumlah_souvenir) || 0, dp: parseInt(detail.dp_souvenir) || 0 });
           } else if (item.layanan === 'percetakan') {
@@ -122,6 +118,33 @@
         });
 
         const sisa = grandTotal - grandDp;
+
+        // --- LOGIKA BARIS TOTAL (JIKA ADA DP VS CASH) ---
+        let totalRowsHtml = `
+          <tr>
+            <td style="border: 1px solid #ccc; padding: 5px 8px; background: #f9f9f9; font-weight: bold; text-align: right;">Total Tagihan:</td>
+            <td style="border: 1px solid #ccc; padding: 5px 8px; text-align: right; font-weight: bold;">${formatRp(grandTotal)}</td>
+          </tr>
+        `;
+
+        // Jika ada DP, tampilkan baris DP
+        if (grandDp > 0) {
+            totalRowsHtml += `
+              <tr>
+                <td style="border: 1px solid #ccc; padding: 5px 8px; background: #f9f9f9; font-weight: bold; text-align: right; color: #059669;">Total DP Dibayar:</td>
+                <td style="border: 1px solid #ccc; padding: 5px 8px; text-align: right; font-weight: bold; color: #059669;">- ${formatRp(grandDp)}</td>
+              </tr>
+            `;
+        }
+        
+        // Selalu tampilkan Sisa Tagihan (Warna Merah)
+        // Jika tanpa DP, maka Sisa = Total
+        totalRowsHtml += `
+          <tr class="grand-total-row">
+            <td style="border: 1px solid #ccc; padding: 6px 8px; background: #f9f9f9; font-weight: bold; text-align: right; font-size: 13px;">Sisa Tagihan:</td>
+            <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: right; font-weight: bold; color: #e11d48; font-size: 13px;">${formatRp(sisa)}</td>
+          </tr>
+        `;
 
         container.innerHTML = `
           <div class="header" style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #233876; padding-bottom: 15px; margin-bottom: 15px;">
@@ -162,18 +185,7 @@
 
           <div class="totals-wrapper" style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
             <table class="totals-table" style="width: 250px; border-collapse: collapse; font-size: 11px;">
-              <tr>
-                <td style="border: 1px solid #ccc; padding: 5px 8px; background: #f9f9f9; font-weight: bold; text-align: right;">Total Tagihan:</td>
-                <td style="border: 1px solid #ccc; padding: 5px 8px; text-align: right; font-weight: bold;">${formatRp(grandTotal)}</td>
-              </tr>
-              <tr>
-                <td style="border: 1px solid #ccc; padding: 5px 8px; background: #f9f9f9; font-weight: bold; text-align: right; color: #059669;">Total DP Dibayar:</td>
-                <td style="border: 1px solid #ccc; padding: 5px 8px; text-align: right; font-weight: bold; color: #059669;">- ${formatRp(grandDp)}</td>
-              </tr>
-              <tr class="grand-total-row">
-                <td style="border: 1px solid #ccc; padding: 6px 8px; background: #f9f9f9; font-weight: bold; text-align: right; font-size: 13px;">Sisa Tagihan:</td>
-                <td style="border: 1px solid #ccc; padding: 6px 8px; text-align: right; font-weight: bold; color: #e11d48; font-size: 13px;">${formatRp(sisa)}</td>
-              </tr>
+              ${totalRowsHtml}
             </table>
           </div>
 
@@ -184,16 +196,14 @@
               <p style="margin: 0;">Barang yang sudah dipesan tidak dapat dibatalkan.</p>
             </div>
             
-            <!-- AREA TANDA TANGAN (SPASI DIPERLEBAR) -->
+            <!-- AREA TANDA TANGAN -->
             <div style="display: flex; gap: 60px; text-align: center; font-size: 11px;">
               <div style="min-width: 150px;">
-                <!-- div kosong ini berfungsi sebagai ruang untuk tanda tangan -->
                 <p style="margin: 0 0 5px 0;">Hormat Kami,</p>
                 <div class="signature-space" style="height: 60px;"></div>
                 <p style="margin: 0; font-weight: bold; border-top: 1px solid #333; padding-top: 5px;">Moch Luthfie Mubtadi</p>
               </div>
               <div style="min-width: 150px;">
-                <!-- div kosong ini berfungsi sebagai ruang untuk tanda tangan -->
                 <p style="margin: 0 0 5px 0;">Penerima,</p>
                 <div class="signature-space" style="height: 60px;"></div>
                 <p style="margin: 0; font-weight: bold; border-top: 1px solid #333; padding-top: 5px;">${item.nama_pemesan}</p>
