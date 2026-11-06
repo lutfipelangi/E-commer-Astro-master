@@ -265,6 +265,7 @@ import { Icon } from "astro-icon/components";
         orderList.innerHTML += row;
       });
 
+      // Event Listener Dropdown Status
       document.querySelectorAll('.status-dropdown').forEach(dropdown => {
         dropdown.addEventListener('change', async (e) => {
           const newStatus = e.target.value;
@@ -285,6 +286,7 @@ import { Icon } from "astro-icon/components";
         });
       });
 
+      // Event Listener Tombol Edit
       document.querySelectorAll('.btn-edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const orderId = e.target.closest('button').dataset.id;
@@ -337,41 +339,50 @@ import { Icon } from "astro-icon/components";
       const hargaInputs = document.querySelectorAll('.edit-harga');
       const dpInputs = document.querySelectorAll('.edit-dp');
 
-      // SINKRONISASI QTY
-      qtyInputs.forEach(input => {
-        const idx = input.dataset.index;
-        const val = parseInt(input.value) || 0;
-        editingItems[idx].qty = val;
-        
-        const layanan = editingItems[idx].layanan;
-        if (layanan === 'souvenir') editingItems[idx].detail_lengkap.jumlah_souvenir = val.toString();
-        else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.jumlah_percetakan = val.toString();
-        else if (layanan === 'undangan') editingItems[idx].detail_lengkap.jumlah_undangan = val.toString();
-      });
+      try {
+        // SINKRONISASI QTY
+        qtyInputs.forEach(input => {
+          const idx = parseInt(input.dataset.index);
+          const val = parseInt(input.value) || 0;
+          editingItems[idx].qty = val;
+          
+          if (!editingItems[idx].detail_lengkap) editingItems[idx].detail_lengkap = {};
+          const layanan = editingItems[idx].layanan;
+          if (layanan === 'souvenir') editingItems[idx].detail_lengkap.jumlah_souvenir = val.toString();
+          else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.jumlah_percetakan = val.toString();
+          else if (layanan === 'undangan') editingItems[idx].detail_lengkap.jumlah_undangan = val.toString();
+        });
 
-      // SINKRONISASI HARGA
-      hargaInputs.forEach(input => {
-        const idx = input.dataset.index;
-        const val = parseInt(input.value) || 0;
-        editingItems[idx].harga = val;
-        
-        const layanan = editingItems[idx].layanan;
-        if (layanan === 'souvenir') editingItems[idx].detail_lengkap.harga_souvenir = val.toString();
-        else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.harga_percetakan = val.toString();
-        else if (layanan === 'undangan') editingItems[idx].detail_lengkap.harga_undangan = val.toString();
-      });
+        // SINKRONISASI HARGA
+        hargaInputs.forEach(input => {
+          const idx = parseInt(input.dataset.index);
+          const val = parseInt(input.value) || 0;
+          editingItems[idx].harga = val;
+          
+          if (!editingItems[idx].detail_lengkap) editingItems[idx].detail_lengkap = {};
+          const layanan = editingItems[idx].layanan;
+          if (layanan === 'souvenir') editingItems[idx].detail_lengkap.harga_souvenir = val.toString();
+          else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.harga_percetakan = val.toString();
+          else if (layanan === 'undangan') editingItems[idx].detail_lengkap.harga_undangan = val.toString();
+        });
 
-      // SINKRONISASI DP
-      dpInputs.forEach(input => {
-        const idx = input.dataset.index;
-        const val = parseInt(input.value) || 0;
-        editingItems[idx].dp = val;
-        
-        const layanan = editingItems[idx].layanan;
-        if (layanan === 'souvenir') editingItems[idx].detail_lengkap.dp_souvenir = val.toString();
-        else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.dp_percetakan = val.toString();
-        else if (layanan === 'undangan') editingItems[idx].detail_lengkap.dp_undangan = val.toString();
-      });
+        // SINKRONISASI DP
+        dpInputs.forEach(input => {
+          const idx = parseInt(input.dataset.index);
+          const val = parseInt(input.value) || 0;
+          editingItems[idx].dp = val;
+          
+          if (!editingItems[idx].detail_lengkap) editingItems[idx].detail_lengkap = {};
+          const layanan = editingItems[idx].layanan;
+          if (layanan === 'souvenir') editingItems[idx].detail_lengkap.dp_souvenir = val.toString();
+          else if (layanan === 'percetakan') editingItems[idx].detail_lengkap.dp_percetakan = val.toString();
+          else if (layanan === 'undangan') editingItems[idx].detail_lengkap.dp_undangan = val.toString();
+        });
+      } catch (err) {
+        console.error("Gagal memproses data form", err);
+        alert("Terjadi kesalahan saat memproses data form.");
+        return;
+      }
 
       const btnSave = document.getElementById('btn-save-edit');
       const originalText = btnSave.innerText;
@@ -389,7 +400,9 @@ import { Icon } from "astro-icon/components";
         editModal.style.display = 'none';
         btnSave.innerText = originalText;
         btnSave.disabled = false;
-        await fetchData(); // Refresh tabel
+        
+        // Refresh tabel dan tutup modal
+        await fetchData(); 
       }
     });
 
@@ -397,6 +410,7 @@ import { Icon } from "astro-icon/components";
       editModal.style.display = 'none';
     });
 
+    // Filter Tabs
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         document.querySelectorAll('.tab-btn').forEach(b => {
@@ -417,6 +431,7 @@ import { Icon } from "astro-icon/components";
       window.location.replace('/login');
     });
 
+    // Inisialisasi awal
     await fetchData();
   });
 </script>
