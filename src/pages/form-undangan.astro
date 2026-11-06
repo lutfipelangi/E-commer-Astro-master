@@ -88,10 +88,9 @@ import { Icon } from "astro-icon/components";
     pesanan.forEach((order, index) => {
       
       // --- 1. HITUNG TOTAL HARGA & DP DARI KERANJANG (ARRAY) ---
-      let totalHarga = 0;
       let totalDp = 0;
       
-      // Pastikan detail_pesanan adalah array (jika string JSON, kita parse dulu)
+      // Pastikan detail_pesanan dibaca sebagai Array
       let items = [];
       try {
         items = typeof order.detail_pesanan === 'string' 
@@ -101,13 +100,10 @@ import { Icon } from "astro-icon/components";
         console.error("Gagal parse JSON", e);
       }
 
+      // Hitung total DP dari semua item di keranjang
       if (Array.isArray(items)) {
         items.forEach(item => {
-          const qty = parseInt(item.qty) || 0;
-          const harga = parseInt(item.harga) || 0;
-          const dp = parseInt(item.dp) || 0;
-          totalHarga += (qty * harga);
-          totalDp += dp;
+          totalDp += (parseInt(item.dp) || 0);
         });
       }
 
@@ -139,9 +135,9 @@ import { Icon } from "astro-icon/components";
           </select>
         </td>
 
-        <!-- BADGE DP WARNA ORANGE -->
+        <!-- BADGE DP WARNA ORANGE (DENGAN NOMINAL) -->
         <td class="px-6 py-4 text-center">
-          <span class="inline-flex items-center px-3 py-1.5 rounded-md text-xs font-bold bg-orange-400 text-white shadow-sm">
+          <span class="inline-flex items-center justify-center px-3 py-1.5 rounded-md text-xs font-bold bg-orange-400 text-white shadow-sm min-w-[100px]">
             DP: ${formatRp(totalDp)}
           </span>
         </td>
@@ -179,7 +175,6 @@ import { Icon } from "astro-icon/components";
           if (item.detail_lengkap && Object.keys(item.detail_lengkap).length > 0) {
             detailHtml += `<div class="mt-3 p-3 bg-white rounded-lg border border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm shadow-sm">`;
             for (const [key, value] of Object.entries(item.detail_lengkap)) {
-              // Format label (misal: nama_souvenir -> Nama Souvenir)
               const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
               detailHtml += `<div><span class="font-semibold text-gray-500">${label}:</span> <span class="text-gray-900 font-medium">${value}</span></div>`;
             }
@@ -206,7 +201,7 @@ import { Icon } from "astro-icon/components";
 
         if (targetRow.classList.contains('hidden')) {
           targetRow.classList.remove('hidden');
-          icon.classList.add('rotate-90'); // Putar ikon
+          icon.classList.add('rotate-90'); 
         } else {
           targetRow.classList.add('hidden');
           icon.classList.remove('rotate-90');
@@ -224,5 +219,4 @@ import { Icon } from "astro-icon/components";
         loadDataPesanan();
     });
   });
-
 </script>
