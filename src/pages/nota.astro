@@ -9,32 +9,42 @@
   <title>Cetak Nota - Kios Pelangi</title>
   <style>
     @media print {
-      @page { size: A5 landscape; margin: 5mm; }
+      /* MENGUBAH UKURAN KERTAS MENJADI A4 LANDSCAPE AGAR TIDAK TERPOTONG */
+      @page { size: A4 landscape; margin: 10mm; }
       body { background: white !important; margin: 0 !important; padding: 0 !important; }
       .no-print { display: none !important; }
-      #nota-container { box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; max-width: 100% !important; width: 100% !important; page-break-inside: avoid; }
+      
+      #nota-container { 
+        box-shadow: none !important; 
+        border-radius: 0 !important; 
+        padding: 0 !important; 
+        max-width: 100% !important; 
+        width: 100% !important; 
+      }
+      
       * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      
       .header { padding-bottom: 5px !important; margin-bottom: 10px !important; border-bottom-width: 2px !important; }
-      .logo { width: 40px !important; height: 40px !important; }
-      .company-name { font-size: 18px !important; margin-bottom: 0px !important; }
+      .logo { width: 45px !important; height: 45px !important; }
+      .company-name { font-size: 20px !important; margin-bottom: 0px !important; }
       .company-sub { font-size: 10px !important; line-height: 1.1 !important; }
-      .header-right h2 { font-size: 18px !important; margin-bottom: 2px !important; }
+      .header-right h2 { font-size: 20px !important; margin-bottom: 2px !important; }
       .header-right p { font-size: 10px !important; margin-bottom: 0px !important; }
-      .client-info { margin-bottom: 10px !important; padding: 5px 10px !important; }
+      .client-info { margin-bottom: 10px !important; padding: 6px 12px !important; }
       .client-info h3 { font-size: 14px !important; margin-bottom: 0px !important; }
       .client-info p, .client-info span { font-size: 10px !important; }
-      table.main-table { font-size: 10px !important; margin-bottom: 10px !important; }
+      table.main-table { font-size: 10px !important; margin-bottom: 10px !important; page-break-inside: avoid; }
       table.main-table th { padding: 4px 8px !important; font-size: 10px !important; }
       table.main-table td { padding: 4px 8px !important; }
       .item-name { font-size: 11px !important; }
       .item-desc { font-size: 9px !important; }
-      .totals-wrapper { margin-top: 10px !important; margin-bottom: 15px !important; }
+      .totals-wrapper { margin-top: 10px !important; margin-bottom: 15px !important; page-break-inside: avoid; }
       .totals-table { width: 220px !important; font-size: 10px !important; }
       .totals-table td { padding: 4px 8px !important; }
       .totals-table .grand-total-row td { font-size: 12px !important; padding: 4px 8px !important; }
-      .footer-signature-wrapper { margin-top: 15px !important; padding-top: 10px !important; }
+      .footer-signature-wrapper { margin-top: 20px !important; padding-top: 10px !important; page-break-inside: avoid; }
       .footer { font-size: 9px !important; line-height: 1.2 !important; }
-      .signature-space { height: 40px !important; }
+      .signature-space { height: 50px !important; }
     }
     body { background-color: #f3f4f6; margin: 0; font-family: Arial, sans-serif; }
   </style>
