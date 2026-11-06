@@ -4,7 +4,9 @@ import { Icon } from "astro-icon/components";
 ---
 
 <Layout title="Formulir Pemesanan - Kios Pelangi">
-  <div class="min-h-screen bg-gray-50 py-12 px-4 flex items-center justify-center font-sans">
+  
+  <!-- DIV INI DIBERI ID AGAR BISA DISEMBUNYIKAN SEBELUM LOGIN -->
+  <div id="form-container" style="display: none;" class="min-h-screen bg-gray-50 py-12 px-4 flex items-center justify-center font-sans">
     
     <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
       
@@ -227,7 +229,7 @@ import { Icon } from "astro-icon/components";
               </div>
             </div>
 
-            <!-- DETAIL SOUVENIR (DIPERBARUI DENGAN HARGA & DP) -->
+            <!-- DETAIL SOUVENIR -->
             <div id="detail-souvenir" class="hidden flex-col gap-4">
               <h2 class="text-xl font-bold text-gray-900 mb-1">Detail Souvenir</h2>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -254,7 +256,7 @@ import { Icon } from "astro-icon/components";
               </div>
             </div>
 
-            <!-- DETAIL PERCETAKAN (DIPERBARUI DENGAN HARGA & DP) -->
+            <!-- DETAIL PERCETAKAN -->
             <div id="detail-percetakan" class="hidden flex-col gap-4">
               <h2 class="text-xl font-bold text-gray-900 mb-1">Detail Percetakan</h2>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -325,6 +327,17 @@ import { Icon } from "astro-icon/components";
 
 <script>
   import { supabase } from '../lib/supabase';
+
+  // CEK LOGIN: Jika belum login, tendang ke halaman /login
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    if (!session) {
+      // Jika tidak ada sesi, arahkan ke login
+      window.location.replace('/login');
+    } else {
+      // Jika sudah login, tampilkan form
+      document.getElementById('form-container').style.display = 'block';
+    }
+  });
 
   document.addEventListener('DOMContentLoaded', () => {
     
@@ -464,7 +477,7 @@ import { Icon } from "astro-icon/components";
         const { error: dbError } = await supabase
           .from('pesanan')
           .insert([{
-            no_nota: noNotaOtomatis, // Masukkan nomor nota otomatis
+            no_nota: noNotaOtomatis,
             nama_pemesan: nama,
             no_whatsapp: telp,
             layanan: layanan,
