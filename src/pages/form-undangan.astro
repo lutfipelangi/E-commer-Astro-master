@@ -4,10 +4,11 @@ import { Icon } from "astro-icon/components";
 ---
 
 <Layout title="Formulir Pemesanan - Kios Pelangi">
-  <!-- Perubahan: items-start pt-10 agar tidak terpotong di atas saat form panjang -->
-  <div id="form-container" style="display: none;" class="min-h-screen bg-gray-50 py-10 px-4 flex justify-center items-start font-sans">
+  <!-- Container Utama: Dihapus flex justify-center agar mx-auto bekerja sempurna -->
+  <div id="form-container" style="display: none;" class="min-h-screen bg-gray-50 py-10 px-4 font-sans">
     
-    <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden mt-6">
+    <!-- mx-auto memastikan form tepat di tengah layar PC -->
+    <div class="max-w-3xl mx-auto w-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden mt-6">
       
       <!-- HEADER & PROGRESS BAR -->
       <div class="bg-[#233876] px-8 py-6 text-white">
@@ -293,10 +294,15 @@ import { Icon } from "astro-icon/components";
               <span class="text-gray-600">Total Harga:</span>
               <span id="live-total-price" class="font-bold text-gray-900">Rp 0</span>
             </div>
-            <div class="flex justify-between text-xs border-t border-blue-200 pt-2 mt-2">
+            <div class="flex justify-between text-xs border-t border-blue-200 pt-2 mt-2 mb-3">
               <span class="text-[#233876] font-semibold">Total DP:</span>
               <span id="live-total-dp" class="font-bold text-[#233876]">Rp 0</span>
             </div>
+            
+            <!-- TOMBOL CHECKOUT DARI RINGKASAN -->
+            <button type="button" id="btn-checkout-live" class="w-full bg-[#233876] hover:bg-[#1a2957] text-white font-bold rounded-lg py-2.5 text-sm transition-all shadow-md">
+              Lanjut ke Konfirmasi Pesanan &rarr;
+            </button>
           </div>
           <!-- ================= END RINGKASAN LIVE ================= -->
 
@@ -524,6 +530,28 @@ import { Icon } from "astro-icon/components";
       document.getElementById('step-3').classList.add('flex');
     });
 
+    // KLIK CHECKOUT DARI RINGKASAN LIVE
+    document.getElementById('btn-checkout-live')?.addEventListener('click', () => {
+      // Tampilkan ke Ringkasan Step 3
+      const cartList = document.getElementById('cart-list');
+      cartList.innerHTML = '';
+      cart.forEach((item, index) => {
+        cartList.innerHTML += `<li>${item.nama_item} (Qty: ${item.qty}) - Rp ${item.harga.toLocaleString('id-ID')}</li>`;
+      });
+
+      // Sembunyikan Step 1 & 2
+      document.getElementById('step-1').classList.add('hidden');
+      document.getElementById('step-1').classList.remove('flex');
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-2').classList.remove('flex');
+      document.getElementById('step-2-buttons').classList.add('hidden');
+      document.getElementById('step-2-buttons').classList.remove('flex');
+      
+      // Tampilkan Step 3
+      document.getElementById('step-3').classList.remove('hidden');
+      document.getElementById('step-3').classList.add('flex');
+    });
+
     document.getElementById('btn-prev-2')?.addEventListener('click', () => {
       document.getElementById('step-2').classList.add('hidden');
       document.getElementById('step-2').classList.remove('flex');
@@ -595,10 +623,21 @@ import { Icon } from "astro-icon/components";
 
         if (dbError) throw new Error("Gagal simpan ke database: " + dbError.message);
 
+        // Hitung Total untuk Pesan WA
+        let totalHarga = 0;
+        let totalDp = 0;
+        cart.forEach(item => {
+            totalHarga += (item.qty * item.harga);
+            totalDp += item.dp;
+        });
+        const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+
         let pesanWA = `Halo Admin Kios Pelangi,%0A%0A`;
         pesanWA += `Saya *${nama}* (${telp}) ingin memesan.%0A`;
         pesanWA += `Nomor Nota: *${noNotaOtomatis}*%0A`;
         pesanWA += `Total Item: ${cart.length} jenis.%0A`;
+        pesanWA += `Total Harga: ${formatRp(totalHarga)}%0A`;
+        pesanWA += `Total DP: ${formatRp(totalDp)}%0A%0A`;
         pesanWA += `Data saya sudah masuk ke sistem website. Mohon segera diproses ya.`;
         
         window.open(`https://wa.me/62816262734?text=${pesanWA}`, '_blank');
