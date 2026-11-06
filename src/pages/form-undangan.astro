@@ -327,7 +327,21 @@ import { Icon } from "astro-icon/components";
             <!-- RINGKASAN KERANJANG -->
             <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
               <h3 class="font-bold text-gray-800 mb-2">Daftar Pesanan Anda:</h3>
-              <ul id="cart-list" class="list-disc pl-5 text-sm text-gray-700 space-y-1"></ul>
+              <ul id="cart-list" class="list-disc pl-5 text-sm text-gray-700 space-y-1 mb-4"></ul>
+              
+              <!-- TAMBAHAN: TOTAL HARGA & DP DI STEP 3 -->
+              <div class="border-t border-gray-300 pt-3 mt-3">
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-gray-600">Total Harga:</span>
+                  <span id="final-total-price" class="font-bold text-gray-900">Rp 0</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-orange-600 font-semibold">Total DP:</span>
+                  <span id="final-total-dp" class="font-bold text-orange-600">Rp 0</span>
+                </div>
+              </div>
+              <!-- END TAMBAHAN -->
+
             </div>
 
             <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 text-center mt-2">
@@ -513,12 +527,22 @@ import { Icon } from "astro-icon/components";
       
       cart.push(itemBaru); // Masukkan item terakhir
 
-      // Tampilkan ke Ringkasan Step 3
+      // Hitung Total untuk Ringkasan Step 3
+      let totalHarga = 0;
+      let totalDp = 0;
       const cartList = document.getElementById('cart-list');
       cartList.innerHTML = '';
+      
       cart.forEach((item, index) => {
+        totalHarga += (item.qty * item.harga);
+        totalDp += item.dp;
         cartList.innerHTML += `<li>${item.nama_item} (Qty: ${item.qty}) - Rp ${item.harga.toLocaleString('id-ID')}</li>`;
       });
+
+      // Tampilkan Total di Step 3
+      const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+      document.getElementById('final-total-price').textContent = formatRp(totalHarga);
+      document.getElementById('final-total-dp').textContent = formatRp(totalDp);
 
       document.getElementById('step-2').classList.add('hidden');
       document.getElementById('step-2').classList.remove('flex');
@@ -534,12 +558,22 @@ import { Icon } from "astro-icon/components";
 
     // KLIK CHECKOUT DARI RINGKASAN LIVE
     document.getElementById('btn-checkout-live')?.addEventListener('click', () => {
-      // Tampilkan ke Ringkasan Step 3
+      // Hitung Total untuk Ringkasan Step 3
+      let totalHarga = 0;
+      let totalDp = 0;
       const cartList = document.getElementById('cart-list');
       cartList.innerHTML = '';
+      
       cart.forEach((item, index) => {
+        totalHarga += (item.qty * item.harga);
+        totalDp += item.dp;
         cartList.innerHTML += `<li>${item.nama_item} (Qty: ${item.qty}) - Rp ${item.harga.toLocaleString('id-ID')}</li>`;
       });
+
+      // Tampilkan Total di Step 3
+      const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+      document.getElementById('final-total-price').textContent = formatRp(totalHarga);
+      document.getElementById('final-total-dp').textContent = formatRp(totalDp);
 
       // Sembunyikan Step 1 & 2
       document.getElementById('step-1').classList.add('hidden');
