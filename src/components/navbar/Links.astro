@@ -18,7 +18,7 @@ import { Icon } from "astro-icon/components";
 
         <!-- Isi Menu HP (Sembunyi, muncul saat diklik) -->
         <div id="mobile-links-menu" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out bg-base-100 overflow-hidden">
-            <div class="min-h-0 flex flex-col">
+            <div class="min-h-0 flex flex-col max-h-[75vh] overflow-y-auto custom-scrollbar">
                 <a href="/" class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 border-b border-base-200 transition-colors">Home</a>
                 
                 <!-- ACCORDION PERCETAKAN -->
@@ -26,32 +26,55 @@ import { Icon } from "astro-icon/components";
                     <summary class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 cursor-pointer flex justify-between items-center list-none">
                         Percetakan <Icon name="lucide:chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform" />
                     </summary>
-                    <div class="bg-base-200/50 flex flex-col">
-                        <a href="/category/percetakan" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Semua Percetakan</a>
-                        <a href="/category/percetakan?sub=notebooks" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Buku Kenangan</a>
-                        <a href="/category/percetakan?sub=keyboards" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Kalender</a>
-                        <a href="/category/percetakan?sub=monitors" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Map</a>
+                    <div class="bg-base-200/50 flex flex-col pb-2">
+                        <span class="px-10 pt-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Buku & Profil</span>
+                        <a href="/category/percetakan?sub=buku-kenangan" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:book" class="w-4 h-4 text-[#233876]" /> Buku Kenangan</a>
+                        <a href="/category/percetakan?sub=cetak-buku" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:book-open" class="w-4 h-4 text-[#233876]" /> Cetak Buku</a>
+                        <a href="/category/percetakan?sub=company-profile" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:building" class="w-4 h-4 text-[#233876]" /> Cetak Company Profile</a>
+                        <a href="/category/percetakan?sub=majalah" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:newspaper" class="w-4 h-4 text-[#233876]" /> Cetak Majalah</a>
+                        <a href="/category/percetakan?sub=buku-tabungan" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:wallet" class="w-4 h-4 text-[#233876]" /> Buku Tabungan</a>
+                        <a href="/category/percetakan?sub=yasin-tahlil" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:book-marked" class="w-4 h-4 text-[#233876]" /> Yasin & Tahlil</a>
+
+                        <span class="px-10 pt-4 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Kalender & Promosi</span>
+                        <a href="/category/percetakan?sub=kalender-dinding" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:calendar" class="w-4 h-4 text-[#233876]" /> Kalender Dinding</a>
+                        <a href="/category/percetakan?sub=kalender-duduk" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:calendar-days" class="w-4 h-4 text-[#233876]" /> Kalender Duduk</a>
+                        <a href="/category/percetakan?sub=brosur" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:file-text" class="w-4 h-4 text-[#233876]" /> Cetak Brosur</a>
+                        <a href="/category/percetakan?sub=poster" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:image" class="w-4 h-4 text-[#233876]" /> Poster</a>
+                        <a href="/category/percetakan?sub=sticker" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:sticker" class="w-4 h-4 text-[#233876]" /> Cetak Sticker</a>
+                        <a href="/category/percetakan?sub=banner" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:megaphone" class="w-4 h-4 text-[#233876]" /> Banner</a>
+
+                        <span class="px-10 pt-4 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Packaging</span>
+                        <a href="/category/percetakan?sub=packaging-makanan" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:package" class="w-4 h-4 text-[#233876]" /> Packaging Makanan</a>
+                        <a href="/category/percetakan?sub=packaging-rokok" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:box" class="w-4 h-4 text-[#233876]" /> Packaging Rokok</a>
+                        <a href="/category/percetakan?sub=packaging-skincare" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:sparkles" class="w-4 h-4 text-[#233876]" /> Packaging Skincare</a>
+                        <a href="/category/percetakan?sub=packaging-obat" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:pill" class="w-4 h-4 text-[#233876]" /> Packaging Obat</a>
+                        <a href="/category/percetakan?sub=paper-bag" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:shopping-bag" class="w-4 h-4 text-[#233876]" /> Paper Bag</a>
+
+                        <span class="px-10 pt-4 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Administrasi</span>
+                        <a href="/category/percetakan?sub=sertifikat" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:award" class="w-4 h-4 text-[#233876]" /> Sertifikat</a>
+                        <a href="/category/percetakan?sub=ticket" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:ticket" class="w-4 h-4 text-[#233876]" /> Ticket Acara</a>
+                        <a href="/category/percetakan?sub=voucher" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:ticket-percent" class="w-4 h-4 text-[#233876]" /> Voucher</a>
+                        <a href="/category/percetakan?sub=notes" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:sticky-note" class="w-4 h-4 text-[#233876]" /> Notes</a>
                     </div>
                 </details>
 
-                <!-- ACCORDION UNDANGAN (Dengan Badge Mobile) -->
+                <!-- ACCORDION UNDANGAN -->
                 <details class="group border-b border-base-200">
                     <summary class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 cursor-pointer flex justify-between items-center list-none">
                         <div class="flex items-center gap-2">
                             Undangan
-                            <!-- Badge Mobile (Pakai animasi pulse bawaan Tailwind) -->
-                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black bg-pink-500 text-white animate-pulse shadow-sm">
-                                <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
-                                PROMO
-                            </span>
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black bg-pink-500 text-white animate-pulse shadow-sm">PROMO</span>
                         </div>
                         <Icon name="lucide:chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform" />
                     </summary>
                     <div class="bg-base-200/50 flex flex-col">
-                        <a href="/category/undangan" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Semua Undangan</a>
-                        <a href="/category/undangan?sub=android" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Softcover</a>
-                        <a href="/category/undangan?sub=iphone" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Hardcover</a>
-                        <a href="/category/digital" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Custom</a>
+                        <a href="/category/undangan" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:layout-grid" class="w-4 h-4 text-[#233876]" /> Semua Undangan</a>
+                        <a href="/category/undangan?sub=softcover" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:mail" class="w-4 h-4 text-[#233876]" /> Undangan Softcover</a>
+                        <a href="/category/undangan?sub=softcover-amplop" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:mail-open" class="w-4 h-4 text-[#233876]" /> Undangan Softcover Amplop</a>
+                        <a href="/category/undangan?sub=hardcover" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:layers" class="w-4 h-4 text-[#233876]" /> Undangan Hardcover</a>
+                        <a href="/category/undangan?sub=hardcover-amplop" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:folder-open" class="w-4 h-4 text-[#233876]" /> Undangan Hardcover Amplop</a>
+                        <a href="/category/undangan?sub=custom" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:pen-tool" class="w-4 h-4 text-[#233876]" /> Undangan Custom</a>
+                        <a href="/category/undangan?sub=blangko" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:file" class="w-4 h-4 text-[#233876]" /> Undangan Blangko</a>
                     </div>
                 </details>
 
@@ -60,25 +83,63 @@ import { Icon } from "astro-icon/components";
                     <summary class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 cursor-pointer flex justify-between items-center list-none">
                         Souvenir <Icon name="lucide:chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform" />
                     </summary>
-                    <div class="bg-base-200/50 flex flex-col">
-                        <a href="/category/souvenir" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Semua Souvenir</a>
-                        <a href="/category/souvenir?sub=tumbler" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Tumbler & Mug</a>
-                        <a href="/category/souvenir?sub=totebag" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Totebag</a>
-                        <a href="/category/souvenir" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Payung Custom</a>
-                        <a href="/category/souvenir" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Kaos & Polo</a>
+                    <div class="bg-base-200/50 flex flex-col pb-2">
+                        
+                        <span class="px-10 pt-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Souvenir Pernikahan</span>
+                        <a href="/category/souvenir?sub=tumbler" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:coffee" class="w-4 h-4 text-[#233876]" /> Tumbler</a>
+                        <a href="/category/souvenir?sub=gelas-sedotan" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:cup-soda" class="w-4 h-4 text-[#233876]" /> Gelas Sedotan</a>
+                        <a href="/category/souvenir?sub=mug" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:cup-soda" class="w-4 h-4 text-[#233876]" /> Mug</a>
+                        <a href="/category/souvenir?sub=botol" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:flask-conical" class="w-4 h-4 text-[#233876]" /> Botol</a>
+                        <a href="/category/souvenir?sub=mangkok" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:circle" class="w-4 h-4 text-[#233876]" /> Mangkok</a>
+                        <a href="/category/souvenir?sub=pouch-bag" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:briefcase" class="w-4 h-4 text-[#233876]" /> Pouch Bag</a>
+                        <a href="/category/souvenir?sub=paper-bag" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:shopping-bag" class="w-4 h-4 text-[#233876]" /> Paper Bag</a>
+                        <a href="/category/souvenir?sub=spunbond" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:shopping-bag" class="w-4 h-4 text-[#233876]" /> Spunbond</a>
+                        <a href="/category/souvenir?sub=dompet" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:wallet" class="w-4 h-4 text-[#233876]" /> Dompet</a>
+                        <a href="/category/souvenir?sub=tas" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:shopping-basket" class="w-4 h-4 text-[#233876]" /> Tas</a>
+                        <a href="/category/souvenir?sub=tote-bag" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:shopping-bag" class="w-4 h-4 text-[#233876]" /> Tote Bag</a>
+                        <a href="/category/souvenir?sub=tempat-tisu" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:archive" class="w-4 h-4 text-[#233876]" /> Tempat Tisu</a>
+
+                        <span class="px-10 pt-4 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Souvenir Perusahaan</span>
+                        <a href="/category/souvenir?sub=payung" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:umbrella" class="w-4 h-4 text-[#233876]" /> Payung</a>
+                        <a href="/category/souvenir?sub=jam-dinding" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:clock" class="w-4 h-4 text-[#233876]" /> Jam Dinding</a>
+                        <a href="/category/souvenir?sub=kipas" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:wind" class="w-4 h-4 text-[#233876]" /> Kipas</a>
+                        <a href="/category/souvenir?sub=plakat" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:award" class="w-4 h-4 text-[#233876]" /> Plakat</a>
+                        <a href="/category/souvenir?sub=note-book" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:notebook" class="w-4 h-4 text-[#233876]" /> Note Book</a>
+                        <a href="/category/souvenir?sub=gantungan-pintu" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:door-open" class="w-4 h-4 text-[#233876]" /> Gantungan Pintu</a>
+                        <a href="/category/souvenir?sub=stempel" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:stamp" class="w-4 h-4 text-[#233876]" /> Stempel</a>
+                        <a href="/category/souvenir?sub=poster" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:image" class="w-4 h-4 text-[#233876]" /> Poster</a>
+
+                        <span class="px-10 pt-4 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Souvenir Seminar</span>
+                        <a href="/category/souvenir?sub=kaos" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:shirt" class="w-4 h-4 text-[#233876]" /> Kaos</a>
+                        <a href="/category/souvenir?sub=topi" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:graduation-cap" class="w-4 h-4 text-[#233876]" /> Topi</a>
+                        <a href="/category/souvenir?sub=pulpen" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:pen" class="w-4 h-4 text-[#233876]" /> Pulpen</a>
+                        <a href="/category/souvenir?sub=gantungan-kunci" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:key" class="w-4 h-4 text-[#233876]" /> Gantungan Kunci</a>
+                        <a href="/category/souvenir?sub=pin" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:pin" class="w-4 h-4 text-[#233876]" /> Pin</a>
+                        <a href="/category/souvenir?sub=flashdisk" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:usb" class="w-4 h-4 text-[#233876]" /> Flashdisk</a>
+                        <a href="/category/souvenir?sub=id-card" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:badge" class="w-4 h-4 text-[#233876]" /> ID Card</a>
+                        <a href="/category/souvenir?sub=lanyard" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:ribbon" class="w-4 h-4 text-[#233876]" /> Lanyard</a>
+
+                        <span class="px-10 pt-4 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Souvenir Umroh & Haji</span>
+                        <a href="/category/souvenir?sub=sajadah" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:compass" class="w-4 h-4 text-[#233876]" /> Sajadah</a>
+                        <a href="/category/souvenir?sub=tasbih" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:circle-dot" class="w-4 h-4 text-[#233876]" /> Tasbih</a>
+                        <a href="/category/souvenir?sub=mukena" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:user" class="w-4 h-4 text-[#233876]" /> Mukena</a>
+                        <a href="/category/souvenir?sub=hijab" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:user" class="w-4 h-4 text-[#233876]" /> Hijab</a>
+                        <a href="/category/souvenir?sub=sarung" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:scissors" class="w-4 h-4 text-[#233876]" /> Sarung</a>
+                        <a href="/category/souvenir?sub=kopyah" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:graduation-cap" class="w-4 h-4 text-[#233876]" /> Kopyah</a>
+                        <a href="/category/souvenir?sub=baju-koko" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:shirt" class="w-4 h-4 text-[#233876]" /> Baju Koko</a>
                     </div>
                 </details>
-
+                
                 <!-- ACCORDION DIGITAL -->
                 <details class="group border-b border-base-200">
                     <summary class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 cursor-pointer flex justify-between items-center list-none">
                         Digital <Icon name="lucide:chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform" />
                     </summary>
                     <div class="bg-base-200/50 flex flex-col">
-                        <a href="/category/digital" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Semua Digital</a>
-                        <a href="/category/digital" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Undangan Web</a>
-                        <a href="/category/digital" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Video Animasi</a>
-                        <a href="/category/digital" class="py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary">Desain Logo</a>
+                        <a href="/category/digital" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:layout-grid" class="w-4 h-4 text-[#233876]" /> Semua Digital</a>
+                        <a href="/category/digital" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:monitor" class="w-4 h-4 text-[#233876]" /> Undangan Web</a>
+                        <a href="/category/digital" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:video" class="w-4 h-4 text-[#233876]" /> Video Animasi</a>
+                        <a href="/category/digital" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:pen-tool" class="w-4 h-4 text-[#233876]" /> Desain Logo</a>
                     </div>
                 </details>
 
@@ -104,58 +165,85 @@ import { Icon } from "astro-icon/components";
                     Percetakan <Icon name="lucide:chevron-down" class="w-3 h-3 opacity-70" />
                 </div>
                 <div tabindex="0" class="dropdown-content absolute left-0 top-full w-full bg-base-100 rounded-b-box z-50 p-6 shadow-2xl border border-base-200">
-                    <div class="max-w-7xl mx-auto grid grid-cols-3 gap-8">
+                    <div class="max-w-7xl mx-auto grid grid-cols-4 gap-6">
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Produk Cetak</h3>
-                            <ul class="space-y-4">
-                                <li><a href="/category/percetakan?sub=notebooks" class="flex items-start gap-3 group"><div class="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors"><Icon name="lucide:book" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Buku Kenangan</span><span class="text-xs text-base-content/60">Cetak album foto custom.</span></div></a></li>
-                                <li><a href="/category/percetakan?sub=keyboards" class="flex items-start gap-3 group"><div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors"><Icon name="lucide:calendar" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Kalender</span><span class="text-xs text-base-content/60">Kalender meja & dinding.</span></div></a></li>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Buku & Profil</h3>
+                            <ul class="space-y-2">
+                                <li><a href="/category/percetakan?sub=buku-kenangan" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:book" class="w-4 h-4 text-[#233876]" /> Buku Kenangan</a></li>
+                                <li><a href="/category/percetakan?sub=cetak-buku" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:book-open" class="w-4 h-4 text-[#233876]" /> Cetak Buku</a></li>
+                                <li><a href="/category/percetakan?sub=company-profile" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:building" class="w-4 h-4 text-[#233876]" /> Cetak Company Profile</a></li>
+                                <li><a href="/category/percetakan?sub=majalah" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:newspaper" class="w-4 h-4 text-[#233876]" /> Cetak Majalah</a></li>
+                                <li><a href="/category/percetakan?sub=buku-tabungan" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:wallet" class="w-4 h-4 text-[#233876]" /> Buku Tabungan</a></li>
+                                <li><a href="/category/percetakan?sub=yasin-tahlil" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:book-marked" class="w-4 h-4 text-[#233876]" /> Yasin & Tahlil</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Alat Tulis Kantor</h3>
-                            <ul class="space-y-4">
-                                <li><a href="/category/percetakan?sub=map" class="flex items-start gap-3 group"><div class="p-2 bg-amber-50 text-amber-600 rounded-lg group-hover:bg-amber-600 group-hover:text-white transition-colors"><Icon name="lucide:map" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Map & Folder</span><span class="text-xs text-base-content/60">Map kertas & plastik.</span></div></a></li>
-                                <li><a href="/category/percetakan" class="flex items-start gap-3 group"><div class="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors"><Icon name="lucide:file-text" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Kop Surat & Nota</span><span class="text-xs text-base-content/60">Administrasi bisnis.</span></div></a></li>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Kalender & Promosi</h3>
+                            <ul class="space-y-2">
+                                <li><a href="/category/percetakan?sub=kalender-dinding" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:calendar" class="w-4 h-4 text-[#233876]" /> Kalender Dinding</a></li>
+                                <li><a href="/category/percetakan?sub=kalender-duduk" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:calendar-days" class="w-4 h-4 text-[#233876]" /> Kalender Duduk</a></li>
+                                <li><a href="/category/percetakan?sub=brosur" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:file-text" class="w-4 h-4 text-[#233876]" /> Cetak Brosur</a></li>
+                                <li><a href="/category/percetakan?sub=poster" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:image" class="w-4 h-4 text-[#233876]" /> Poster</a></li>
+                                <li><a href="/category/percetakan?sub=sticker" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:sticker" class="w-4 h-4 text-[#233876]" /> Cetak Sticker</a></li>
+                                <li><a href="/category/percetakan?sub=banner" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:megaphone" class="w-4 h-4 text-[#233876]" /> Banner</a></li>
                             </ul>
                         </div>
-                        <div class="bg-base-200 p-4 rounded-xl">
-                            <h3 class="text-sm font-bold text-base-content mb-2">Custom Massal</h3>
-                            <p class="text-xs text-base-content/70 mb-4">Harga khusus untuk pesanan banyak.</p>
-                            <a href="/contact" class="inline-block bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary/90">Hubungi Sales</a>
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Packaging</h3>
+                            <ul class="space-y-2">
+                                <li><a href="/category/percetakan?sub=packaging-makanan" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:package" class="w-4 h-4 text-[#233876]" /> Packaging Makanan</a></li>
+                                <li><a href="/category/percetakan?sub=packaging-rokok" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:box" class="w-4 h-4 text-[#233876]" /> Packaging Rokok</a></li>
+                                <li><a href="/category/percetakan?sub=packaging-skincare" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:sparkles" class="w-4 h-4 text-[#233876]" /> Packaging Skincare</a></li>
+                                <li><a href="/category/percetakan?sub=packaging-obat" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:pill" class="w-4 h-4 text-[#233876]" /> Packaging Obat</a></li>
+                                <li><a href="/category/percetakan?sub=paper-bag" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:shopping-bag" class="w-4 h-4 text-[#233876]" /> Paper Bag</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Administrasi</h3>
+                            <ul class="space-y-2 mb-4">
+                                <li><a href="/category/percetakan?sub=sertifikat" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:award" class="w-4 h-4 text-[#233876]" /> Sertifikat</a></li>
+                                <li><a href="/category/percetakan?sub=ticket" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:ticket" class="w-4 h-4 text-[#233876]" /> Ticket Acara</a></li>
+                                <li><a href="/category/percetakan?sub=voucher" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:ticket-percent" class="w-4 h-4 text-[#233876]" /> Voucher</a></li>
+                                <li><a href="/category/percetakan?sub=notes" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary transition-colors py-1"><Icon name="lucide:sticky-note" class="w-4 h-4 text-[#233876]" /> Notes</a></li>
+                            </ul>
+                            <div class="bg-base-200 p-3 rounded-lg text-center mt-2">
+                                <p class="text-xs text-base-content/70 mb-2">Butuh produk lain?</p>
+                                <a href="/contact" class="inline-block bg-primary text-white text-xs font-bold px-3 py-1.5 rounded w-full hover:bg-primary/90 transition-colors">Hubungi Sales</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- MEGA MENU UNDANGAN (Dengan Badge Desktop) -->
+            <!-- MEGA MENU UNDANGAN -->
             <div class="dropdown dropdown-hover h-full static">
                 <div tabindex="0" role="button" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer gap-2 font-semibold">
                     Undangan 
-                    
-                    <!-- BADGE PINK BERKEDIP KHUSUS DESKTOP -->
-                    <span id="badge-baru-desktop" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-pink-500 text-white shadow-sm">
-                        PROMO
-                    </span>
-                    
+                    <span id="badge-baru-desktop" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-pink-500 text-white shadow-sm">PROMO</span>
                     <Icon name="lucide:chevron-down" class="w-3 h-3 opacity-70" />
                 </div>
                 <div tabindex="0" class="dropdown-content absolute left-0 top-full w-full bg-base-100 rounded-b-box z-50 p-6 shadow-2xl border border-base-200">
                     <div class="max-w-7xl mx-auto grid grid-cols-3 gap-8">
-                        <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Undangan Cetak</h3>
-                            <ul class="space-y-4">
-                                <li><a href="/category/undangan?sub=android" class="flex items-start gap-3 group"><div class="p-2 bg-rose-50 text-rose-600 rounded-lg group-hover:bg-rose-600 group-hover:text-white"><Icon name="lucide:layers" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Softcover</span><span class="text-xs text-base-content/60">Undangan tipis.</span></div></a></li>
-                                <li><a href="/category/undangan?sub=iphone" class="flex items-start gap-3 group"><div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white"><Icon name="lucide:book-open" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Hardcover</span><span class="text-xs text-base-content/60">Undangan mewah.</span></div></a></li>
-                            </ul>
+                        <div class="col-span-2 grid grid-cols-2 gap-4">
+                            <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Undangan Fisik</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="/category/undangan?sub=softcover" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:mail" class="w-4 h-4 text-[#233876]" /> Undangan Softcover</a></li>
+                                    <li><a href="/category/undangan?sub=softcover-amplop" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:mail-open" class="w-4 h-4 text-[#233876]" /> Undangan Softcover Amplop</a></li>
+                                    <li><a href="/category/undangan?sub=hardcover" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:layers" class="w-4 h-4 text-[#233876]" /> Undangan Hardcover</a></li>
+                                    <li><a href="/category/undangan?sub=hardcover-amplop" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:folder-open" class="w-4 h-4 text-[#233876]" /> Undangan Hardcover Amplop</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Lainnya</h3>
+                                <ul class="space-y-2">
+                                    <li><a href="/category/undangan?sub=custom" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:pen-tool" class="w-4 h-4 text-[#233876]" /> Undangan Custom</a></li>
+                                    <li><a href="/category/undangan?sub=blangko" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:file" class="w-4 h-4 text-[#233876]" /> Undangan Blangko</a></li>
+                                    <li><a href="/category/digital" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:monitor" class="w-4 h-4 text-[#233876]" /> Undangan Digital (Web)</a></li>
+                                </ul>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Undangan Digital</h3>
-                            <ul class="space-y-4">
-                                <li><a href="/category/digital" class="flex items-start gap-3 group"><div class="p-2 bg-teal-50 text-teal-600 rounded-lg group-hover:bg-teal-600 group-hover:text-white"><Icon name="lucide:smartphone" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Web / Link</span><span class="text-xs text-base-content/60">Link interaktif.</span></div></a></li>
-                            </ul>
-                        </div>
-                        <div class="bg-rose-50 p-4 rounded-xl border border-rose-200">
+                        <div class="bg-rose-50 p-4 rounded-xl border border-rose-200 flex flex-col justify-center">
                             <h3 class="text-sm font-bold text-rose-800 mb-2">Konsultasi Desain</h3>
                             <p class="text-xs text-rose-700/80 mb-4">Bingung pilih model? Tanya kami.</p>
                             <a href="https://wa.me/62816262734" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white text-xs font-bold px-4 py-2.5 rounded-lg w-full justify-center"><Icon name="lucide:message-circle" class="w-4 h-4" /> Tanya via WA</a>
@@ -164,32 +252,80 @@ import { Icon } from "astro-icon/components";
                 </div>
             </div>
 
-            <!-- MEGA MENU SOUVENIR -->
+            <!-- MEGA MENU SOUVENIR (DIPERBARUI DENGAN IKON) -->
             <div class="dropdown dropdown-hover h-full static">
                 <div tabindex="0" role="button" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer gap-1 font-semibold">
                     Souvenir <Icon name="lucide:chevron-down" class="w-3 h-3 opacity-70" />
                 </div>
                 <div tabindex="0" class="dropdown-content absolute left-0 top-full w-full bg-base-100 rounded-b-box z-50 p-6 shadow-2xl border border-base-200">
-                    <div class="max-w-7xl mx-auto grid grid-cols-3 gap-8">
+                    <div class="max-w-7xl mx-auto grid grid-cols-4 gap-6">
+                        
+                        <!-- Kolom 1: Pernikahan -->
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Souvenir Pernikahan</h3>
-                            <ul class="space-y-4">
-                                <li><a href="/category/souvenir?sub=tumbler" class="flex items-start gap-3 group"><div class="p-2 bg-pink-50 text-pink-600 rounded-lg group-hover:bg-pink-600 group-hover:text-white"><Icon name="lucide:coffee" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Tumbler & Mug</span><span class="text-xs text-base-content/60">Cetak nama.</span></div></a></li>
-                                <li><a href="/category/souvenir?sub=totebag" class="flex items-start gap-3 group"><div class="p-2 bg-amber-50 text-amber-600 rounded-lg group-hover:bg-amber-600 group-hover:text-white"><Icon name="lucide:shopping-bag" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Totebag</span><span class="text-xs text-base-content/60">Bahan kanvas.</span></div></a></li>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Souvenir Pernikahan</h3>
+                            <ul class="space-y-1.5">
+                                <li><a href="/category/souvenir?sub=tumbler" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:coffee" class="w-3.5 h-3.5 text-[#233876]" /> Tumbler</a></li>
+                                <li><a href="/category/souvenir?sub=gelas-sedotan" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:cup-soda" class="w-3.5 h-3.5 text-[#233876]" /> Gelas Sedotan</a></li>
+                                <li><a href="/category/souvenir?sub=mug" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:cup-soda" class="w-3.5 h-3.5 text-[#233876]" /> Mug</a></li>
+                                <li><a href="/category/souvenir?sub=botol" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:flask-conical" class="w-3.5 h-3.5 text-[#233876]" /> Botol</a></li>
+                                <li><a href="/category/souvenir?sub=mangkok" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:circle" class="w-3.5 h-3.5 text-[#233876]" /> Mangkok</a></li>
+                                <li><a href="/category/souvenir?sub=pouch-bag" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:briefcase" class="w-3.5 h-3.5 text-[#233876]" /> Pouch Bag</a></li>
+                                <li><a href="/category/souvenir?sub=paper-bag" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:shopping-bag" class="w-3.5 h-3.5 text-[#233876]" /> Paper Bag</a></li>
+                                <li><a href="/category/souvenir?sub=spunbond" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:shopping-bag" class="w-3.5 h-3.5 text-[#233876]" /> Spunbond</a></li>
+                                <li><a href="/category/souvenir?sub=dompet" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:wallet" class="w-3.5 h-3.5 text-[#233876]" /> Dompet</a></li>
+                                <li><a href="/category/souvenir?sub=tas" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:shopping-basket" class="w-3.5 h-3.5 text-[#233876]" /> Tas</a></li>
+                                <li><a href="/category/souvenir?sub=tote-bag" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:shopping-bag" class="w-3.5 h-3.5 text-[#233876]" /> Tote Bag</a></li>
+                                <li><a href="/category/souvenir?sub=tempat-tisu" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:archive" class="w-3.5 h-3.5 text-[#233876]" /> Tempat Tisu</a></li>
                             </ul>
                         </div>
+
+                        <!-- Kolom 2: Perusahaan -->
                         <div>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Event & Merchandise</h3>
-                            <ul class="space-y-4">
-                                <li><a href="/category/souvenir" class="flex items-start gap-3 group"><div class="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white"><Icon name="lucide:umbrella" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Payung</span><span class="text-xs text-base-content/60">Payung custom.</span></div></a></li>
-                                <li><a href="/category/souvenir" class="flex items-start gap-3 group"><div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white"><Icon name="lucide:shirt" class="w-5 h-5" /></div><div><span class="block font-semibold text-base-content group-hover:text-primary">Kaos & Polo</span><span class="text-xs text-base-content/60">Sablon & Bordir.</span></div></a></li>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Souvenir Perusahaan</h3>
+                            <ul class="space-y-1.5">
+                                <li><a href="/category/souvenir?sub=payung" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:umbrella" class="w-3.5 h-3.5 text-[#233876]" /> Payung</a></li>
+                                <li><a href="/category/souvenir?sub=jam-dinding" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:clock" class="w-3.5 h-3.5 text-[#233876]" /> Jam Dinding</a></li>
+                                <li><a href="/category/souvenir?sub=kipas" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:wind" class="w-3.5 h-3.5 text-[#233876]" /> Kipas</a></li>
+                                <li><a href="/category/souvenir?sub=plakat" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:award" class="w-3.5 h-3.5 text-[#233876]" /> Plakat</a></li>
+                                <li><a href="/category/souvenir?sub=note-book" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:notebook" class="w-3.5 h-3.5 text-[#233876]" /> Note Book</a></li>
+                                <li><a href="/category/souvenir?sub=gantungan-pintu" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:door-open" class="w-3.5 h-3.5 text-[#233876]" /> Gantungan Pintu</a></li>
+                                <li><a href="/category/souvenir?sub=stempel" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:stamp" class="w-3.5 h-3.5 text-[#233876]" /> Stempel</a></li>
+                                <li><a href="/category/souvenir?sub=poster" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:image" class="w-3.5 h-3.5 text-[#233876]" /> Poster</a></li>
                             </ul>
                         </div>
-                        <div class="bg-primary/10 p-4 rounded-xl border border-primary/20">
-                            <h3 class="text-sm font-bold text-primary mb-2">Custom Bebas Desain</h3>
-                            <p class="text-xs text-base-content/70 mb-4">Punya desain sendiri? Kami bantu.</p>
-                            <a href="https://wa.me/62816262734" target="_blank" class="inline-flex items-center gap-2 bg-[#25D366] text-white text-xs font-bold px-4 py-2.5 rounded-lg w-full justify-center"><Icon name="lucide:message-circle" class="w-4 h-4" /> Konsultasi</a>
+
+                        <!-- Kolom 3: Seminar -->
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Souvenir Seminar</h3>
+                            <ul class="space-y-1.5">
+                                <li><a href="/category/souvenir?sub=kaos" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:shirt" class="w-3.5 h-3.5 text-[#233876]" /> Kaos</a></li>
+                                <li><a href="/category/souvenir?sub=topi" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:graduation-cap" class="w-3.5 h-3.5 text-[#233876]" /> Topi</a></li>
+                                <li><a href="/category/souvenir?sub=pulpen" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:pen" class="w-3.5 h-3.5 text-[#233876]" /> Pulpen</a></li>
+                                <li><a href="/category/souvenir?sub=gantungan-kunci" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:key" class="w-3.5 h-3.5 text-[#233876]" /> Gantungan Kunci</a></li>
+                                <li><a href="/category/souvenir?sub=pin" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:pin" class="w-3.5 h-3.5 text-[#233876]" /> Pin</a></li>
+                                <li><a href="/category/souvenir?sub=flashdisk" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:usb" class="w-3.5 h-3.5 text-[#233876]" /> Flashdisk</a></li>
+                                <li><a href="/category/souvenir?sub=id-card" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:badge" class="w-3.5 h-3.5 text-[#233876]" /> ID Card</a></li>
+                                <li><a href="/category/souvenir?sub=lanyard" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:ribbon" class="w-3.5 h-3.5 text-[#233876]" /> Lanyard</a></li>
+                            </ul>
                         </div>
+
+                        <!-- Kolom 4: Umroh & Custom -->
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Souvenir Umroh & Haji</h3>
+                            <ul class="space-y-1.5 mb-4">
+                                <li><a href="/category/souvenir?sub=sajadah" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:compass" class="w-3.5 h-3.5 text-[#233876]" /> Sajadah</a></li>
+                                <li><a href="/category/souvenir?sub=tasbih" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:circle-dot" class="w-3.5 h-3.5 text-[#233876]" /> Tasbih</a></li>
+                                <li><a href="/category/souvenir?sub=mukena" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:user" class="w-3.5 h-3.5 text-[#233876]" /> Mukena</a></li>
+                                <li><a href="/category/souvenir?sub=hijab" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:user" class="w-3.5 h-3.5 text-[#233876]" /> Hijab</a></li>
+                                <li><a href="/category/souvenir?sub=sarung" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:scissors" class="w-3.5 h-3.5 text-[#233876]" /> Sarung</a></li>
+                                <li><a href="/category/souvenir?sub=kopyah" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:graduation-cap" class="w-3.5 h-3.5 text-[#233876]" /> Kopyah</a></li>
+                                <li><a href="/category/souvenir?sub=baju-koko" class="flex items-center gap-2 text-xs text-base-content/80 hover:text-primary block py-0.5"><Icon name="lucide:shirt" class="w-3.5 h-3.5 text-[#233876]" /> Baju Koko</a></li>
+                            </ul>
+                            <div class="bg-primary/10 p-3 rounded-lg border border-primary/20 mt-2">
+                                <a href="https://wa.me/62816262734" target="_blank" class="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white text-xs font-bold px-3 py-2 rounded w-full hover:bg-[#20bd5a]"><Icon name="lucide:message-circle" class="w-4 h-4" /> Custom Desain</a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -256,7 +392,6 @@ import { Icon } from "astro-icon/components";
 </script>
 
 <style>
-  /* Animasi Berkedip Khusus Desktop */
   @keyframes kedipDesktop {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
