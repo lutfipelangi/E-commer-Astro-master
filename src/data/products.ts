@@ -15,410 +15,205 @@ export interface Product {
 }
 
 export const products: Product[] = [
+    // ==========================================
+    // KATEGORI: UNDANGAN
+    // ==========================================
     {
-        id: "1",
-        name: "Buku Kenangan",
-        title: "Buku Kenangan",
-        price: 3499,
-        description: "The most powerful MacBook Pro ever. With the lightning-fast M3 Max chip, advanced thermal architecture, and a stunning Liquid Retina XDR display, it's designed for those who demand the absolute best in performance and portability.",
-        category: "percetakan",
-        subcategory: "notebooks",
-        stock: 5,
+        id: "u1",
+        name: "E.23.1 (XH) - Undangan Hardcover Elegan",
+        title: "Undangan Hardcover Elegan",
+        price: 12700,
+        description: "Undangan pernikahan premium dengan hardcover tebal dan sentuhan akhir yang mewah. Cocok untuk pernikahan dengan tema elegan dan klasik. Desain custom sesuai keinginan Anda.",
+        category: "undangan",
+        subcategory: "hardcover-amplop",
+        stock: 999,
         images: [
-            "https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80"
+            "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80"
         ],
-        slug: "macbook-pro-16-m3-max",
-        badge: "Premium",
-        discount: 5,
+        slug: "undangan-hardcover-elegan-e231",
+        badge: "Best Seller",
+        discount: 0,
         specs: [
-            { label: "Processor", value: "Apple M3 Max" },
-            { label: "Memory", value: "32GB Unified" },
-            { label: "Storage", value: "1TB SSD" },
-            { label: "Display", value: "16.2-inch XDR" }
+            { label: "Jenis", value: "Hardcover (Rectangle)" },
+            { label: "Bahan", value: "Yellow Board K30 & Buffalo White" },
+            { label: "Ukuran", value: "12.5 x 18.5 cm" },
+            { label: "Amplop", value: "Aster Olive Green" },
+            { label: "Aksesoris", value: "Vellum Belt, Waxseal, Dried Flower" }
         ]
     },
     {
-        id: "2",
-        name: "Sony WH-1000XM5",
-        title: "Sony WH-1000XM5",
-        price: 399,
-        description: "Industry-leading noise cancellation, exceptional sound quality, and crystal-clear hands-free calling. The WH-1000XM5 headphones rewrite the rules for distraction-free listening and ultra-clear call quality.",
+        id: "u2",
+        name: "S.01.2 - Undangan Softcover Minimalis",
+        title: "Undangan Softcover Minimalis",
+        price: 5500,
+        description: "Pilihan hemat untuk undangan pernikahan Anda. Menggunakan kertas berkualitas dengan desain modern dan minimalis.",
+        category: "undangan",
+        subcategory: "softcover",
+        stock: 999,
+        images: [
+            "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80"
+        ],
+        slug: "undangan-softcover-minimalis-s012",
+        badge: "Hemat",
+        specs: [
+            { label: "Jenis", value: "Softcover" },
+            { label: "Bahan", value: "Art Carton 260gsm" },
+            { label: "Ukuran", value: "11 x 21 cm" },
+            { label: "Finishing", value: "Doff / Glossy" }
+        ]
+    },
+
+    // ==========================================
+    // KATEGORI: SOUVENIR
+    // ==========================================
+    {
+        id: "s1",
+        name: "Tumbler Custom Exclusive",
+        title: "Tumbler Custom",
+        price: 45000,
+        description: "Souvenir pernikahan atau perusahaan berupa tumbler stainless dengan cetak logo atau nama custom. Tahan panas dan dingin.",
         category: "souvenir",
-        stock: 12,
+        subcategory: "tumbler",
+        stock: 500,
         images: [
-            "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80"
+            "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80"
         ],
-        slug: "sony-wh-1000xm5",
-        badge: "Bestseller",
-        discount: 10,
+        slug: "tumbler-custom-exclusive",
+        badge: "Favorit",
         specs: [
-            { label: "Battery Life", value: "Up to 30 hours" },
-            { label: "Noise Cancelling", value: "Industry Leading" },
-            { label: "Bluetooth", value: "v5.2" },
-            { label: "Weight", value: "250g" }
+            { label: "Bahan", value: "Stainless Steel 304" },
+            { label: "Kapasitas", value: "500 ml" },
+            { label: "Cetak", value: "UV Print / Laser Engrave" },
+            { label: "Minimal Order", value: "50 Pcs" }
         ]
     },
     {
-        id: "3",
-        name: "iPhone 15 Pro Max",
-        title: "iPhone 15 Pro Max",
-        price: 1199,
-        description: "Forged in titanium. Featuring the groundbreaking A17 Pro chip, a customizable Action button, and the most powerful iPhone camera system ever. Experience the next level of mobile technology.",
-        category: "undangan",
-        subcategory: "iphone",
-        stock: 0,
+        id: "s2",
+        name: "Tote Bag Kanvas Custom",
+        title: "Tote Bag Kanvas",
+        price: 25000,
+        description: "Tas kanvas serbaguna yang cocok untuk souvenir seminar, pernikahan, atau merchandise perusahaan. Bahan tebal dan kuat.",
+        category: "souvenir",
+        subcategory: "tote-bag",
+        stock: 300,
         images: [
-            "https://i.blogs.es/f15f0b/img_2033/650_1200.jpeg",
-            "https://images.unsplash.com/photo-1678652197831-2d180705cd2c?auto=format&fit=crop&w=800&q=80"
+            "https://images.unsplash.com/photo-1597484662317-9bd7bdda2907?auto=format&fit=crop&w=800&q=80"
         ],
-        slug: "iphone-15-pro-max",
-        badge: "New Arrival",
-        discount: 0,
+        slug: "tote-bag-kanvas-custom",
         specs: [
-            { label: "Chip", value: "A17 Pro" },
-            { label: "Camera", value: "48MP Main" },
-            { label: "Material", value: "Titanium" },
-            { label: "Size", value: "6.7-inch" }
+            { label: "Bahan", value: "Kanvas Cotton 12oz" },
+            { label: "Ukuran", value: "30 x 40 cm" },
+            { label: "Handle", value: "Tali Kanvas / Webing" },
+            { label: "Cetak", value: "Sablon Manual / DTF" }
         ]
     },
     {
-        id: "4",
-        name: "Logitech MX Master 3S",
-        title: "Logitech MX Master 3S",
-        price: 99,
-        description: "An icon, remastered. Meet MX Master 3S – an iconic mouse remastered for ultimate tactility, performance, and flow. Feel every moment of your workflow with even more precision, tactility, and performance.",
-        category: "Digital",
-        stock: 50,
+        id: "s3",
+        name: "Payung Lipat Custom Logo",
+        title: "Payung Custom",
+        price: 65000,
+        description: "Payung lipat premium untuk souvenir perusahaan. Cetak logo full color di seluruh bagian kanopi.",
+        category: "souvenir",
+        subcategory: "payung",
+        stock: 150,
         images: [
-            "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=800&q=80",
-            "https://www.mastecnologia.com.ar/images/productos/17101.png"
+            "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&w=800&q=80"
         ],
-        slug: "logitech-mx-master-3s",
-        badge: "Essential",
-        discount: 0,
+        slug: "payung-lipat-custom",
         specs: [
-            { label: "DPI", value: "8000" },
-            { label: "Buttons", value: "7 Programmable" },
-            { label: "Battery", value: "Rechargeable" },
-            { label: "Connectivity", value: "Logi Bolt / BT" }
+            { label: "Bahan", value: "Pongee / Parasut" },
+            { label: "Rangka", value: "Fiberglass Anti Angin" },
+            { label: "Cetak", value: "Sablon Full Color" }
         ]
     },
+
+    // ==========================================
+    // KATEGORI: PERCETAKAN
+    // ==========================================
     {
-        id: "5",
-        name: "iPad Pro M2",
-        title: "iPad Pro M2",
-        price: 799,
-        description: "Astonishing performance. Incredibly advanced displays. Superfast wireless connectivity. Next-level Apple Pencil features. Powerful new features in iPadOS. The ultimate iPad experience.",
+        id: "p1",
+        name: "Buku Kenangan (Yearbook) Premium",
+        title: "Buku Kenangan Premium",
+        price: 150000,
+        description: "Cetak buku kenangan sekolah atau komunitas dengan kualitas cetak offset terbaik. Jilid hardcover tebal dan tahan lama.",
         category: "percetakan",
-        subcategory: "notebooks",
-        stock: 15,
-        images: [
-            "https://i.guim.co.uk/img/media/23b25aa93e573bc0b016c0e6e9233bc51da92c54/0_240_5261_3156/master/5261.jpg?width=1200&quality=85&auto=format&fit=max&s=5f0115e164644ebfdbc3c86ee86c163b",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQonjUvhTVx33qjjjCrRp68MDRAlt_1uqA9YA&s"
-        ],
-        slug: "ipad-pro-m2",
-        badge: "Pro",
-        discount: 0,
-        specs: [
-            { label: "Chip", value: "Apple M2" },
-            { label: "Display", value: "Liquid Retina" },
-            { label: "Camera", value: "12MP Ultra Wide" },
-            { label: "Storage", value: "256GB" }
-        ]
-    },
-    {
-        id: "6",
-        name: "Dell XPS 15",
-        title: "Dell XPS 15",
-        price: 1899,
-        description: "High-performance laptop with a stunning 4K OLED display and premium build quality.",
-        category: "percetakan",
-        subcategory: "notebooks",
-        stock: 10,
-        images: [
-            "https://images-cdn.ubuy.qa/634ea45745ed0860dc58d75b-dell-xps-15-9510-laptop-2021.jpg",
-        ],
-        slug: "dell-xps-15",
-        specs: [
-            { label: "Processor", value: "Intel i9" },
-            { label: "RAM", value: "32GB" },
-            { label: "Screen", value: "15.6 OLED" }
-        ]
-    },
-    {
-        id: "7",
-        name: "MacBook Air 15",
-        title: "MacBook Air 15",
-        price: 1299,
-        description: "Impossibly thin and incredibly fast. The 15-inch MacBook Air gives you more room for what you love with a spacious Liquid Retina display.",
-        category: "percetakan",
-        subcategory: "notebooks",
-        stock: 25,
-        images: [
-            "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=800&q=80"
-        ],
-        slug: "macbook-air-15",
-        badge: "New",
-        specs: [
-            { label: "Chip", value: "M2" },
-            { label: "Battery", value: "18 Hours" },
-            { label: "Weight", value: "3.3 lbs" }
-        ]
-    },
-    {
-        id: "8",
-        name: "ASUS ROG Zephyrus G14",
-        title: "ASUS ROG Zephyrus G14",
-        price: 1499,
-        description: "Powerful gaming in a compact chassis. Features the latest Ryzen processors and RTX graphics for gaming on the go.",
-        category: "percetakan",
-        subcategory: "notebooks",
-        stock: 8,
-        images: [
-            "https://www.cnet.com/a/img/resize/69c350f19a0bd245ab8f60a98e456fa9dc67ee42/hub/2024/02/05/e716f8f8-a7a4-418c-9b14-0b210d9dfc72/asus-rog-zephyrus-g14-2024-5409.jpg?auto=webp&fit=crop&height=1200&width=1200",
-        ],
-        slug: "asus-rog-zephyrus-g14",
-        badge: "Gaming",
-        specs: [
-            { label: "GPU", value: "RTX 4060" },
-            { label: "CPU", value: "Ryzen 9" },
-            { label: "Screen", value: "120Hz" }
-        ]
-    },
-    {
-        id: "9",
-        name: "Samsung Galaxy S24 Ultra",
-        title: "Samsung Galaxy S24 Ultra",
-        price: 1299,
-        description: "Unleash your creativity, productivity, and possibilities. With a built-in S Pen and the most powerful processor yet.",
-        category: "undangan",
-        subcategory: "android",
-        stock: 20,
-        images: [
-            "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80"
-        ],
-        slug: "samsung-galaxy-s24-ultra",
-        badge: "AI Ready",
-        specs: [
-            { label: "Camera", value: "200MP" },
-            { label: "Zoom", value: "100x" },
-            { label: "Pen", value: "Included" }
-        ]
-    },
-    {
-        id: "10",
-        name: "Google Pixel 8 Pro",
-        title: "Google Pixel 8 Pro",
-        price: 999,
-        description: "The all-pro phone engineered by Google. It has a polished aluminum frame and matte back glass, and it comes in elegant colors.",
-        category: "undangan",
-        subcategory: "android",
-        stock: 15,
-        images: [
-            "https://lh3.googleusercontent.com/22AC6Qcb5-4qN6QJTkBzGK2N5kS5AZyuss9AcAQzAuxjHqGz3VfI5-MSXsKDzuUuePoqHAmyAFyewt9CdNyw3oQikUDY7dTSmyDsVPo=rw-e365-w842-v1",
-            "https://tecnopolis.com.bo/cdn/shop/files/8-PRO.png?v=1763581431"
-        ],
-        slug: "google-pixel-8-pro",
-        badge: "Smartest",
-        specs: [
-            { label: "Chip", value: "Tensor G3" },
-            { label: "OS", value: "Android 14" },
-            { label: "AI", value: "Gemini Nano" }
-        ]
-    },
-    {
-        id: "11",
-        name: "iPhone 14",
-        title: "iPhone 14",
-        price: 699,
-        description: "A total powerhouse. Impressive battery life, durable build, and a camera system that takes stunning photos in any light.",
-        category: "undangan",
-        subcategory: "iphone",
-        stock: 30,
-        images: [
-            "https://images.unsplash.com/photo-1678652197831-2d180705cd2c?auto=format&fit=crop&w=800&q=80",
-        ],
-        slug: "iphone-14",
-        specs: [
-            { label: "Chip", value: "A15 Bionic" },
-            { label: "Screen", value: "6.1 Super Retina" },
-            { label: "Safety", value: "Crash Detection" }
-        ]
-    },
-    {
-        id: "12",
-        name: "AirPods Max",
-        title: "AirPods Max",
-        price: 549,
-        description: "A perfect balance of exhilarating high-fidelity souvenir and the effortless magic of AirPods.",
-        category: "Souvenir",
-        stock: 10,
-        images: [
-            "https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?auto=format&fit=crop&w=800&q=80"
-        ],
-        slug: "airpods-max",
-        badge: "Premium Souvenir",
-        specs: [
-            { label: "Driver", value: "Dynamic" },
-            { label: "ANC", value: "Active" },
-            { label: "Spatial", value: "Head Tracking" }
-        ]
-    },
-    {
-        id: "13",
-        name: "Bose QuietComfort Ultra",
-        title: "Bose QuietComfort Ultra",
-        price: 429,
-        description: "World-class noise cancellation, quieter than ever before. Breakthrough spatial souvenir for more immersive listening.",
-        category: "Souvenir",
-        stock: 18,
-        images: [
-            "https://m.media-amazon.com/images/I/51ZR4lyxBHL.jpg",
-        ],
-        slug: "bose-qc-ultra",
-        specs: [
-            { label: "Battery", value: "24 Hours" },
-            { label: "Modes", value: "Quiet/Aware" },
-            { label: "Comfort", value: "Plush" }
-        ]
-    },
-    {
-        id: "14",
-        name: "Sonos Era 100",
-        title: "Sonos Era 100",
-        price: 249,
-        description: "Next-gen acoustics and new levels of connectivity transform any room with the finely tuned stereo sound and rich bass.",
-        category: "Souvenir",
-        stock: 22,
-        images: [
-            "https://culturageek.com.ar/wp-content/uploads/2024/12/566898-Era-100-Pro_Mount-Ceiling_Black-309023-original-1733603775_11zon.webp",
-        ],
-        slug: "sonos-era-100",
-        specs: [
-            { label: "Type", value: "Smart Speaker" },
-            { label: "Voice", value: "Alexa Built-in" },
-            { label: "Connect", value: "WiFi/BT" }
-        ]
-    },
-    {
-        id: "15",
-        name: "Keychron Q1 Pro",
-        title: "Keychron Q1 Pro",
-        price: 199,
-        description: "A fully customizable mechanical keyboard with QMK/VIA support and a premium aluminum body.",
-        category: "percetakan",
-        subcategory: "keyboards",
-        stock: 30,
-        images: [
-            "https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=800&q=80",
-            "https://i.ytimg.com/vi/URjj7-QghHs/maxresdefault.jpg"
-        ],
-        slug: "keychron-q1-pro",
-        badge: "Mechanical",
-        specs: [
-            { label: "Layout", value: "75%" },
-            { label: "Body", value: "Aluminum" },
-            { label: "Switch", value: "Hot-swappable" }
-        ]
-    },
-    {
-        id: "16",
-        name: "Apple Magic Trackpad",
-        title: "Apple Magic Trackpad",
-        price: 129,
-        description: "Wireless and rechargeable, it includes the full range of Multi-Touch gestures and Force Touch technology.",
-        category: "Digital",
-        stock: 40,
-        images: [
-            "https://images.unsplash.com/photo-1522204538344-922f76ecc041?auto=format&fit=crop&w=800&q=80"
-        ],
-        slug: "magic-trackpad",
-        specs: [
-            { label: "Surface", value: "Glass" },
-            { label: "Connect", value: "Bluetooth" },
-            { label: "Color", value: "White/Black" }
-        ]
-    },
-    {
-        id: "17",
-        name: "Samsung T7 Shield 2TB",
-        title: "Samsung T7 Shield 2TB",
-        price: 159,
-        description: "Rugged durability. Fast speeds. The T7 Shield gives you superior performance on the go, even in challenging environmental conditions.",
-        category: "Digital",
+        subcategory: "buku-kenangan",
         stock: 100,
         images: [
-            "https://http2.mlstatic.com/D_NQ_NP_646728-CBT96610611509_102025-O.webp",
+            "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80"
         ],
-        slug: "samsung-t7-shield",
+        slug: "buku-kenangan-premium",
+        badge: "Premium",
         specs: [
-            { label: "Speed", value: "1000MB/s" },
-            { label: "Rating", value: "IP65" },
-            { label: "Port", value: "USB-C" }
+            { label: "Ukuran", value: "A4 / B5 Custom" },
+            { label: "Isi", value: "Art Paper 150gsm (Full Color)" },
+            { label: "Cover", value: "Hardcover + Spot UV" },
+            { label: "Jilid", value: "Lemb / Jahit Benang" }
         ]
     },
     {
-        id: "18",
-        name: "Dell UltraSharp 27",
-        title: "Dell UltraSharp 27",
-        price: 499,
-        description: "Experience captivating details and true-to-life color on this 27-inch QHD monitor with InfinityEdge.",
+        id: "p2",
+        name: "Brosur Lipat 3 (Trifold)",
+        title: "Cetak Brosur Lipat 3",
+        price: 1500,
+        description: "Cetak brosur promosi produk atau jasa dengan lipatan 3. Harga sangat ekonomis untuk pemesanan dalam jumlah banyak.",
         category: "percetakan",
-        subcategory: "monitors",
-        stock: 12,
+        subcategory: "brosur",
+        stock: 5000,
         images: [
-            "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=800&q=80"
         ],
-        slug: "dell-ultrasharp-27",
+        slug: "brosur-lipat-3-trifold",
         specs: [
-            { label: "Res", value: "2560x1440" },
-            { label: "Panel", value: "IPS" },
-            { label: "Ports", value: "USB-C Hub" }
+            { label: "Bahan", value: "Art Paper 120gsm / 150gsm" },
+            { label: "Ukuran", value: "A4 (dilipat jadi A5)" },
+            { label: "Cetak", value: "Full Color 2 Sisi" },
+            { label: "Finishing", value: "Lipat 3 / Lipat 2" }
         ]
     },
     {
-        id: "19",
-        name: "Fujifilm X100V",
-        title: "Fujifilm X100V",
-        price: 1399,
-        description: "The fifth iteration in Fujifilm's X100 series, blending classic dial-based design with the most advanced mobile technology.",
-        category: "Digital",
-        stock: 3,
-        images: [
-            "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80",
-        ],
-        slug: "fujifilm-x100v",
-        badge: "Limited",
-        specs: [
-            { label: "Sensor", value: "APS-C" },
-            { label: "Lens", value: "23mm F2" },
-            { label: "Video", value: "4K" }
-        ]
-    },
-    {
-        id: "20",
-        name: "LG C3 OLED 42",
-        title: "LG C3 OLED 42",
-        price: 899,
-        description: "The advanced LG OLED evo C-Series is better than ever. The LG OLED evo C3 is powered by the next-gen a9 AI Processor Gen6.",
+        id: "p3",
+        name: "Box Packaging Makanan Custom",
+        title: "Packaging Makanan Custom",
+        price: 2500,
+        description: "Kemasan makanan (food grade) yang bisa dicetak sesuai brand Anda. Cocok untuk kue, snack, atau katering.",
         category: "percetakan",
-        subcategory: "monitors",
-        stock: 6,
+        subcategory: "packaging-makanan",
+        stock: 1000,
         images: [
-            "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=800&q=80"
+        ],
+        slug: "box-packaging-makanan",
+        specs: [
+            { label: "Bahan", value: "Food Grade Ivory / Kraft" },
+            { label: "Ukuran", value: "Custom" },
+            { label: "Cetak", value: "Offset Full Color" },
+            { label: "Minimal Order", value: "500 Pcs" }
+        ]
+    },
 
+    // ==========================================
+    // KATEGORI: DIGITAL
+    // ==========================================
+    {
+        id: "d1",
+        name: "Undangan Digital Web Interaktif",
+        title: "Undangan Web Interaktif",
+        price: 150000,
+        description: "Undangan pernikahan digital berbasis website dengan animasi, musik, RSVP, dan galeri foto. Bisa dibagikan via WhatsApp.",
+        category: "digital",
+        stock: 999,
+        images: [
+            "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=800&q=80"
         ],
-        slug: "lg-c3-oled-42",
-        badge: "Display",
+        slug: "undangan-digital-web",
+        badge: "Trending",
         specs: [
-            { label: "Type", value: "OLED" },
-            { label: "Refresh", value: "120Hz" },
-            { label: "HDR", value: "Dolby Vision" }
+            { label: "Platform", value: "Website Responsive" },
+            { label: "Fitur", value: "RSVP, Maps, Galeri, Musik" },
+            { label: "Masa Aktif", value: "Selamanya (1 Tahun)" },
+            { label: "Revisi", value: "Unlimited (maks 3 hari)" }
         ]
     }
 ];
