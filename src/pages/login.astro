@@ -49,6 +49,10 @@ import { Icon } from "astro-icon/components";
           <label class="block text-sm font-semibold text-gray-800 mb-1.5">Kata Sandi</label>
           <input type="password" id="password" class="w-full px-4 py-3 rounded-full border border-gray-300 text-sm focus:outline-none focus:border-[#233876]" required />
         </div>
+
+        <!-- WADAH CLOUDFLARE TURNSTILE -->
+        <div id="turnstile-container" class="flex justify-center my-2"></div>
+
         <button type="submit" class="w-full bg-[#233876] hover:bg-[#1a2957] text-white font-bold rounded-full py-3.5 px-4 text-sm mt-2 transition-all shadow-md">
           Masuk
         </button>
@@ -67,7 +71,29 @@ import { Icon } from "astro-icon/components";
 <script>
   import { supabase } from '../lib/supabase';
 
-  // --- 1. LOGIKA TOMBOL GOOGLE ---
+  // ==========================================
+  // GANTI DENGAN SITE KEY DARI CLOUDFLARE ANDA
+  // ==========================================
+  const TURNSTILE_SITE_KEY = "0x4AAAAAAF3Udvb2XC6sUse5"; 
+
+  // --- 1. MUAT SCRIPT CLOUDFLARE TURNSTILE ---
+  const script = document.createElement('script');
+  script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+
+  // Render widget setelah script termuat
+  script.onload = () => {
+    if (window.turnstile) {
+      window.turnstile.render('#turnstile-container', {
+        sitekey: TURNSTILE_SITE_KEY,
+        theme: 'light',
+      });
+    }
+  };
+
+  // --- 2. LOGIKA TOMBOL GOOGLE ---
   const btnGoogle = document.getElementById('btn-google');
   if (btnGoogle) {
     btnGoogle.addEventListener('click', async () => {
@@ -82,34 +108,44 @@ import { Icon } from "astro-icon/components";
     });
   }
 
-  // --- 2. LOGIKA FORM EMAIL/PASSWORD (INI YANG KITA UBAH) ---
+  // --- 3. LOGIKA FORM EMAIL/PASSWORD + TURNSTILE ---
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault(); 
       
+      // Ambil token dari Cloudflare Turnstile
+      const turnstileResponse = document.querySelector('[name="cf-turnstile-response"]');
+      const captchaToken = turnstileResponse ? turnstileResponse.value : null;
+
+      // Jika token kosong (user belum memverifikasi), hentikan proses
+      if (!captchaToken) {
+        alert('Harap selesaikan verifikasi keamanan terlebih dahulu.');
+        return;
+      }
+
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      // Proses Login ke Supabase
+      // Proses Login ke Supabase (Kirim captchaToken ke Supabase)
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
+        options: {
+          captchaToken: captchaToken // <-- Kunci keamanannya di sini
+        }
       });
 
       if (error) {
         console.error(error);
         alert('Gagal Login: ' + error.message); 
+        // Jika gagal, reset verifikasi agar user bisa coba lagi
+        if (window.turnstile) window.turnstile.reset();
       } else {
-        // =======================================================
-        // LOGIKA PENGECEKAN ROLE (ADMIN ATAU CLIENT)
-        // =======================================================
-        // Jika email yang login adalah admin@kios.com
+        // LOGIKA PENGECEKAN ROLE
         if (data.user && data.user.email === 'admin@kios.com') {
-          // Arahkan ke halaman dashboard admin
           window.location.replace('/admin'); 
         } else {
-          // Jika email lain (client), arahkan ke form pemesanan
           window.location.replace('/form-undangan'); 
         }
       }
