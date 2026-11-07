@@ -74,7 +74,25 @@ import { Icon } from "astro-icon/components";
                         <a href="/category/undangan?sub=hardcover" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:layers" class="w-4 h-4 text-[#233876]" /> Undangan Hardcover</a>
                         <a href="/category/undangan?sub=hardcover-amplop" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:folder-open" class="w-4 h-4 text-[#233876]" /> Undangan Hardcover Amplop</a>
                         <a href="/category/undangan?sub=custom" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:pen-tool" class="w-4 h-4 text-[#233876]" /> Undangan Custom</a>
-                        <a href="/category/undangan?sub=blangko" class="flex items-center gap-3 py-2.5 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:file" class="w-4 h-4 text-[#233876]" /> Undangan Blangko</a>
+                    </div>
+                </details>
+
+                <!-- ACCORDION BLANGKO (BARU) -->
+                <details class="group border-b border-base-200">
+                    <summary class="py-3 px-6 text-sm font-semibold text-base-content hover:bg-base-200 cursor-pointer flex justify-between items-center list-none">
+                        Blangko <Icon name="lucide:chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform" />
+                    </summary>
+                    <div class="bg-base-200/50 flex flex-col pb-2">
+                        <span class="px-10 pt-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Jenis Cover</span>
+                        <a href="/category/blangko?sub=blangko-softcover" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:book" class="w-4 h-4 text-[#233876]" /> Blangko Softcover</a>
+                        <a href="/category/blangko?sub=blangko-hardcover" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:layers" class="w-4 h-4 text-[#233876]" /> Blangko Hardcover</a>
+                        
+                        <span class="px-10 pt-4 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Merek Populer</span>
+                        <a href="/category/blangko?sub=blangko-softcover&brand=Raffa" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:tag" class="w-4 h-4 text-[#233876]" /> Raffa Series</a>
+                        <a href="/category/blangko?sub=blangko-softcover&brand=Mira" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:tag" class="w-4 h-4 text-[#233876]" /> Mira Series</a>
+                        <a href="/category/blangko?sub=blangko-softcover&brand=Cantik99" class="flex items-center gap-3 py-2 pl-10 pr-6 text-sm text-base-content/80 hover:text-primary"><Icon name="lucide:tag" class="w-4 h-4 text-[#233876]" /> Cantik99 Series</a>
+                        
+                        <a href="/category/blangko" class="flex items-center gap-3 py-3 mt-2 pl-10 pr-6 text-sm font-bold text-[#233876] bg-blue-50 hover:bg-blue-100 transition-colors"><Icon name="lucide:layout-grid" class="w-4 h-4" /> Lihat Semua Blangko</a>
                     </div>
                 </details>
 
@@ -238,7 +256,6 @@ import { Icon } from "astro-icon/components";
                                 <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Lainnya</h3>
                                 <ul class="space-y-2">
                                     <li><a href="/category/undangan?sub=custom" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:pen-tool" class="w-4 h-4 text-[#233876]" /> Undangan Custom</a></li>
-                                    <li><a href="/category/undangan?sub=blangko" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:file" class="w-4 h-4 text-[#233876]" /> Undangan Blangko</a></li>
                                     <li><a href="/category/digital" class="flex items-center gap-2 text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:monitor" class="w-4 h-4 text-[#233876]" /> Undangan Digital (Web)</a></li>
                                 </ul>
                             </div>
@@ -252,7 +269,69 @@ import { Icon } from "astro-icon/components";
                 </div>
             </div>
 
-            <!-- MEGA MENU SOUVENIR (DIPERBARUI DENGAN IKON) -->
+            <!-- MEGA MENU BLANGKO (BARU) -->
+            <div class="dropdown dropdown-hover h-full static">
+                <div tabindex="0" role="button" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer gap-1 font-semibold">
+                    Blangko <Icon name="lucide:chevron-down" class="w-3 h-3 opacity-70" />
+                </div>
+                <div tabindex="0" class="dropdown-content absolute left-0 top-full w-full bg-base-100 rounded-b-box z-50 p-6 shadow-2xl border border-base-200">
+                    <div class="max-w-7xl mx-auto grid grid-cols-4 gap-6">
+                        
+                        <!-- Kolom 1: Jenis Cover -->
+                        <div class="col-span-2">
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Pilih Jenis Cover</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <ul class="space-y-4">
+                                    <li>
+                                        <a href="/category/blangko?sub=blangko-softcover" class="flex items-start gap-3 group">
+                                            <div class="p-2 bg-blue-50 text-[#233876] rounded-lg group-hover:bg-[#233876] group-hover:text-white transition-colors">
+                                                <Icon name="lucide:book" class="w-5 h-5" />
+                                            </div>
+                                            <div>
+                                                <span class="block font-semibold text-base-content group-hover:text-primary">Blangko Softcover</span>
+                                                <span class="text-xs text-base-content/60">Kertas tipis & lentur.</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="space-y-4">
+                                    <li>
+                                        <a href="/category/blangko?sub=blangko-hardcover" class="flex items-start gap-3 group">
+                                            <div class="p-2 bg-amber-50 text-amber-600 rounded-lg group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                                                <Icon name="lucide:layers" class="w-5 h-5" />
+                                            </div>
+                                            <div>
+                                                <span class="block font-semibold text-base-content group-hover:text-primary">Blangko Hardcover</span>
+                                                <span class="text-xs text-base-content/60">Kertas tebal & mewah.</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Kolom 2: Merek Populer -->
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase mb-3 pb-2 border-b">Merek Populer</h3>
+                            <ul class="space-y-2">
+                                <li><a href="/category/blangko?sub=blangko-softcover&brand=Raffa" class="text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:tag" class="w-4 h-4 inline mr-2 text-[#233876]" /> Raffa Series</a></li>
+                                <li><a href="/category/blangko?sub=blangko-softcover&brand=Mira" class="text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:tag" class="w-4 h-4 inline mr-2 text-[#233876]" /> Mira Series</a></li>
+                                <li><a href="/category/blangko?sub=blangko-softcover&brand=Cantik99" class="text-sm text-base-content/80 hover:text-primary block py-1"><Icon name="lucide:tag" class="w-4 h-4 inline mr-2 text-[#233876]" /> Cantik99 Series</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Kolom 3: CTA -->
+                        <div class="bg-primary/10 p-4 rounded-xl border border-primary/20 flex flex-col justify-center">
+                            <h3 class="text-sm font-bold text-primary mb-2">Lihat Semua Blangko</h3>
+                            <p class="text-xs text-base-content/70 mb-4">Temukan ratusan desain blangko siap pakai.</p>
+                            <a href="/category/blangko" class="inline-flex items-center justify-center gap-2 bg-[#233876] text-white text-xs font-bold px-4 py-2.5 rounded-lg w-full hover:bg-[#1a2957] transition-colors">Katalog Blangko</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- MEGA MENU SOUVENIR -->
             <div class="dropdown dropdown-hover h-full static">
                 <div tabindex="0" role="button" class="flex items-center h-full px-4 text-base-content hover:text-primary hover:bg-base-200 transition-all cursor-pointer gap-1 font-semibold">
                     Souvenir <Icon name="lucide:chevron-down" class="w-3 h-3 opacity-70" />

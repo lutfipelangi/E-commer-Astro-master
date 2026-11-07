@@ -6,6 +6,7 @@ export interface Product {
     description: string;
     category: string;
     subcategory?: string;
+    brand?: string; // <-- TAMBAHAN UNTUK FILTER MEREK
     stock: number;
     images: string[];
     slug: string;
@@ -61,6 +62,92 @@ export const products: Product[] = [
             { label: "Bahan", value: "Art Carton 260gsm" },
             { label: "Ukuran", value: "11 x 21 cm" },
             { label: "Finishing", value: "Doff / Glossy" }
+        ]
+    },
+
+    // ==========================================
+    // KATEGORI: BLANGKO (BARU)
+    // ==========================================
+    {
+        id: "blangko-raffa-001",
+        name: "Raffa 003",
+        title: "Undangan Blangko Raffa 003",
+        price: 1500,
+        description: "Undangan blangko merek Raffa model 003. Bisa custom nama dan tanggal saat dicetak nanti.",
+        category: "blangko",
+        subcategory: "blangko-softcover",
+        brand: "Raffa", // <-- Merek
+        stock: 500,
+        images: [
+            "https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?auto=format&fit=crop&w=800&q=80"
+        ],
+        slug: "blangko-raffa-003",
+        badge: "Murah",
+        specs: [
+            { label: "Jenis", value: "Softcover" },
+            { label: "Bahan", value: "HVS 80gsm" },
+            { label: "Ukuran", value: "10 x 20 cm" }
+        ]
+    },
+    {
+        id: "blangko-raffa-002",
+        name: "Raffa 004",
+        title: "Undangan Blangko Raffa 004",
+        price: 1500,
+        description: "Undangan blangko merek Raffa model 004 dengan desain floral minimalis.",
+        category: "blangko",
+        subcategory: "blangko-softcover",
+        brand: "Raffa",
+        stock: 500,
+        images: [
+            "https://images.unsplash.com/photo-1583324113626-70df0f4deaab?auto=format&fit=crop&w=800&q=80"
+        ],
+        slug: "blangko-raffa-004",
+        specs: [
+            { label: "Jenis", value: "Softcover" },
+            { label: "Bahan", value: "HVS 80gsm" },
+            { label: "Ukuran", value: "10 x 20 cm" }
+        ]
+    },
+    {
+        id: "blangko-mira-001",
+        name: "Mira 99",
+        title: "Undangan Blangko Mira 99",
+        price: 1200,
+        description: "Undangan blangko merek Mira model 99. Cocok untuk undangan syukuran atau acara formal.",
+        category: "blangko",
+        subcategory: "blangko-softcover",
+        brand: "Mira",
+        stock: 300,
+        images: [
+            "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80"
+        ],
+        slug: "blangko-mira-99",
+        specs: [
+            { label: "Jenis", value: "Softcover" },
+            { label: "Bahan", value: "HVS 70gsm" },
+            { label: "Ukuran", value: "10 x 20 cm" }
+        ]
+    },
+    {
+        id: "blangko-cantik99-001",
+        name: "Cantik99 Premium 01",
+        title: "Undangan Blangko Cantik99 Premium 01",
+        price: 2500,
+        description: "Undangan blangko hardcover dari Cantik99 dengan bahan tebal dan mewah.",
+        category: "blangko",
+        subcategory: "blangko-hardcover",
+        brand: "Cantik99",
+        stock: 200,
+        images: [
+            "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80"
+        ],
+        slug: "blangko-cantik99-premium-01",
+        badge: "Premium",
+        specs: [
+            { label: "Jenis", value: "Hardcover" },
+            { label: "Bahan", value: "Yellow Board" },
+            { label: "Ukuran", value: "12 x 18 cm" }
         ]
     },
 
